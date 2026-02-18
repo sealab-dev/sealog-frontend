@@ -7,13 +7,11 @@ import { ScrollToTop } from './ScrollToTop';
 import { HomePostsLayout } from '@/layout/home';
 import { PostsLayout, EditorLayout } from '@/layout/user';
 import { AdminLayout } from '@/layout/admin';
-import { PortfolioLayout } from '@/layout/portfolio'
 
 //page
 import { HomePostsPage } from '@/pages/home';
 import { PostDetailPage, PostFormPage, PostEditPage, PostsPage } from '@/pages/user';
 import { AdminAccountPage, AdminDashboardPage, AdminPostsPage, AdminStacksPage, AdminUsersPage } from '@/pages/admin';
-import {PortfolioPage} from '@/pages/portfolio/PortfolioPage';
 
 //404
 import { NotFoundPage } from '@/pages/notfound';
@@ -61,11 +59,6 @@ export const AppRouter = () => (
           <Route path="stacks" element={<AdminStacksPage />} />
           <Route path="create-account" element={<AdminAccountPage />} />
         </Route>
-
-        <Route path="/user/:nickname" element={<PortfolioLayout />}>
-            <Route path="portfolio" element={<PortfolioPage />} />
-        </Route>
-
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

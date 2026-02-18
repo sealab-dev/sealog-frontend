@@ -6,7 +6,7 @@ import type { FileNodeAttrs } from '../types';
 import { formatFileSize } from '../utils';
 import ImageModal from '../base/ImageModal';
 import styles from './FileNode.module.css';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
+import { FILE_DOMAIN } from '@/constants/domain';
 
 const FileNode = ({ node }: NodeViewProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

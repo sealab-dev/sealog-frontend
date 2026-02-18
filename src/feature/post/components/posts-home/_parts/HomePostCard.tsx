@@ -2,8 +2,8 @@ import { formatDate } from '@/feature/post/utils';
 import { 
   DEFAULT_PROFILE_IMAGE, 
   DEFAULT_THUMBNAIL
-} from '@/constants/default';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
+} from '@/constants/images';
+import { FILE_DOMAIN } from '@/constants/domain';
 import type { PostItemResponse } from '@/api/post/types';
 import styles from './HomePostCard.module.css';
 
@@ -58,7 +58,9 @@ export const HomePostCard = ({ post, animationDelay = 0, onClick }: PostCardProp
         <footer className={styles.cardFooter}>
           <div className={styles.authorInfo}>
             <img
-              src={FILE_DOMAIN + post.author.profileImagePath || DEFAULT_PROFILE_IMAGE}
+              src={post.author.profileImagePath 
+                ? FILE_DOMAIN + post.author.profileImagePath 
+                : DEFAULT_PROFILE_IMAGE}
               alt={post.author.nickname}
               className={styles.authorAvatar}
               onError={(e) => {

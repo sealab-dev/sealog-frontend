@@ -2,8 +2,8 @@ import { formatDate } from '@/feature/post/utils';
 import { 
   DEFAULT_PROFILE_IMAGE, 
   DEFAULT_THUMBNAIL
-} from '@/constants/default';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
+} from '@/constants/images';
+import { FILE_DOMAIN } from '@/constants/domain';
 import type { PostItemResponse } from '@/api/post/types';
 import styles from './PostCard.module.css';
 
