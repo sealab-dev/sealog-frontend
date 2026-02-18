@@ -1,1 +1,0 @@
-export const FILE_DOMAIN = "https://d3qa32570g75zr.cloudfront.net/"

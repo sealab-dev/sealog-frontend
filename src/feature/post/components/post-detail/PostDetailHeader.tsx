@@ -1,7 +1,7 @@
 import { formatDate } from '@/feature/post/utils';
 import type { AuthorInfo } from '@/api/post/types';
 import { useNavigate } from 'react-router-dom';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
+import { FILE_DOMAIN } from '@/constants/domain';
 import styles from './PostDetailHeader.module.css';
 
 interface PostDetailHeaderProps {

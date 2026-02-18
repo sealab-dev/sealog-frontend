@@ -1,5 +1,5 @@
-import { FILE_DOMAIN } from '@/constants/FileDomain';
-import { DEFAULT_THUMBNAIL } from '@/constants/default';
+import { FILE_DOMAIN } from '@/constants/domain';
+import { DEFAULT_THUMBNAIL } from '@/constants/images';
 import styles from './PostThumbnail.module.css';
 
 interface PostThumbnailProps {

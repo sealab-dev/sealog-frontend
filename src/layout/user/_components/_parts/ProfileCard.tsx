@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useBlogUserQuery } from '@/api/user/queries';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
-import { DEFAULT_PROFILE_IMAGE } from '@/constants/default';
+import { FILE_DOMAIN } from '@/constants/domain';
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/images';
 import styles from './ProfileCard.module.css';
 
 interface ProfileCardProps {

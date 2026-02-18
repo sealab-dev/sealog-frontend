@@ -1,9 +1,9 @@
 // ThumbnailBannerEdit.tsx
 import { useRef, useState } from 'react';
 import { useFileUploadMutation } from '@/api/file/mutations/file.mutations';
-import { DEFAULT_THUMBNAIL } from '@/constants/default';
+import { DEFAULT_THUMBNAIL } from '@/constants/images';
 import styles from './PostThumbnailEdit.module.css';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
+import { FILE_DOMAIN } from '@/constants/domain';
 
 interface PostThumbnailEditProps {
   thumbnailPath?: string | null;

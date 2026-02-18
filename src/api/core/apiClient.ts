@@ -4,18 +4,21 @@ import { toast } from '@/shared/toast/useToast';
 import { getErrorMessage } from './api.error';
 import type { ErrorResponse } from './api.response';
 import { _getLoadingStore } from '@/shared/loading/useLoading';
+import { BASE_DOMAIN } from '@/constants/domain';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://api.sealog.dev/api';
-// const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
-
+/**
+ * API 클라이언트 생성
+ */
 export const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_DOMAIN,
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 
-// 요청 인터셉터
+/**
+ * API 요청 인터셉터
+ */
 apiClient.interceptors.request.use(
   (config) => {
     // globalLoading이 false면 로딩 스킵 (기본값: true)
@@ -30,7 +33,9 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// 응답 인터셉터
+/**
+ * API 응답 인터셉터
+ */
 apiClient.interceptors.response.use(
   (response) => {
     // globalLoading이 false가 아닌 경우만 로딩 감소
@@ -54,7 +59,9 @@ apiClient.interceptors.response.use(
       _getLoadingStore().hideLoading();
     }
 
-    // 401 에러 처리
+    /**
+     * 401 에러 처리
+     */
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -74,13 +81,17 @@ apiClient.interceptors.response.use(
       }
     }
 
-    // 404 에러 처리
+    /**
+     * 404 에러 처리
+     */
     if (error.response?.status === 404) {
       window.location.href = '/404';
       return Promise.reject(error);
     }
 
-    // 글로벌 에러 처리
+    /**
+     * 글로벌 에러 처리
+     */
     if (!originalRequest._skipGlobalErrorHandler) {
       const errorResponse = error.response?.data as ErrorResponse | undefined;
       const hasFieldErrors = errorResponse?.errors && Object.keys(errorResponse.errors).length > 0;
@@ -97,13 +108,13 @@ apiClient.interceptors.response.use(
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
-    /**
-     * 전역 로딩 표시 여부
-     * @default true - 전역 로딩 표시
-     * @example
-     * // 전역 로딩 숨김 (컴포넌트 자체 로딩 사용)
-     * apiClient.get('/users', { globalLoading: false })
-     */
+  /**
+   * 전역 로딩 표시 여부
+   * @default true - 전역 로딩 표시
+   * @example
+   * // 전역 로딩 숨김 (컴포넌트 자체 로딩 사용)
+   * apiClient.get('/users', { globalLoading: false })
+   */
     globalLoading?: boolean;
   }
 }

@@ -1,8 +1,8 @@
 import { BarChart3, Users, FileText, Layers, UserPlus } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import styles from './AdminLayout.module.css';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
-import { DEFAULT_PROFILE_IMAGE } from '@/constants/default';
+import { FILE_DOMAIN } from '@/constants/domain';
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/images';
 import { useAuthStore } from '@/feature/auth/stores';
 
 export const AdminLayout = () => {

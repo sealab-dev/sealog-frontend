@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlineLogout, HiOutlineUser, HiOutlinePencilAlt, HiOutlineDocumentText } from 'react-icons/hi';
 import { useAuthStore } from '@/feature/auth/stores/authStore';
 import { useLogout } from '@/feature/auth/hooks/useLogout';
-import { FILE_DOMAIN } from '@/constants/FileDomain';
-import { DEFAULT_PROFILE_IMAGE } from '@/constants/default';
+import { FILE_DOMAIN } from '@/constants/domain';
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/images';
 import styles from './ProfileDropdown.module.css';
 
 export const ProfileDropdown = () => {
