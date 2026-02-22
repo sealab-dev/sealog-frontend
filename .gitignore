@@ -27,5 +27,3 @@ dist-ssr
 .AppleDouble
 .LSOverride
 
-# 환경 변수
-.env.production
