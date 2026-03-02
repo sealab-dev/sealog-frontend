@@ -1,0 +1,693 @@
+/* ============================================================
+   PAGE
+   ============================================================ */
+.page {
+  min-height: 100vh;
+  background: var(--global-bg-primary);
+  padding: var(--spacing-10) var(--spacing-6);
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ============================================================
+   SECTION
+   ============================================================ */
+.section {
+  padding: var(--spacing-8) 0;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--global-border-primary);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-5);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--global-text-primary);
+  margin: 0;
+}
+
+/* ============================================================
+   PROFILE ROW
+   ============================================================ */
+.profileRow {
+  display: flex;
+  gap: var(--spacing-8);
+  align-items: flex-start;
+}
+
+/* ---- Avatar Column ---- */
+.avatarColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-shrink: 0;
+}
+
+.avatarWrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 3px solid var(--global-glass-border-normal);
+  background: var(--global-glass-bg-strong);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── 이미지 업로드 버튼 ── */
+.uploadButton {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--global-point-primary-bg);
+  color: var(--global-point-primary);
+  border: 1px solid var(--global-point-primary);
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.uploadButton:hover {
+  background: var(--global-point-primary);
+  color: var(--global-text-white);
+}
+
+.removeImageButton {
+  background: none;
+  border: none;
+  color: var(--global-text-muted);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  padding: 0;
+}
+
+.removeImageButton:hover {
+  opacity: 0.75;
+}
+
+/* ---- Profile Info Column ---- */
+.profileInfoColumn {
+  flex: 1;
+  min-width: 0;
+}
+
+.profileViewRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.profileViewText {
+  width: 100%;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.profileName {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--global-text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.profileAbout {
+  font-size: var(--font-size-sm);
+  color: var(--global-text-secondary);
+  margin: 0;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.profileEmail {
+  font-size: var(--font-size-sm);
+  color: var(--global-text-tertiary);
+  margin: var(--spacing-1) 0 0;
+}
+
+.emailReadonly {
+  font-size: var(--font-size-sm);
+  color: var(--global-text-tertiary);
+  margin: 0;
+  padding: var(--spacing-2) 0;
+}
+
+.emptyText {
+  color: var(--global-text-muted);
+  font-style: italic;
+}
+
+/* ============================================================
+   EDIT BUTTON (inline — 섹션 우상단 "수정" 텍스트 버튼)
+   ============================================================ */
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: transparent;
+  border: 1px solid var(--global-glass-border-normal);
+  color: var(--global-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.editButton:hover {
+  border-color: var(--global-point-primary);
+  background: var(--global-point-primary-bg);
+}
+
+/* ============================================================
+   FORMS COMMON
+   ============================================================ */
+.profileForm,
+.passwordForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--global-text-secondary);
+}
+
+.input {
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--global-input-bg);
+  border: 1px solid var(--global-input-border);
+  border-radius: var(--radius-md);
+  color: var(--global-text-primary);
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--global-text-muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--global-input-border-focus);
+  box-shadow: var(--global-input-focus-ring);
+}
+
+.input.inputError {
+  border-color: var(--global-error);
+}
+
+.input.inputError:focus {
+  box-shadow: var(--global-input-error-ring);
+}
+
+.textarea {
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--global-input-bg);
+  border: 1px solid var(--global-input-border);
+  border-radius: var(--radius-md);
+  color: var(--global-text-primary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  transition: all var(--transition-fast);
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.textarea::placeholder {
+  color: var(--global-text-muted);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--global-input-border-focus);
+  box-shadow: var(--global-input-focus-ring);
+}
+
+.textarea.inputError {
+  border-color: var(--global-error);
+}
+
+.charCount {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-muted);
+  text-align: right;
+}
+
+.charCountOver {
+  color: var(--global-error);
+}
+
+.errorText {
+  font-size: var(--font-size-xs);
+  color: var(--global-error);
+}
+
+.helperText {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-tertiary);
+}
+
+.successText {
+  font-size: var(--font-size-sm);
+  color: var(--global-success);
+  margin: 0;
+}
+
+/* ---- Form Actions (저장 / 취소) ---- */
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+/* 저장 버튼 — 포인트 컬러 solid */
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 1.25rem;
+  background: var(--global-point-primary);
+  color: var(--global-text-white);
+  border: none;
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px var(--global-point-primary-bg);
+}
+
+.saveButton:hover {
+  background: var(--global-point-primary-hover);
+  box-shadow: var(--global-glow-light-hover);
+  transform: translateY(-1px);
+}
+
+.saveButton:active {
+  transform: scale(0.97);
+}
+
+.saveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 취소 버튼 — ghost */
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  background: transparent;
+  color: var(--global-text-secondary);
+  border: 1px solid var(--global-glass-border-normal);
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cancelButton:hover {
+  background: var(--global-glass-bg-light-hover);
+  border-color: var(--global-text-muted);
+  color: var(--global-text-primary);
+}
+
+.cancelButton:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   PASSWORD
+   ============================================================ */
+.passwordInputWrapper {
+  position: relative;
+}
+
+.passwordInputWrapper .input {
+  padding-right: 2.75rem;
+}
+
+.eyeButton {
+  position: absolute;
+  right: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--global-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.eyeButton:hover {
+  color: var(--global-text-secondary);
+}
+
+/* ============================================================
+   THUMBNAIL / BANNER
+   ============================================================ */
+.thumbnailPreviewWrapper {
+  width: 100%;
+  height: 180px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--global-border-primary);
+  background: var(--global-bg-card);
+}
+
+.thumbnailPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.thumbnailEditWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.bannerContainer {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  border: 1px solid var(--global-border-primary);
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  transition: background var(--transition-base);
+}
+
+.bannerContainer:hover .bannerOverlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+.bannerContainer:hover .bannerActions {
+  opacity: 1;
+}
+
+.bannerActions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: var(--spacing-3);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.bannerChangeBtn,
+.bannerRemoveBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  backdrop-filter: var(--global-glass-blur);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.bannerChangeBtn {
+  background: var(--global-point-primary);
+  color: var(--global-text-white);
+  border: 1px solid var(--global-glass-border-light);
+}
+
+.bannerChangeBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.bannerRemoveBtn {
+  background: var(--global-error);
+  color: var(--global-text-white);
+  border: 1px solid var(--global-glass-border-light);
+}
+
+.bannerRemoveBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.bannerPrompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--global-text-primary);
+  pointer-events: none;
+  text-align: center;
+}
+
+.bannerPrompt svg {
+  opacity: 0.5;
+}
+
+.bannerPrompt span:first-of-type {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.bannerHint {
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
+}
+
+.bannerUploading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: var(--global-glass-blur);
+  z-index: 3;
+  color: var(--global-text-primary);
+  font-size: var(--font-size-base);
+}
+
+/* wave 스타일은 WaveDivider.module.css 로 이전됨 */
+.waveWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.waves {
+  width: 100%;
+  height: 100%;
+}
+
+.parallax > use {
+  animation: move-forever 25s ease-in-out infinite;
+}
+
+.waveLayer1 {
+  fill: var(--global-bg-primary);
+  opacity: 0.5;
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.waveLayer2 {
+  fill: var(--global-bg-primary);
+  animation-delay: -5s;
+  animation-duration: 10s;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+.thumbnailEditActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+/* ============================================================
+   SOCIAL
+   ============================================================ */
+.socialForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.socialInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  background: var(--global-input-bg);
+  border: 1px solid var(--global-input-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.socialInputWrapper:focus-within {
+  border-color: var(--global-input-border-focus);
+  box-shadow: var(--global-input-focus-ring);
+}
+
+.socialIcon {
+  color: var(--global-text-muted);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.socialInput {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--global-text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.socialInput::placeholder {
+  color: var(--global-text-muted);
+}
+
+.socialFormFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-2);
+}
+
+/* ============================================================
+   HIDDEN INPUT
+   ============================================================ */
+.hiddenInput {
+  display: none;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  .page {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+
+  .profileRow {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-6);
+  }
+
+  .avatarColumn {
+    width: 100%;
+    align-items: center;
+  }
+
+  .avatarWrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profileViewRow {
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+
+  .bannerContainer {
+    height: 150px;
+  }
+
+  .thumbnailPreviewWrapper {
+    height: 140px;
+  }
+}

@@ -1,208 +1,175 @@
+/* =========================================================
+   ROOT — 테마 무관 공통 토큰 (Soft Version)
+   ========================================================= */
 :root {
-  /* ============================================
-     DARK MODE (기본)
-     ============================================ */
+  --global-glass-blur: blur(12px);
 
-  /* ----- Point Colors ----- */
+  /*  그림자 완화 */
+  --global-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.18);
+  --global-shadow-md: 0 4px 10px rgba(0, 0, 0, 0.22);
+  --global-shadow-lg: 0 8px 18px rgba(0, 0, 0, 0.28);
+
+  /* 상태 색상 */
+  --global-error: #e05252;
+  --global-error-bg: rgba(224, 82, 82, 0.08);
+  --global-input-error-ring: 0 0 0 2px rgba(224, 82, 82, 0.18);
+
+  --global-success: #34d399;
+  --global-warning: #fbbf24;
+
+  /* Button */
+  --global-btn-primary-bg: #2a88c8;
+  --global-btn-primary-hover: #3a99d8;
+  --global-btn-primary-text: #ffffff;
+
+  --global-btn-secondary-bg: #244c6f;
+  --global-btn-secondary-hover: #2c5b84;
+  --global-btn-secondary-text: #f0f8ff;
+
+  --global-btn-danger-bg: #382f2e;
+  --global-btn-danger-hover: #e74c3c;
+  --global-btn-danger-text: #ffffff;
+
+  /* Glass */
+  --glass-border-base: 135, 205, 233;
+  --glass-bg-base-light: 135, 205, 233;
+  /* --glass-bg-base-normal: 49, 103, 152; */
+  --glass-bg-base-normal: 30, 30, 30;
+  --glass-bg-base-strong: 13, 33, 53;
+
+  --global-glass-bg-light: rgba(var(--glass-bg-base-light), 0.06);
+  --global-glass-bg-light-hover: rgba(var(--glass-bg-base-light), 0.1);
+  --global-glass-bg-normal: rgba(var(--glass-bg-base-normal), 0.3);
+  --global-glass-bg-strong: rgba(var(--glass-bg-base-strong), 0.75);
+
+  --global-glass-border-light: rgba(var(--glass-border-base), 0.1);
+  --global-glass-border-normal: rgba(var(--glass-border-base), 0.18);
+}
+
+/* =========================================================
+   MORNING
+   ========================================================= */
+[data-theme="morning"] {
+  --point-rgb: 95, 173, 235;
+  --global-point-primary: #4aa9ec;
+  --global-point-primary-hover: #87cde9;
+  --global-point-primary-bg: rgba(95, 173, 235, 0.12);
+
+  --global-bg-primary: #26577f;
+  --global-bg-secondary: #163d5a;
+  --global-bg-tertiary: #1b4666;
+  --global-bg-card: #143552;
+  --global-bg-hover: #1b4666;
+
+  --banner-wave-color: #26577f;
+
+  --global-text-primary: #f0f8ff;
+  --global-text-secondary: #c8e8f8;
+  --global-text-tertiary: #97d5f1;
+  --global-text-muted: #6ab8e8;
+
+  --global-border-primary: #4a8fc0;
+  --global-border-secondary: #316798;
+  --global-border-focus: #87cde9;
+
+  /* Input */
+  --global-input-bg: #245578;
+  --global-input-bg-hover: #2d6690;
+  --global-input-border: #4a8fc0;
+  --global-input-border-hover: #5aa3d4;
+  --global-input-border-focus: #87cde9;
+  --global-input-focus-ring: 0 0 0 2px rgba(135, 205, 233, 0.18);
+
+  /* Glow 완화 */
+  --global-glow-light: 0 0 10px rgba(95, 173, 235, 0.15);
+  --global-glow-normal: 0 0 16px rgba(95, 173, 235, 0.22);
+
+  --global-modal-bg: #2d5f8a;
+  --global-modal-overlay: rgba(0, 15, 40, 0.5);
+
+  --global-surface-elevated: #1b4666;
+}
+
+/* =========================================================
+   SUNSET
+   ========================================================= */
+[data-theme="sunset"] {
+  --point-rgb: 74, 148, 200;
+  --global-point-primary: #4a94c8;
+  --global-point-primary-hover: #6aaedd;
+  --global-point-primary-bg: rgba(74, 148, 200, 0.12);
+
+  --global-bg-primary: #1d4161;
+  --global-bg-secondary: #102a40;
+  --global-bg-tertiary: #143552;
+  --global-bg-card: #0f2a3d;
+  --global-bg-hover: #143552;
+
+  --banner-wave-color: #1d4161;
+
+  --global-text-primary: #e8f4fc;
+  --global-text-secondary: #aad4ee;
+  --global-text-tertiary: #74b8e0;
+  --global-text-muted: #5498c0;
+
+  --global-border-primary: #326e9e;
+  --global-border-secondary: #1e4d70;
+  --global-border-focus: #6aaedd;
+
+  --global-input-bg: #163d5a;
+  --global-input-bg-hover: #1e4d70;
+  --global-input-border: #326e9e;
+  --global-input-border-hover: #4580b0;
+  --global-input-border-focus: #6aaedd;
+  --global-input-focus-ring: 0 0 0 2px rgba(106, 174, 221, 0.18);
+
+  --global-glow-light: 0 0 10px rgba(74, 148, 200, 0.15);
+  --global-glow-normal: 0 0 16px rgba(74, 148, 200, 0.22);
+
+  --global-modal-bg: #1e4d70;
+  --global-modal-overlay: rgba(0, 10, 30, 0.55);
+
+  --global-surface-elevated: #143552;
+}
+
+/* =========================================================
+   NIGHT
+   ========================================================= */
+[data-theme="night"] {
   --point-rgb: 96, 165, 250;
   --global-point-primary: #60a5fa;
   --global-point-primary-hover: #93c5fd;
-  --global-point-primary-bg: rgba(var(--point-rgb), 0.12);
+  --global-point-primary-bg: rgba(96, 165, 250, 0.1);
 
-  /* ----- Background ----- */
-  --global-bg-primary: #0f1419;
-  --global-bg-secondary: #1a1f2e;
-  --global-bg-tertiary: #242b3d;
+  --global-bg-primary: #0e1a2c;
+  --global-bg-secondary: #111e33;
+  --global-bg-tertiary: #1c2d42;
   --global-bg-card: #1e2433;
   --global-bg-hover: #2a3244;
 
-  /* ----- Text ----- */
+  --banner-wave-color: #0e1a2c;
+
   --global-text-primary: #f0f6fc;
   --global-text-secondary: #c9d1d9;
   --global-text-tertiary: #b1bac4;
   --global-text-muted: #8b949e;
-  --global-text-white: #ffffff;
-  --global-text-black: #0f172a;
 
-  /* ----- Border ----- */
-  --global-border-primary: #30363d;
-  --global-border-secondary: #21262d;
+  --global-border-primary: #2d3d52;
+  --global-border-secondary: #1c2d42;
   --global-border-focus: #388bfd;
 
-  /* ----- Semantic Colors ----- */
-  --global-success: #3fb950;
-  --global-success-bg: rgba(63, 185, 80, 0.1);
-  --global-error: #f85149;
-  --global-error-bg: rgba(248, 81, 73, 0.1);
-  --global-warning: #d29922;
-  --global-warning-bg: rgba(210, 153, 34, 0.1);
-
-  /* ----- Glass Morphism ----- */
-  --glass-bg-base-light: 148, 163, 184;
-  --glass-bg-base-normal: 30, 36, 51;
-  --glass-bg-base-strong: 15, 20, 25;
-
-  --global-glass-bg-light: rgba(var(--glass-bg-base-light), 0.05);
-  --global-glass-bg-light-hover: rgba(var(--glass-bg-base-light), 0.1);
-  --global-glass-bg-normal: rgba(var(--glass-bg-base-normal), 0.6);
-  --global-glass-bg-normal-hover: rgba(var(--glass-bg-base-normal), 0.75);
-  --global-glass-bg-strong: rgba(var(--glass-bg-base-strong), 0.85);
-  --global-glass-bg-strong-hover: rgba(var(--glass-bg-base-strong), 0.95);
-
-  --glass-border-base: 255, 255, 255;
-
-  --global-glass-border-light: rgba(var(--glass-border-base), 0.05);
-  --global-glass-border-normal: rgba(var(--glass-border-base), 0.12);
-  --global-glass-border-strong: rgba(var(--glass-border-base), 0.2);
-
-  --global-glass-blur: blur(16px);
-
-  /* ----- Glow ----- */
-  --glow-base-primary: var(--point-rgb);
-  --glow-base-success: 63, 185, 80;
-  --glow-base-error: 248, 81, 73;
-  --glow-base-warning: 210, 153, 34;
-
-  --global-glow-light: 0 0 15px rgba(var(--glow-base-primary), 0.15);
-  --global-glow-light-hover: 0 0 20px rgba(var(--glow-base-primary), 0.25);
-
-  --global-glow-normal: 0 0 20px rgba(var(--glow-base-primary), 0.25);
-  --global-glow-normal-hover: 0 0 28px rgba(var(--glow-base-primary), 0.35);
-
-  --global-glow-strong: 0 0 30px rgba(var(--glow-base-primary), 0.35);
-  --global-glow-strong-hover: 0 0 40px rgba(var(--glow-base-primary), 0.45);
-
-  --global-glow-success: 0 0 20px rgba(var(--glow-base-success), 0.3);
-  --global-glow-error: 0 0 20px rgba(var(--glow-base-error), 0.3);
-  --global-glow-warning: 0 0 20px rgba(var(--glow-base-warning), 0.3);
-
-  /* ----- Shadow ----- */
-  --global-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --global-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
-
-  /* ----- Input ----- */
   --global-input-bg: #0d1117;
-  --global-input-bg-hover: #161b22;
-  --global-input-bg-focus: #0d1117;
-  --global-input-border: #30363d;
-  --global-input-border-hover: #484f58;
+  --global-input-bg-hover: #161c26;
+  --global-input-border: #2d3d52;
+  --global-input-border-hover: #3d5068;
   --global-input-border-focus: #388bfd;
-  --global-input-focus-ring: 0 0 0 3px rgba(56, 139, 253, 0.3);
-  --global-input-error-ring: 0 0 0 3px rgba(248, 81, 73, 0.3);
+  --global-input-focus-ring: 0 0 0 2px rgba(56, 139, 253, 0.18);
 
-  /* ----- Button ----- */
-  --global-btn-primary-bg: #238636;
-  --global-btn-primary-hover: #2ea043;
-  --global-btn-primary-text: #ffffff;
-  --global-btn-secondary-bg: #21262d;
-  --global-btn-secondary-hover: #30363d;
-  --global-btn-secondary-text: #e6edf3;
-  --global-btn-danger-bg: #da3633;
-  --global-btn-danger-hover: #f85149;
-  --global-btn-danger-text: #ffffff;
+  --global-glow-light: 0 0 10px rgba(96, 165, 250, 0.15);
+  --global-glow-normal: 0 0 16px rgba(96, 165, 250, 0.22);
 
-  /* ----- Table ----- */
-  --global-table-header-bg: #161b22;
-  --global-table-row-hover: #1c2128;
-  --global-table-border: #21262d;
+  --global-modal-bg: #1e2d42;
+  --global-modal-overlay: rgba(0, 0, 0, 0.65);
 
-  /* ----- Modal ----- */
-  --global-modal-bg: #1e2433;
-  --global-modal-overlay: rgba(0, 0, 0, 0.7);
-}
-
-/* ============================================
-   LIGHT MODE
-   ============================================ */
-[data-theme='light'] {
-  /* ----- Background ----- */
-  --global-bg-primary: #ffffff;
-  --global-bg-secondary: #f8fafc;
-  --global-bg-tertiary: #f1f5f9;
-  --global-bg-card: #ffffff;
-  --global-bg-hover: #f1f5f9;
-
-  /* ----- Text ----- */
-  --global-text-primary: #3c413c;
-  --global-text-secondary: #475569;
-  --global-text-tertiary: #64748b;
-  --global-text-muted: #94a3b8;
-
-  /* ----- Border ----- */
-  --global-border-primary: #e2e8f0;
-  --global-border-secondary: #cbd5e1;
-  --global-border-focus: #38bdf8;
-
-  /* ----- Point Colors ----- */
-  --global-point-primary: #0ea5e9;
-  --global-point-primary-hover: #0284c7;
-  --global-point-primary-bg: rgba(14, 165, 233, 0.1);
-
-  /* ----- Semantic Colors ----- */
-  --global-success: #10b981;
-  --global-success-bg: rgba(16, 185, 129, 0.1);
-  --global-error: #ef4444;
-  --global-error-bg: rgba(239, 68, 68, 0.1);
-  --global-warning: #f59e0b;
-  --global-warning-bg: rgba(245, 158, 11, 0.1);
-
-  /* ----- Glass Morphism ----- */
-  --global-glass-bg-light: rgba(0, 0, 0, 0.02);
-  --global-glass-bg-light-hover: rgba(0, 0, 0, 0.04);
-  --global-glass-bg-normal: rgba(0, 0, 0, 0.04);
-  --global-glass-bg-normal-hover: rgba(0, 0, 0, 0.06);
-  --global-glass-bg-strong: rgba(0, 0, 0, 0.06);
-  --global-glass-bg-strong-hover: rgba(0, 0, 0, 0.08);
-
-  --global-glass-border-light: rgba(0, 0, 0, 0.08);
-  --global-glass-border-normal: rgba(0, 0, 0, 0.12);
-  --global-glass-border-strong: rgba(0, 0, 0, 0.16);
-
-  /* ----- Glow ----- */
-  --global-glow-light: 0 2px 8px rgba(14, 165, 233, 0.15);
-  --global-glow-light-hover: 0 4px 12px rgba(14, 165, 233, 0.2);
-  --global-glow-normal: 0 4px 12px rgba(14, 165, 233, 0.2);
-  --global-glow-normal-hover: 0 6px 16px rgba(14, 165, 233, 0.25);
-  --global-glow-strong: 0 6px 16px rgba(14, 165, 233, 0.25);
-  --global-glow-strong-hover: 0 8px 20px rgba(14, 165, 233, 0.3);
-
-  --global-glow-success: 0 4px 12px rgba(16, 185, 129, 0.2);
-  --global-glow-error: 0 4px 12px rgba(239, 68, 68, 0.2);
-  --global-glow-warning: 0 4px 12px rgba(245, 158, 11, 0.2);
-
-  /* ----- Shadow ----- */
-  --global-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --global-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-
-  /* ----- Input ----- */
-  --global-input-bg: #ffffff;
-  --global-input-bg-hover: #f8fafc;
-  --global-input-bg-focus: #ffffff;
-  --global-input-border: #e2e8f0;
-  --global-input-border-hover: #cbd5e1;
-  --global-input-border-focus: #38bdf8;
-  --global-input-focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.2);
-  --global-input-error-ring: 0 0 0 3px rgba(239, 68, 68, 0.2);
-
-  /* ----- Button ----- */
-  --global-btn-primary-bg: #0ea5e9;
-  --global-btn-primary-hover: #0284c7;
-  --global-btn-primary-text: #ffffff;
-  --global-btn-secondary-bg: #f1f5f9;
-  --global-btn-secondary-hover: #e2e8f0;
-  --global-btn-secondary-text: #0f172a;
-  --global-btn-danger-bg: #ef4444;
-  --global-btn-danger-hover: #dc2626;
-  --global-btn-danger-text: #ffffff;
-
-  /* ----- Table ----- */
-  --global-table-header-bg: #f8fafc;
-  --global-table-row-hover: #f1f5f9;
-  --global-table-border: #e2e8f0;
-
-  /* ----- Modal ----- */
-  --global-modal-bg: #ffffff;
-  --global-modal-overlay: rgba(0, 0, 0, 0.5);
+  --global-surface-elevated: #1c2d42;
 }

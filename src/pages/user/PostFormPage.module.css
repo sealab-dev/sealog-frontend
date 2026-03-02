@@ -32,6 +32,7 @@
   width: 100%;
   max-width: var(--article-xl);
   margin: 0 auto;
+  padding-bottom: 120px;
 }
 
 /* ===================================
@@ -88,7 +89,7 @@
   .scrollArea {
     padding: 0 var(--spacing-4);
     /* 모바일에서 버튼 두 줄일 경우 대비 */
-    padding-bottom: calc(120px + var(--spacing-6));
+    padding-bottom: 120px;
   }
 
   .header {
@@ -105,9 +106,14 @@
 /* ===================================
    반응형: Small Mobile
    =================================== */
-@media (max-width: 539px) {
+/* @media (max-width: 767px) {
+  .scrollArea {
+    padding-bottom: 160px;
+  }
+} */
+/* @media (max-width: 539px) {
   .scrollArea {
     padding: 0 var(--spacing-2);
     padding-bottom: calc(120px + var(--spacing-4));
   }
-}
+} */

@@ -1,21 +1,32 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AdminRoute, ProtectedRoute } from '@/router/Guard';
-import { AuthProvider } from '@/feature/auth/providers/AuthProvider';
-import { ScrollToTop } from './ScrollToTop';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AdminRoute, ProtectedRoute } from "@/router/Guard";
+import { AuthProvider } from "@/features/auth/providers/AuthProvider";
+import { ScrollToTop } from "./ScrollToTop";
 
 //layout
-import { HomePostsLayout } from '@/layout/home';
-import { PostsLayout, EditorLayout } from '@/layout/user';
-import { AdminLayout } from '@/layout/admin';
+import { HomePostsLayout } from "@/layout/home";
+import { PostsLayout, EditorLayout, UserLayout } from "@/layout/user";
+import { AdminLayout } from "@/layout/admin";
 
 //page
-import { HomePostsPage } from '@/pages/home';
-import { PostDetailPage, PostFormPage, PostEditPage, PostsPage } from '@/pages/user';
-import { AdminAccountPage, AdminDashboardPage, AdminPostsPage, AdminStacksPage, AdminUsersPage } from '@/pages/admin';
+import { HomePostsPage } from "@/pages/home";
+import {
+  PostDetailPage,
+  PostFormPage,
+  PostEditPage,
+  PostsPage,
+  SettingsPage,
+} from "@/pages/user";
+import {
+  AdminAccountPage,
+  AdminDashboardPage,
+  AdminPostsPage,
+  AdminStacksPage,
+  AdminUsersPage,
+} from "@/pages/admin";
 
 //404
-import { NotFoundPage } from '@/pages/notfound';
-
+import { NotFoundPage } from "@/pages/notfound";
 
 export const AppRouter = () => (
   <BrowserRouter basename="/">
@@ -25,7 +36,8 @@ export const AppRouter = () => (
         {/* 메인 게시글 목록 */}
         <Route path="/" element={<HomePostsLayout />}>
           <Route index element={<HomePostsPage />} />
-          <Route path="type/:postType" element={<HomePostsPage />} />
+          <Route path="collection" element={<HomePostsPage />} />
+          <Route path="about" element={<HomePostsPage />} />
         </Route>
 
         {/* 유저 - 게시글 목록 */}
@@ -46,13 +58,41 @@ export const AppRouter = () => (
 
         {/* 유저 - 게시글 에디터 */}
         <Route path="/user/:nickname" element={<EditorLayout />}>
-          <Route path="entry/:slug/edit" element={<ProtectedRoute><PostEditPage /></ProtectedRoute>} />
-          <Route path="write" element={<ProtectedRoute><PostFormPage /></ProtectedRoute>} />
+          <Route
+            path="entry/:slug/edit"
+            element={
+              <ProtectedRoute>
+                <PostEditPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="write"
+            element={
+              <ProtectedRoute>
+                <PostFormPage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
+        {/* 설정 페이지 */}
+        <Route path="/user/:nickname" element={<UserLayout />}>
+          <Route
+            path="settings"
+            element={
+              <ProtectedRoute>
+                <SettingsPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
         {/* 어드민 페이지 */}
-        <Route path="/admin" element={<AdminRoute children={<AdminLayout />} />}>
+        <Route
+          path="/admin"
+          element={<AdminRoute children={<AdminLayout />} />}
+        >
           <Route path="dashboard" element={<AdminDashboardPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="posts" element={<AdminPostsPage />} />

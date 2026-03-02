@@ -1,10 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { authApi } from '../services';
-import type { LoginRequest, SignUpRequest } from '@/api/auth/types';
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { authApi } from "../services";
+import type { LoginRequest, SignUpRequest } from "@/api/auth/types";
+/**
+ * service   → 어떤 URL로, 어떤 데이터를 보낼지 정의
+   mutation  → 그 요청의 상태(loading, error, success)를 관리
+ */
 export const authKeys = {
-  all: ['auth'] as const,
-  user: () => [...authKeys.all, 'user'] as const,
+  all: ["auth"] as const,
+  user: () => [...authKeys.all, "user"] as const,
 };
 
 /**

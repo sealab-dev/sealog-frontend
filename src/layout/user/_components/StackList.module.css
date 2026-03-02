@@ -1,0 +1,182 @@
+/* ================================================================
+   Nav
+   ================================================================ */
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-2) var(--spacing-2) var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  scrollbar-width: thin;
+  scrollbar-color: var(--global-glass-border-light) transparent;
+}
+
+.nav::-webkit-scrollbar {
+  width: 4px;
+}
+.nav::-webkit-scrollbar-thumb {
+  background: var(--global-glass-border-light);
+  border-radius: 2px;
+}
+
+/* ================================================================
+   Section
+   ================================================================ */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--global-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: var(--spacing-1) var(--spacing-3);
+  margin: 0;
+}
+
+/* ================================================================
+   List
+   ================================================================ */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* ================================================================
+   Item
+   ================================================================ */
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: none;
+  border: none;
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+  gap: var(--spacing-2);
+}
+
+.item:hover {
+  background: var(--global-glass-bg-light);
+}
+
+.itemActive {
+  background: var(--global-point-primary-bg);
+}
+
+.itemName {
+  font-size: var(--font-size-sm);
+  color: var(--global-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.item:hover .itemName {
+  color: var(--global-text-primary);
+}
+
+.itemActive .itemName {
+  color: var(--global-point-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.itemCount {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-muted);
+  font-family: var(--font-family-code);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.item:hover .itemCount {
+  color: var(--global-text-tertiary);
+}
+
+.itemActive .itemCount {
+  color: var(--global-point-primary);
+  opacity: 0.8;
+}
+
+/* ================================================================
+   States
+   ================================================================ */
+.loading {
+  flex: 1;
+  margin: var(--spacing-4);
+  border-radius: var(--radius-base);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  min-height: 120px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  color: var(--global-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.empty p {
+  margin: 0;
+}
+
+/* ================================================================
+   Collection item (아이콘 + 텍스트 인라인)
+   ================================================================ */
+.collectionItemInner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.collectionIcon {
+  flex-shrink: 0;
+  color: var(--global-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.item:hover .collectionIcon {
+  color: var(--global-text-secondary);
+}
+
+.itemActive .collectionIcon {
+  color: var(--global-point-primary);
+}

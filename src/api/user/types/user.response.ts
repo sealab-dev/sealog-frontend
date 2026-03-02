@@ -16,4 +16,6 @@ export interface BlogUserResponse {
   profileImagePath: string | null;
   position: string | null;
   about: string | null;
+  //api 연결 후
+  // bannerImagePath: string | null
 }

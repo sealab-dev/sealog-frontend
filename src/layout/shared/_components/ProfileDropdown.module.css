@@ -1,0 +1,155 @@
+/* ===================================
+   컨테이너
+   =================================== */
+.container {
+  position: relative;
+  z-index: 50;
+}
+
+/* ===================================
+   프로필 버튼
+   =================================== */
+.profileButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-slow);
+  color: var(--global-text-primary);
+}
+
+.profileButton:hover {
+  background: var(--global-glass-bg-light);
+}
+
+.profileButton:active {
+  transform: scale(0.97);
+}
+
+/* ===================================
+   아바타
+   =================================== */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--global-glass-border-light);
+  transition: all var(--transition-slow);
+}
+
+.profileButton:hover .avatar {
+  border-color: var(--global-glass-border-normal);
+}
+
+/* ===================================
+   닉네임
+   =================================== */
+.nickname {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+/* ===================================
+   드롭다운
+   =================================== */
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--spacing-2));
+  right: 0;
+  min-width: 240px;
+  backdrop-filter: var(--global-glass-blur);
+  -webkit-backdrop-filter: var(--global-glass-blur);
+  border: 1px solid var(--global-glass-border-normal);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2);
+  background: var(--global-surface-elevated);
+  box-shadow: var(--global-shadow-md);
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.divider {
+  height: 1px;
+  background: var(--global-glass-border-light);
+  margin: var(--spacing-2) 0;
+}
+
+/* ===================================
+   메뉴
+   =================================== */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+  padding: var(--spacing-3);
+  border: none;
+  border-radius: var(--radius-base);
+  background: transparent;
+  color: var(--global-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.menuItem:hover {
+  background: var(--global-glass-bg-light);
+}
+
+.menuItem:active {
+  transform: scale(0.98);
+}
+
+.menuIcon {
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+  flex-shrink: 0;
+}
+
+.logoutItem:hover {
+  background: var(--global-error-bg);
+}
+
+/* ===================================
+   반응형: 모바일
+   =================================== */
+@media (max-width: 639px) {
+  .nickname {
+    display: none;
+  }
+
+  .profileButton {
+    padding: var(--spacing-1);
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+  }
+
+  .dropdown {
+    right: -8px;
+  }
+}

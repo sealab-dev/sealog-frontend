@@ -1,0 +1,148 @@
+/* ================================================================
+   래퍼
+   ================================================================ */
+.wrapper {
+  width: 100%;
+}
+
+/* ================================================================
+   콘텐츠
+   ================================================================ */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  max-width: 680px;
+}
+
+.nickname {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--global-text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.about {
+  font-size: var(--font-size-base);
+  color: var(--global-text-secondary);
+  line-height: 1.9;
+  margin: 0;
+  word-break: keep-all;
+  white-space: pre-wrap;
+}
+
+.aboutEmpty {
+  font-size: var(--font-size-sm);
+  color: var(--global-text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ================================================================
+   소셜 링크
+   ================================================================ */
+.socialLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-2);
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--global-text-tertiary);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.socialLink:hover {
+  color: var(--global-point-primary);
+}
+
+/* ================================================================
+   빈 상태
+   ================================================================ */
+.empty {
+  color: var(--global-text-tertiary);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+/* ================================================================
+   스켈레톤
+   ================================================================ */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  max-width: 680px;
+}
+
+.skeletonName {
+  height: 40px;
+  width: 200px;
+  border-radius: var(--radius-base);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.skeletonText {
+  height: 18px;
+  width: 100%;
+  border-radius: var(--radius-base);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.skeletonSocial {
+  height: 18px;
+  width: 140px;
+  border-radius: var(--radius-base);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  margin-top: var(--spacing-2);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ================================================================
+   반응형
+   ================================================================ */
+@media (max-width: 600px) {
+  .wrapper {
+    padding: var(--spacing-8) 0;
+  }
+
+  .nickname {
+    font-size: var(--font-size-2xl);
+  }
+}

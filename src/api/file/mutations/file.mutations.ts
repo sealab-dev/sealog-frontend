@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { fileApi } from '../services';
 import { FileValidationError } from '../utils/file.validator';
-import { toast } from '@/shared/toast/useToast';
+import { toast } from '@/components/ui/toast/useToast';
 
 /**
  * 파일 업로드 옵션

@@ -1,21 +1,27 @@
-import { useNavigate } from 'react-router-dom';
-import { usePostCreate } from '@/feature/post/hooks/post/usePostCreate';
-import { useUnsaved } from '@/feature/post/hooks/common/useUnsaved';
-import { 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { usePostCreate } from "@/features/post/hooks/post/usePostCreate";
+import { useUnsaved } from "@/features/post/hooks/common/useUnsaved";
+import {
   PostThumbnailEdit,
   UnsavedModal,
   PostStackSection,
   PostTagSection,
-  PostTypeSelector,
   PostMetaFields,
   PostEditorSection,
   PostFormActions,
-} from '@/feature/post/components/post-form';
-import styles from './PostFormPage.module.css';
+} from "@/features/post/components/post-form";
+import { PublishModal } from "@/features/post/components/post-form/PublishModal";
+import type { CollectionOption } from "@/features/post/components/post-form/PublishModal";
+import styles from "./PostFormPage.module.css";
+
+// TODO: API 연결 후 실제 컬렉션 목록으로 교체
+const MOCK_COLLECTION: CollectionOption[] = [];
 
 export const PostFormPage = () => {
   const navigate = useNavigate();
-  
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+
   const {
     form,
     isLoading,
@@ -30,58 +36,63 @@ export const PostFormPage = () => {
     submit,
   } = usePostCreate();
 
-  const { showModal, handleConfirm, handleCancel, confirmNavigation } = useUnsaved({
-    hasUnsavedChanges,
-  });
+  const { showModal, handleConfirm, handleCancel, confirmNavigation } =
+    useUnsaved({
+      hasUnsavedChanges,
+    });
 
   const handleCancelClick = () => {
-    confirmNavigation(() => navigate('/'));
+    confirmNavigation(() => navigate("/"));
   };
 
   const handleThumbnailUploadSuccess = (fileId: number, filePath: string) => {
-    updateField('thumbnailFileId', fileId);
-    updateField('thumbnailPath', filePath);
+    updateField("thumbnailFileId", fileId);
+    updateField("thumbnailPath", filePath);
   };
 
   const handleThumbnailRemove = () => {
-    updateField('thumbnailFileId', null);
-    updateField('thumbnailPath', null);
+    updateField("thumbnailFileId", null);
+    updateField("thumbnailPath", null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // 발행하기 버튼 → 모달 열기 (폼 유효성은 모달 confirm 시점에 submit에서 검증)
+  const handlePublishClick = () => {
+    setIsPublishModalOpen(true);
+  };
+
+  // 모달 confirm → 컬렉션 정보 포함하여 실제 발행
+  const handlePublishConfirm = (
+    collectionId: number | null,
+    newCollectionName: string | null,
+  ) => {
+    setIsPublishModalOpen(false);
+    // TODO: collectionId / newCollectionName을 form에 추가하거나 submit 인자로 전달
+    console.log("발행 컬렉션:", { collectionId, newCollectionName });
     submit();
   };
 
   return (
     <div className={styles.page}>
-      {/* 썸네일 - full width */}
+      {/* 썸네일 */}
       <PostThumbnailEdit
         thumbnailPath={form.thumbnailPath}
-        title={form.title || '새 글'}
+        title={form.title || "새 글"}
         onUploadSuccess={handleThumbnailUploadSuccess}
         onThumbnailRemove={handleThumbnailRemove}
       />
-      
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {/* 콘텐츠 영역 - max-width 적용, 중앙 정렬 */}
+
+      <form className={styles.form}>
         <div className={styles.scrollArea}>
-          <header className={styles.header}>
+          <div className={styles.header}>
             <h1 className={styles.pageTitle}>새 글 작성</h1>
-          </header>
+          </div>
 
-          {/* 상단 메타 영역 */}
           <div className={styles.metaSection}>
-            <PostTypeSelector
-              value={form.postType}
-              onChange={(type) => updateField('postType', type)}
-            />
-
             <PostMetaFields
               title={form.title}
               excerpt={form.excerpt}
-              onTitleChange={(value) => updateField('title', value)}
-              onExcerptChange={(value) => updateField('excerpt', value)}
+              onTitleChange={(v) => updateField("title", v)}
+              onExcerptChange={(v) => updateField("excerpt", v)}
               titleError={fieldErrors?.title}
               excerptError={fieldErrors?.excerpt}
             />
@@ -101,11 +112,10 @@ export const PostFormPage = () => {
             />
           </div>
 
-          {/* 에디터 영역 */}
           <div className={styles.editorSection}>
             <PostEditorSection
               content={form.content}
-              onContentChange={(value) => updateField('content', value)}
+              onContentChange={(v) => updateField("content", v)}
               contentError={fieldErrors?.content}
               contentLengthError={contentLengthError}
               disabled={isLoading}
@@ -113,19 +123,28 @@ export const PostFormPage = () => {
           </div>
         </div>
 
-        {/* 하단 고정 액션 */}
         <PostFormActions
           mode="create"
           isLoading={isLoading}
           isDisabled={!!contentLengthError}
           onCancel={handleCancelClick}
+          onPublishClick={handlePublishClick}
         />
       </form>
 
+      {/* 미저장 경고 모달 */}
       <UnsavedModal
         isOpen={showModal}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
+      />
+
+      {/* 발행 모달 */}
+      <PublishModal
+        isOpen={isPublishModalOpen}
+        collectionList={MOCK_COLLECTION}
+        onConfirm={handlePublishConfirm}
+        onCancel={() => setIsPublishModalOpen(false)}
       />
     </div>
   );

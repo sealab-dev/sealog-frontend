@@ -1,0 +1,41 @@
+.container {
+  position: relative;
+  width: 100%;
+  background: transparent;
+}
+
+.footer {
+  border-top: 1px solid var(--global-glass-border-light);
+  padding: 50px 0;
+  text-align: center;
+  color: var(--global-text-tertiary);
+}
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.footerLogoIcon {
+  color: var(--global-point-primary);
+}
+
+.footerLogoText {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--global-point-primary);
+}
+
+.footerDescription {
+  margin: 0 0 15px 0;
+  font-size: 15px;
+}
+
+.footerCopyright {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.7;
+}

@@ -20,6 +20,7 @@
    =================================== */
 .filterWrapper {
   width: 100%;
+  position: relative;
   margin-bottom: var(--spacing-6);
 }
 
@@ -141,4 +142,20 @@
     margin-top: var(--spacing-8);
     padding-top: var(--spacing-4);
   }
+}
+
+/* ===================================
+   소개 / 컬렉션 래퍼
+   =================================== */
+.aboutWrapper,
+.collectionWrapper {
+  width: 100%;
+  padding: var(--spacing-16) 0;
+}
+
+.aboutPlaceholder {
+  text-align: center;
+  color: var(--global-text-tertiary);
+  font-size: var(--font-size-sm);
+  margin: 0;
 }
