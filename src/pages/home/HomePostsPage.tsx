@@ -1,48 +1,72 @@
-import { useNavigate } from 'react-router-dom';
-import { usePosts } from '@/feature/post/hooks/post/usePosts';
-import type { PostType } from '@/api/post/types';
-import { 
+import { useNavigate, useLocation } from "react-router-dom";
+import { usePosts } from "@/features/post/hooks/post/usePosts";
+import {
   HomePostsFilter,
-  HomePostsContents
-} from '@/feature/post/components/posts-home';
-import { Pagination } from '@/shared/pagination/Pagination';
-import { SwimmingDolphin } from '@/shared/dolphin/SwimmingDolphin';
-import styles from './HomePostsPage.module.css';
+  HomePostsContents,
+} from "@/features/post/components/posts-home";
+import type { HomeTab } from "@/features/post/components/posts-home/HomePostsFilter";
+import { Pagination } from "@/components/ui/pagination/Pagination";
+import { SwimmingDolphin } from "@/components/ui/dolphin/SwimmingDolphin";
+import { HomeAboutContent } from "@/layout/home/_components/HomeAboutContent";
+import styles from "./HomePostsPage.module.css";
 
+/* ------------------------------------------------------------------ */
+/* 컬렉션 탭 콘텐츠 (TODO)                                              */
+/* ------------------------------------------------------------------ */
+const CollectionContent = () => (
+  <div className={styles.comingSoon}>
+    <p style={{ color: "var(--global-text-primary" }}>
+      컬렉션 목록을 준비 중입니다.
+    </p>
+  </div>
+);
+
+/* ------------------------------------------------------------------ */
+/* 메인                                                                 */
+/* ------------------------------------------------------------------ */
 export const HomePostsPage = () => {
   const navigate = useNavigate();
-  const { posts, pagination, filter, setPage } = usePosts();
+  const location = useLocation();
+  const { posts, pagination, setPage } = usePosts();
 
-  const currentPostType = filter.postType || 'ALL';
+  // pathname으로 현재 탭 결정
+  const currentTab: HomeTab = location.pathname.startsWith("/collection")
+    ? "COLLECTION"
+    : location.pathname.startsWith("/about")
+      ? "ABOUT"
+      : "POST";
 
-  const handleTabClick = (type: PostType | 'ALL') => {
-    if (type === 'ALL') {
-      navigate('/');
-    } else {
-      navigate(`/type/${type.toLowerCase()}`);
-    }
+  const handleTabClick = (tab: HomeTab) => {
+    if (tab === "POST") navigate("/");
+    if (tab === "COLLECTION") navigate("/collection");
+    if (tab === "ABOUT") navigate("/about");
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.sectionWrapper}>
         <SwimmingDolphin />
-        {/* 필터 */}
+
+        {/* 필터 (탭) */}
         <div className={styles.filterWrapper}>
           <HomePostsFilter
-            currentPostType={currentPostType}
-            totalCount={pagination.totalElements}
+            currentTab={currentTab}
+            totalCount={
+              currentTab === "POST" ? pagination.totalElements : undefined
+            }
             onTabClick={handleTabClick}
           />
         </div>
 
-        {/* 컨텐츠 */}
+        {/* 탭별 콘텐츠 */}
         <div className={styles.contentsWrapper}>
-          <HomePostsContents posts={posts} />
+          {currentTab === "POST" && <HomePostsContents posts={posts} />}
+          {currentTab === "COLLECTION" && <CollectionContent />}
+          {currentTab === "ABOUT" && <HomeAboutContent />}
         </div>
 
-        {/* 페이지네이션 */}
-        {pagination.totalPages > 1 && (
+        {/* 페이지네이션 — 글 탭에서만 */}
+        {currentTab === "POST" && pagination.totalPages > 1 && (
           <div className={styles.paginationWrapper}>
             <Pagination
               currentPage={pagination.page}

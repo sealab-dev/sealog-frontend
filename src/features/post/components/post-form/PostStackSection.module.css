@@ -1,0 +1,188 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--global-text-secondary);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fieldError {
+  font-size: var(--font-size-xs);
+  color: var(--global-error);
+}
+
+/* ===================================
+   인풋 영역 (relative 기준)
+   =================================== */
+.inputArea {
+  position: relative;
+}
+
+/* 토큰 박스 — 선택된 칩 + 검색 인풋 */
+.tokenBox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: 44px;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--global-input-bg);
+  border: 1px solid var(--global-input-border);
+  border-radius: var(--radius-base);
+  cursor: text;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.tokenBox:hover {
+  border-color: var(--global-input-border-hover);
+  background: var(--global-input-bg-hover);
+}
+
+.tokenBoxFocused {
+  border-color: var(--global-input-border-focus) !important;
+  box-shadow: var(--global-input-focus-ring) !important;
+  background: var(--global-input-bg) !important;
+}
+
+/* 선택된 스택 칩 */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--spacing-2) 2px var(--spacing-3);
+  background: var(--global-point-primary-bg);
+  border: 1px solid rgba(var(--point-rgb), 0.3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--global-point-primary);
+  white-space: nowrap;
+}
+
+.chipRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--global-point-primary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  opacity: 0.6;
+  transition:
+    opacity var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.chipRemove:hover {
+  opacity: 1;
+  background: rgba(var(--point-rgb), 0.15);
+}
+
+/* 검색 인풋 */
+.searchInput {
+  flex: 1;
+  min-width: 120px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  color: var(--global-text-primary);
+  font-family: inherit;
+}
+
+.searchInput::placeholder {
+  color: var(--global-text-muted);
+  opacity: 0.7;
+}
+
+.maxHint {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-muted);
+  padding: var(--spacing-1) 0;
+}
+
+/* ===================================
+   드롭다운
+   =================================== */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--global-bg-card);
+  border: 1px solid var(--global-border-primary);
+  border-radius: var(--radius-base);
+  box-shadow: var(--global-shadow-lg);
+  overflow: hidden;
+  max-height: 240px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--global-border-primary) transparent;
+}
+
+.dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background: var(--global-border-primary);
+  border-radius: 3px;
+}
+
+.dropdownList {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-1) 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast);
+  gap: var(--spacing-3);
+}
+
+.dropdownItem:hover {
+  background: var(--global-glass-bg-light);
+}
+
+.dropdownName {
+  font-size: var(--font-size-sm);
+  color: var(--global-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.dropdownGroup {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-muted);
+  flex-shrink: 0;
+}
+
+.dropdownEmpty {
+  padding: var(--spacing-4) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  color: var(--global-text-muted);
+  text-align: center;
+}

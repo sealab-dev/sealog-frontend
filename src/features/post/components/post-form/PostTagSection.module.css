@@ -1,0 +1,117 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--global-text-secondary);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fieldError {
+  font-size: var(--font-size-xs);
+  color: var(--global-error);
+}
+
+/* ===================================
+   토큰 박스 (스택 섹션과 동일한 패턴)
+   =================================== */
+.tokenBox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: 44px;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--global-input-bg);
+  border: 1px solid var(--global-input-border);
+  border-radius: var(--radius-base);
+  cursor: text;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.tokenBox:hover {
+  border-color: var(--global-input-border-hover);
+  background: var(--global-input-bg-hover);
+}
+
+.tokenBox:focus-within {
+  border-color: var(--global-input-border-focus);
+  box-shadow: var(--global-input-focus-ring);
+  background: var(--global-input-bg);
+}
+
+.tokenBoxError {
+  border-color: var(--global-error) !important;
+  box-shadow: var(--global-input-error-ring) !important;
+}
+
+/* 태그 칩 */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--spacing-2) 2px var(--spacing-3);
+  background: var(--global-point-primary-bg);
+  border: 1px solid rgba(var(--point-rgb), 0.3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--global-point-primary);
+  white-space: nowrap;
+}
+
+.chipRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--global-point-primary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  opacity: 0.6;
+  transition:
+    opacity var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.chipRemove:hover {
+  opacity: 1;
+  background: rgba(var(--point-rgb), 0.15);
+}
+
+/* 검색 인풋 */
+.searchInput {
+  flex: 1;
+  min-width: 180px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  color: var(--global-text-primary);
+  font-family: inherit;
+}
+
+.searchInput::placeholder {
+  color: var(--global-text-muted);
+  opacity: 0.7;
+}
+
+.maxHint {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-muted);
+  padding: var(--spacing-1) 0;
+}

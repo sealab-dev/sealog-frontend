@@ -1,15 +1,13 @@
-import { Outlet } from 'react-router-dom';
-import { HomeHeader, HomeFooter, HomeBanner } from './_components';
-import styles from './HomePostsLayout.module.css';
-
+import { Outlet } from "react-router-dom";
+import { AppHeader } from "../shared/_components/AppHeader";
+import { AppFooter } from "../shared/_components/AppFooter";
+import { HomeBanner } from "./_components/HomeBanner";
+import styles from "./HomePostsLayout.module.css";
 
 export const HomePostsLayout = () => {
-
   return (
     <div className={styles.layout}>
-      <header className={styles.header}>
-        <HomeHeader />
-      </header>
+      <AppHeader />
 
       <div className={styles.banner}>
         <HomeBanner />
@@ -20,7 +18,7 @@ export const HomePostsLayout = () => {
       </main>
 
       <footer className={styles.footer}>
-        <HomeFooter />
+        <AppFooter />
       </footer>
     </div>
   );

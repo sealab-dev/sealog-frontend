@@ -1,0 +1,106 @@
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap");
+
+:root {
+  /* ============================================
+     COLOR SYSTEM
+     ============================================ */
+  /* ----- Point Colors ----- */
+  --home-point-light: #7dd3fc;
+  --home-point-normal: #38bdf8;
+  --home-point-medium: #0ea5e9;
+
+  /* ----- Text Colors ----- */
+  --home-text-primary: #ffffff;
+  --home-text-secondary: #b3e5fc;
+  --home-text-tertiary: #80deea;
+
+  --home-text-success: #34d399;
+  --home-text-error: #f87171;
+  --home-text-warning: #fbbf24;
+
+  /* ============================================
+     GRADIENT BACKGROUND
+     ============================================ */
+
+  /* ----- Gradient Backgrounds ----- */
+  /* --home-bg-gradient-start: #3a7ab0;
+  --home-bg-gradient-mid: #1e4976;
+  --home-bg-gradient-end: #0a1f3d; */
+  --home-bg-gradient-start-light: #0d2a3a;
+  --home-bg-gradient-mid-light: #102e40;
+  --home-bg-gradient-end-light: #1a4a5e;
+
+  --home-bg-gradient-start-mid: #0f1a2e;
+  --home-bg-gradient-mid-mid: #162038;
+  --home-bg-gradient-end-mid: #1e2e4a;
+
+  --home-bg-gradient-start-dark: #0d1829;
+  --home-bg-gradient-mid-dark: #111e33;
+  --home-bg-gradient-end-dark: #1c2d42;
+
+  --home-bg-gradient-base: linear-gradient(
+    180deg,
+    var(--home-bg-gradient-start) 0%,
+    var(--home-bg-gradient-mid) 40%,
+    var(--home-bg-gradient-end) 100%
+  );
+
+  /* ============================================
+     GLASS MORPHISM BACKGROUND
+     ============================================ */
+  /* ----- Glass Background ----- */
+  --home-bg-glass-light: rgba(255, 255, 255, 0.04);
+  --home-bg-glass-light-hover: rgba(255, 255, 255, 0.06);
+
+  --home-bg-glass-normal: rgba(255, 255, 255, 0.08);
+  --home-bg-glass-normal-hover: rgba(255, 255, 255, 0.12);
+
+  --home-bg-glass-strong: rgba(255, 255, 255, 0.12);
+  --home-bg-glass-strong-hover: rgba(255, 255, 255, 0.16);
+
+  /* ----- Glass Border ----- */
+  --home-border-glass-light: rgba(255, 255, 255, 0.08);
+  --home-border-glass-normal: rgba(255, 255, 255, 0.12);
+  --home-border-glass-strong: rgba(255, 255, 255, 0.18);
+
+  /* ----- Glass Blur ----- */
+  --home-blur-glass: blur(10px);
+
+  /* ============================================
+     GLOW SYSTEM
+     ============================================ */
+
+  /* ----- Glow (Primary Blue) ----- */
+  --home-glow-light: 0 0 15px rgba(56, 189, 248, 0.15);
+  --home-glow-light-hover: 0 0 20px rgba(56, 189, 248, 0.25);
+
+  --home-glow-normal: 0 0 20px rgba(56, 189, 248, 0.25);
+  --home-glow-normal-hover: 0 0 28px rgba(56, 189, 248, 0.35);
+
+  --home-glow-strong: 0 0 30px rgba(56, 189, 248, 0.35);
+  --home-glow-strong-hover: 0 0 40px rgba(56, 189, 248, 0.45);
+
+  /* ----- Semantic Glow ----- */
+  --home-glow-success: 0 0 20px rgba(52, 211, 153, 0.3);
+  --home-glow-error: 0 0 20px rgba(248, 113, 113, 0.3);
+  --home-glow-warning: 0 0 20px rgba(251, 191, 36, 0.3);
+
+  /* ============================================
+   INPUT SYSTEM
+   ============================================ */
+
+  /* ----- Input Background ----- */
+  --home-bg-input: rgba(10, 31, 61, 0.95);
+  --home-bg-input-hover: rgba(10, 31, 61, 0.98);
+  --home-bg-input-focus: rgba(10, 31, 61, 1);
+
+  /* ----- Input Border ----- */
+  --home-border-input: rgba(255, 255, 255, 0.1);
+  --home-border-input-hover: rgba(255, 255, 255, 0.2);
+  --home-border-input-focus: rgba(56, 189, 248, 0.5);
+
+  /* ----- Input Focus Ring ----- */
+  --home-ring-input-focus: 0 0 0 3px rgba(56, 189, 248, 0.2);
+  --home-ring-input-error: 0 0 0 3px rgba(248, 113, 113, 0.2);
+}

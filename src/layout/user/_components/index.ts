@@ -1,3 +1,3 @@
-export {UserHeader} from './UserHeader';
-export {UserFooter} from './UserFooter';
-export {UserSidebar} from './UserSidebar';
+export { ProfileCard } from "./ProfileCard";
+export { SearchBar } from "./SearchBar";
+export { StackList } from "./StackList";

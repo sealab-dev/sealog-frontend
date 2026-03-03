@@ -1,14 +1,11 @@
-import { Outlet } from 'react-router-dom';
-import styles from './UserLayout.module.css';
-import { UserHeader } from './_components';
+import { Outlet } from "react-router-dom";
+import { AppHeader } from "../shared/_components/AppHeader";
+import styles from "./UserLayout.module.css";
 
 export const UserLayout = () => {
-
   return (
     <div className={styles.layout}>
-      <header className={styles.header}>
-        <UserHeader />
-      </header>
+      <AppHeader />
       <main className={styles.main}>
         <Outlet />
       </main>

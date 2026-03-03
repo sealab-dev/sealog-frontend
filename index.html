@@ -8,21 +8,21 @@
       href="public/assets/favicon/favicon-16x16.png"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SeaYon Dev</title>
+    <title>SeaLog dev</title>
     <!-- 테마 초기화 스크립트 (깜빡임 방지를 위해 최상단에 배치) -->
     <script>
       (function () {
-        const theme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', theme);
+        const theme = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", theme);
       })();
     </script>
     <script>
       // 404.html에서 리다이렉트된 경우 원래 경로로 복원
       (function () {
-        const redirect = sessionStorage.getItem('redirect');
+        const redirect = sessionStorage.getItem("redirect");
         if (redirect) {
-          sessionStorage.removeItem('redirect');
-          history.replaceState(null, '', redirect);
+          sessionStorage.removeItem("redirect");
+          history.replaceState(null, "", redirect);
         }
       })();
     </script>

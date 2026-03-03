@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from '@/feature/auth/stores/authStore';
-import { useLoginModalStore } from '@/feature/auth/stores/loginModalStore';
+import { useAuthStore } from '@/features/auth/stores/authStore';
+import { useLoginModalStore } from '@/features/auth/stores/loginModalStore';
 
 interface RouteGuardProps {
   children: React.ReactNode;

@@ -1,22 +1,22 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { usePostEdit } from '@/feature/post/hooks/post/usePostEdit';
-import { useUnsaved } from '@/feature/post/hooks/common/useUnsaved';
+import { useParams, useNavigate } from "react-router-dom";
+import { usePostEdit } from "@/features/post/hooks/post/usePostEdit";
+import { useUnsaved } from "@/features/post/hooks/common/useUnsaved";
 import {
   PostThumbnailEdit,
   UnsavedModal,
   PostStackSection,
   PostTagSection,
-  PostTypeSelector,
+  // PostTypeSelector,
   PostMetaFields,
   PostEditorSection,
   PostFormActions,
-} from '@/feature/post/components/post-form';
-import styles from './PostFormPage.module.css';
+} from "@/features/post/components/post-form";
+import styles from "./PostFormPage.module.css";
 
 export const PostEditPage = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, nickname } = useParams<{ slug: string; nickname: string }>();
   const navigate = useNavigate();
-  
+
   const {
     form,
     originalThumbnailUrl,
@@ -32,24 +32,25 @@ export const PostEditPage = () => {
     addStack,
     removeStack,
     submit,
-  } = usePostEdit(slug ?? '');
+  } = usePostEdit(slug ?? "");
 
-  const { showModal, handleConfirm, handleCancel, confirmNavigation } = useUnsaved({
-    hasUnsavedChanges,
-  });
+  const { showModal, handleConfirm, handleCancel, confirmNavigation } =
+    useUnsaved({
+      hasUnsavedChanges,
+    });
 
-  if (!slug) {
-    navigate('/');
+  if (!slug || !nickname) {
+    navigate("/");
     return null;
   }
-  
+
   const handleCancelClick = () => {
-    confirmNavigation(() => navigate(`/post/${slug}`));
+    confirmNavigation(() => navigate(`/user/${nickname}/entry/${slug}`));
   };
 
   const handleThumbnailUploadSuccess = (fileId: number, fileUrl: string) => {
-    updateField('thumbnailFileId', fileId);
-    updateField('thumbnailPath', fileUrl);
+    updateField("thumbnailFileId", fileId);
+    updateField("thumbnailPath", fileUrl);
     setRemoveThumbnail(false);
   };
 
@@ -57,8 +58,8 @@ export const PostEditPage = () => {
     if (originalThumbnailUrl) {
       setRemoveThumbnail(true);
     }
-    updateField('thumbnailFileId', null);
-    updateField('thumbnailPath', null);
+    updateField("thumbnailFileId", null);
+    updateField("thumbnailPath", null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -78,30 +79,30 @@ export const PostEditPage = () => {
     <div className={styles.page}>
       <PostThumbnailEdit
         thumbnailPath={form.thumbnailPath}
-        title={form.title || '글 수정'}
+        title={form.title || "글 수정"}
         onUploadSuccess={handleThumbnailUploadSuccess}
         onThumbnailRemove={handleThumbnailRemove}
       />
-      
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.scrollArea}>
-          <div className={styles.container} >
-            <header className={styles.header}>
+          <div className={styles.container}>
+            <div className={styles.header}>
               <h1 className={styles.pageTitle}>글 수정</h1>
-            </header>
+            </div>
 
             {/* 상단 메타 영역 */}
             <div className={styles.metaSection}>
-              <PostTypeSelector
+              {/* <PostTypeSelector
                 value={form.postType}
-                onChange={(type) => updateField('postType', type)}
-              />
+                onChange={(type) => updateField("postType", type)}
+              /> */}
 
               <PostMetaFields
                 title={form.title}
                 excerpt={form.excerpt}
-                onTitleChange={(value) => updateField('title', value)}
-                onExcerptChange={(value) => updateField('excerpt', value)}
+                onTitleChange={(value) => updateField("title", value)}
+                onExcerptChange={(value) => updateField("excerpt", value)}
                 titleError={fieldErrors?.title}
                 excerptError={fieldErrors?.excerpt}
               />
@@ -125,7 +126,7 @@ export const PostEditPage = () => {
             <div className={styles.editorSection}>
               <PostEditorSection
                 content={form.content}
-                onContentChange={(value) => updateField('content', value)}
+                onContentChange={(value) => updateField("content", value)}
                 contentError={fieldErrors?.content}
                 contentLengthError={contentLengthError}
                 disabled={isLoading}
@@ -140,8 +141,8 @@ export const PostEditPage = () => {
           isLoading={isLoading}
           isDisabled={!!contentLengthError}
           onCancel={handleCancelClick}
+          onPublishClick={submit}
         />
-        
       </form>
 
       <UnsavedModal

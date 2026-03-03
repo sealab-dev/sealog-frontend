@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import styles from './AdminLayout.module.css';
 import { FILE_DOMAIN } from '@/constants/domain';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/images';
-import { useAuthStore } from '@/feature/auth/stores';
+import { useAuthStore } from '@/features/auth/stores';
 
 export const AdminLayout = () => {
   const navigate = useNavigate();

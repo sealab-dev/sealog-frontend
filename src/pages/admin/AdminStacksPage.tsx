@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Plus, Pencil, Trash2, Layers, X } from 'lucide-react';
-import { useStacksQuery } from '@/api/stack/queries';
+import { useState } from "react";
+import { Plus, Pencil, Trash2, Layers, X } from "lucide-react";
+import { useStacksQuery } from "@/api/stack/queries";
 import {
   useCreateStackMutation,
   useUpdateStackMutation,
   useDeleteStackMutation,
-} from '@/api/stack/mutations';
-import { STACK_GROUP_LABELS, STACK_GROUP_ORDER } from '@/api/stack/types';
-import type { StackResponse } from '@/api/stack/types';
-import styles from './AdminStacksPage.module.css';
+} from "@/api/stack/mutations";
+import { STACK_GROUP_LABELS, STACK_GROUP_ORDER } from "@/api/stack/types";
+import type { StackResponse } from "@/api/stack/types";
+import styles from "./AdminStacksPage.module.css";
 
 export const AdminStacksPage = () => {
   // 스택 목록 조회
@@ -20,16 +20,16 @@ export const AdminStacksPage = () => {
   const deleteMutation = useDeleteStackMutation();
 
   // 생성 폼 상태
-  const [newName, setNewName] = useState('');
-  const [newGroup, setNewGroup] = useState('');
+  const [newName, setNewName] = useState("");
+  const [newGroup, setNewGroup] = useState("");
 
   // 수정 모달 상태
   const [editModal, setEditModal] = useState<{
     isOpen: boolean;
     stack: StackResponse | null;
   }>({ isOpen: false, stack: null });
-  const [editName, setEditName] = useState('');
-  const [editGroup, setEditGroup] = useState('');
+  const [editName, setEditName] = useState("");
+  const [editGroup, setEditGroup] = useState("");
 
   // 스택 생성
   const handleCreate = async (e: React.FormEvent) => {
@@ -41,8 +41,8 @@ export const AdminStacksPage = () => {
         name: newName.trim(),
         stackGroup: newGroup,
       });
-      setNewName('');
-      setNewGroup('');
+      setNewName("");
+      setNewGroup("");
     } catch (error) {
       // 에러는 전역 핸들러에서 처리
     }
@@ -58,8 +58,8 @@ export const AdminStacksPage = () => {
   // 수정 모달 닫기
   const closeEditModal = () => {
     setEditModal({ isOpen: false, stack: null });
-    setEditName('');
-    setEditGroup('');
+    setEditName("");
+    setEditGroup("");
   };
 
   // 스택 수정
@@ -94,10 +94,12 @@ export const AdminStacksPage = () => {
   return (
     <div>
       {/* Header */}
-      <header className={styles.header}>
+      <div className={styles.header}>
         <h1 className={styles.title}>스택 관리</h1>
-        <p className={styles.description}>게시글에 사용되는 기술 스택을 관리합니다.</p>
-      </header>
+        <p className={styles.description}>
+          게시글에 사용되는 기술 스택을 관리합니다.
+        </p>
+      </div>
 
       {/* Create Form */}
       <form className={styles.createForm} onSubmit={handleCreate}>
@@ -233,7 +235,9 @@ export const AdminStacksPage = () => {
               <button
                 className={styles.saveButton}
                 onClick={handleUpdate}
-                disabled={!editName.trim() || !editGroup || updateMutation.isPending}
+                disabled={
+                  !editName.trim() || !editGroup || updateMutation.isPending
+                }
               >
                 저장
               </button>
@@ -243,4 +247,4 @@ export const AdminStacksPage = () => {
       )}
     </div>
   );
-}
+};

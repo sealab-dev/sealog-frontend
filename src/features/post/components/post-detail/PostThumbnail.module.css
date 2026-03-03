@@ -1,0 +1,54 @@
+/* wave 스타일 → WaveDivider.module.css 에서 관리 */
+
+.banner {
+  width: calc(100% + 240px);
+  height: 400px;
+  overflow: hidden;
+  margin-bottom: var(--spacing-8);
+  position: relative;
+  left: -240px;
+}
+
+.backgroundContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 디폴트 배경: 단색 + 테마 포인트 그라데이션 */
+.defaultBackground {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--point-rgb), 0.22) 0%,
+    rgba(var(--point-rgb), 0.06) 60%,
+    var(--global-bg-secondary) 100%
+  );
+}
+
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .banner { height: 300px; }
+}
+
+@media (max-width: 480px) {
+  .banner { height: 250px; }
+}
