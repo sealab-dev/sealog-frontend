@@ -1,0 +1,283 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* ── 툴바 ── */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  background: var(--bg-primary);
+  margin-bottom: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: box-shadow 200ms ease;
+}
+
+.toolbarSticky {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.toolbarBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  transition: background var(--transition), color var(--transition);
+  flex-shrink: 0;
+}
+
+.toolbarBtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.toolbarBtn:hover:not(:disabled) {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.toolbarBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.toolbarBtnActive {
+  background: var(--point-bg);
+  color: var(--point-primary);
+}
+
+.toolbarBtnActive:hover:not(:disabled) {
+  background: var(--point-bg);
+  color: var(--point-primary);
+}
+
+.toolbarDivider {
+  display: block;
+  width: 1px;
+  height: 18px;
+  background: var(--border-default);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.headingSelect {
+  height: 28px;
+  padding: 0 6px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-family: 'Pretendard', sans-serif;
+  font-size: var(--font-size-xs);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.headingSelect:hover,
+.headingSelect:focus {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* ── 에디터 콘텐츠 ── */
+.editorContent {
+  flex: 1;
+  min-height: 400px;
+}
+
+.editorContent :global(.tiptap) {
+  outline: none;
+  min-height: 400px;
+  color: var(--text-primary);
+  font-family: 'Pretendard', sans-serif;
+  font-size: var(--font-size-md);
+  line-height: 1.8;
+  caret-color: var(--point-primary);
+}
+
+/* 플레이스홀더 */
+.editorContent :global(.tiptap p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  color: var(--text-muted);
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* 헤딩 */
+.editorContent :global(.tiptap h1) { font-size: 2em; font-weight: 700; margin: 1.2em 0 0.5em; line-height: 1.3; }
+.editorContent :global(.tiptap h2) { font-size: 1.5em; font-weight: 700; margin: 1.1em 0 0.5em; line-height: 1.35; }
+.editorContent :global(.tiptap h3) { font-size: 1.25em; font-weight: 600; margin: 1em 0 0.4em; }
+.editorContent :global(.tiptap h4) { font-size: 1.1em; font-weight: 600; margin: 1em 0 0.4em; }
+
+/* 단락 */
+.editorContent :global(.tiptap p) { margin: 0.5em 0; }
+
+/* 링크 */
+.editorContent :global(.tiptap a) {
+  color: var(--point-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* 코드 인라인 */
+.editorContent :global(.tiptap code) {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.88em;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  color: var(--point-primary);
+}
+
+/* 코드 블록 */
+.editorContent :global(.tiptap pre) {
+  background: #1e1e2e;
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin: 1em 0;
+  overflow-x: auto;
+}
+
+.editorContent :global(.tiptap pre code) {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #cdd6f4;
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+}
+
+/* 인용문 */
+.editorContent :global(.tiptap blockquote) {
+  border-left: 3px solid var(--point-primary);
+  margin: 1em 0;
+  padding: 4px 0 4px 16px;
+  color: var(--text-secondary);
+}
+
+/* 구분선 */
+.editorContent :global(.tiptap hr) {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: 1.5em 0;
+}
+
+/* 리스트 */
+.editorContent :global(.tiptap ul),
+.editorContent :global(.tiptap ol) {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.editorContent :global(.tiptap ul li),
+.editorContent :global(.tiptap ol li) {
+  margin: 0.2em 0;
+}
+
+/* 체크리스트 */
+.editorContent :global(.tiptap ul[data-type="taskList"]) {
+  list-style: none;
+  padding-left: 0.25em;
+}
+
+.editorContent :global(.tiptap ul[data-type="taskList"] li) {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.editorContent :global(.tiptap ul[data-type="taskList"] li > label) {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.editorContent :global(.tiptap ul[data-type="taskList"] li > label input[type="checkbox"]) {
+  accent-color: var(--point-primary);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.editorContent :global(.tiptap ul[data-type="taskList"] li[data-checked="true"] > div) {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* 형광펜 */
+.editorContent :global(.tiptap mark) {
+  background: rgba(250, 204, 21, 0.35);
+  border-radius: 2px;
+  padding: 0 2px;
+  color: inherit;
+}
+
+/* 표 */
+.editorContent :global(.tiptap table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.editorContent :global(.tiptap th),
+.editorContent :global(.tiptap td) {
+  border: 1px solid var(--border-default);
+  padding: 8px 12px;
+  min-width: 80px;
+  vertical-align: top;
+  font-size: var(--font-size-sm);
+}
+
+.editorContent :global(.tiptap th) {
+  background: var(--bg-surface);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary);
+}
+
+.editorContent :global(.tiptap .selectedCell) {
+  background: var(--point-bg);
+}
+
+/* 이미지 */
+.editorContent :global(.tiptap img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin: 0.5em 0;
+}
+
+.editorContent :global(.tiptap img.ProseMirror-selectednode) {
+  outline: 2px solid var(--point-primary);
+}
+
+/* ── 푸터 (글자 수) ── */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border-default);
+}
+
+.charCount {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}

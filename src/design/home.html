@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SeaLog.dev — 바다의 기록</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./home.css" />
+  </head>
+  <body>
+    <!-- ── Header ── -->
+    <header class="header">
+      <a class="header-logo" href="/" aria-label="홈으로">
+        <span class="header-logo__icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 6v16" />
+            <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+            <path d="M9 11h6" />
+            <circle cx="12" cy="4" r="2" />
+          </svg>
+        </span>
+        <span class="header-logo__text"
+          >SeaLog<span class="header-logo__point">.dev</span></span
+        >
+      </a>
+      <div class="header-actions">
+        <button class="header-login" type="button">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+          로그인
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Hero Banner ── -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="stars" id="stars"></div>
+      <div class="hero-moon"></div>
+      <div class="hero-horizon"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Developer Knowledge Log</p>
+        <h1 class="hero-title">
+          깊이 있는 기술의 파도,<br />
+          <em>바다의 기록</em>
+        </h1>
+        <p class="hero-sub">
+          개발자들이 항해하며 발견한 지식을 함께 나누는 공간
+        </p>
+        <div class="hero-search">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            type="text"
+            placeholder="기술 스택, 키워드로 검색..."
+            aria-label="게시글 검색"
+          />
+          <button class="hero-search__btn" type="button">검색</button>
+        </div>
+      </div>
+
+      <div class="hero-wave">
+        <svg
+          class="hero-wave__svg"
+          viewBox="0 0 1440 80"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            class="hero-wave__path--1"
+            d="M0,40 C240,15 480,65 720,40 C960,15 1200,65 1440,40 L1440,80 L0,80 Z"
+            fill="rgba(11,21,37,0.6)"
+          />
+          <path
+            class="hero-wave__path--2"
+            d="M0,50 C240,25 480,75 720,50 C960,25 1200,75 1440,50 L1440,80 L0,80 Z"
+            fill="#080f1c"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ── Main ── -->
+    <main class="main">
+      <div class="section-header">
+        <h2 class="section-title">최근 게시글</h2>
+        <button class="section-more" type="button">
+          전체 보기
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="post-grid">
+        <article class="post-card">
+          <div class="post-card__thumb" style="--gx: 40%; --gy: 35%"></div>
+          <div class="post-card__body">
+            <div class="post-card__stacks">
+              <span class="badge-stack">React</span>
+              <span class="badge-stack">TypeScript</span>
+            </div>
+            <h3 class="post-card__title">
+              React Query로 서버 상태 관리 완벽 정리
+            </h3>
+            <p class="post-card__excerpt">
+              캐싱 전략부터 낙관적 업데이트까지, 실무에서 바로 쓸 수 있는
+              TanStack Query 패턴들.
+            </p>
+            <div class="post-card__tags">
+              <span class="badge-tag">#상태관리</span>
+              <span class="badge-tag">#TanStack</span>
+              <span class="badge-tag">#비동기</span>
+            </div>
+            <footer class="post-card__footer">
+              <div class="post-card__author">
+                <div class="post-card__avatar">김</div>
+                <span class="post-card__author-name">김해린</span>
+              </div>
+              <time class="post-card__date" datetime="2026-03-05"
+                >2026-03-05</time
+              >
+            </footer>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div
+            class="post-card__thumb post-card__thumb--2"
+            style="--gx: 65%; --gy: 40%"
+          ></div>
+          <div class="post-card__body">
+            <div class="post-card__stacks">
+              <span class="badge-stack">TypeScript</span>
+            </div>
+            <h3 class="post-card__title">
+              TypeScript 제네릭 — 타입 시스템을 제대로 다루는 법
+            </h3>
+            <p class="post-card__excerpt">
+              타입 추론을 극대화하면서 재사용성을 높이는 제네릭 패턴을 깊이 있게
+              다룹니다.
+            </p>
+            <div class="post-card__tags">
+              <span class="badge-tag">#제네릭</span>
+              <span class="badge-tag">#타입추론</span>
+            </div>
+            <footer class="post-card__footer">
+              <div class="post-card__author">
+                <div class="post-card__avatar">박</div>
+                <span class="post-card__author-name">박준서</span>
+              </div>
+              <time class="post-card__date" datetime="2026-03-04"
+                >2026-03-04</time
+              >
+            </footer>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div
+            class="post-card__thumb post-card__thumb--3"
+            style="--gx: 50%; --gy: 55%"
+          ></div>
+          <div class="post-card__body">
+            <div class="post-card__stacks">
+              <span class="badge-stack">Vite</span>
+              <span class="badge-stack">Node.js</span>
+            </div>
+            <h3 class="post-card__title">
+              Vite 플러그인 시스템을 직접 만들어보며 이해하기
+            </h3>
+            <p class="post-card__excerpt">
+              Rollup 기반의 Vite 플러그인 API를 분석하고 커스텀 플러그인을
+              제작하는 전 과정.
+            </p>
+            <div class="post-card__tags">
+              <span class="badge-tag">#빌드툴</span>
+              <span class="badge-tag">#플러그인</span>
+            </div>
+            <footer class="post-card__footer">
+              <div class="post-card__author">
+                <div class="post-card__avatar">이</div>
+                <span class="post-card__author-name">이수아</span>
+              </div>
+              <time class="post-card__date" datetime="2026-03-02"
+                >2026-03-02</time
+              >
+            </footer>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div
+            class="post-card__thumb post-card__thumb--4"
+            style="--gx: 30%; --gy: 60%"
+          ></div>
+          <div class="post-card__body">
+            <div class="post-card__stacks">
+              <span class="badge-stack">CSS</span>
+            </div>
+            <h3 class="post-card__title">
+              CSS Container Queries — 컴포넌트 단위 반응형의 새 패러다임
+            </h3>
+            <p class="post-card__excerpt">
+              뷰포트가 아닌 컨테이너 크기 기반으로 스타일을 적용하는 방법과 실전
+              예제.
+            </p>
+            <div class="post-card__tags">
+              <span class="badge-tag">#반응형</span>
+              <span class="badge-tag">#CSS4</span>
+            </div>
+            <footer class="post-card__footer">
+              <div class="post-card__author">
+                <div class="post-card__avatar">최</div>
+                <span class="post-card__author-name">최도윤</span>
+              </div>
+              <time class="post-card__date" datetime="2026-02-28"
+                >2026-02-28</time
+              >
+            </footer>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div
+            class="post-card__thumb post-card__thumb--5"
+            style="--gx: 70%; --gy: 30%"
+          ></div>
+          <div class="post-card__body">
+            <div class="post-card__stacks">
+              <span class="badge-stack">Node.js</span>
+            </div>
+            <h3 class="post-card__title">
+              Node.js 스트림으로 대용량 파일을 효율적으로 처리하기
+            </h3>
+            <p class="post-card__excerpt">
+              스트림 파이프라인을 활용해 메모리를 최소화하면서 수 GB 파일을
+              처리하는 방법.
+            </p>
+            <div class="post-card__tags">
+              <span class="badge-tag">#스트림</span>
+              <span class="badge-tag">#성능최적화</span>
+            </div>
+            <footer class="post-card__footer">
+              <div class="post-card__author">
+                <div class="post-card__avatar">정</div>
+                <span class="post-card__author-name">정민지</span>
+              </div>
+              <time class="post-card__date" datetime="2026-02-25"
+                >2026-02-25</time
+              >
+            </footer>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-card__thumb" style="--gx: 45%; --gy: 45%"></div>
+          <div class="post-card__body">
+            <div class="post-card__stacks">
+              <span class="badge-stack">React</span>
+              <span class="badge-stack">Vite</span>
+            </div>
+            <h3 class="post-card__title">
+              모노레포 환경에서 Vite + React 세팅 A to Z
+            </h3>
+            <p class="post-card__excerpt">
+              pnpm workspace 기반 모노레포에서 Vite를 활용한 멀티 패키지
+              프로젝트 구성 방법.
+            </p>
+            <div class="post-card__tags">
+              <span class="badge-tag">#모노레포</span>
+              <span class="badge-tag">#pnpm</span>
+            </div>
+            <footer class="post-card__footer">
+              <div class="post-card__author">
+                <div class="post-card__avatar">한</div>
+                <span class="post-card__author-name">한지원</span>
+              </div>
+              <time class="post-card__date" datetime="2026-02-20"
+                >2026-02-20</time
+              >
+            </footer>
+          </div>
+        </article>
+      </div>
+
+      <div class="load-more">
+        <button class="load-more__btn" type="button">
+          더 많은 글 보기
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14" />
+            <path d="m19 12-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer class="footer">
+      <div class="footer-logo">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 6v16" />
+          <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+          <path d="M9 11h6" />
+          <circle cx="12" cy="4" r="2" />
+        </svg>
+        SeaLog.dev
+      </div>
+      <span class="footer-copy"
+        >© 2026 SeaLog.dev — 깊이 있는 개발 지식을 함께 나누는 공간</span
+      >
+    </footer>
+
+    <script>
+      const starsEl = document.getElementById('stars');
+      for (let i = 0; i < 80; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 85}%;
+        --dur: ${2 + Math.random() * 4}s;
+        --delay: ${Math.random() * 5}s;
+        --bright: ${0.3 + Math.random() * 0.6};
+        width: ${Math.random() > 0.8 ? 3 : 2}px;
+        height: ${Math.random() > 0.8 ? 3 : 2}px;
+      `;
+        starsEl.appendChild(s);
+      }
+    </script>
+  </body>
+</html>

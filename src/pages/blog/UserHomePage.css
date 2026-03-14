@@ -1,0 +1,17 @@
+.uh-page-wrapper {
+  position: relative;
+  min-height: calc(100vh - 60px);
+}
+
+/* ── Main Area ── */
+.uh-main-area {
+  min-width: 0;
+  transition: margin-left var(--transition);
+}
+
+/* ── Desktop: push layout ── */
+@media (min-width: 768px) {
+  .uh-page-wrapper--sidebar-open .uh-main-area {
+    margin-left: 240px;
+  }
+}

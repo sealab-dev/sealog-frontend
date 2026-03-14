@@ -1,0 +1,106 @@
+/* ============================================================
+   SEALOG.DEV — Design Variables
+   ============================================================ */
+:root {
+  /* ──────────────────────────────────────────────────────────
+     COLOR (background, text)
+     ────────────────────────────────────────────────────────── */
+  --text-primary: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --text-white: #ffffff;
+
+  --bg-primary: #080f1c;
+  --bg-secondary: #0b1525;
+  --bg-tertiary: #0e1a2c;
+  --bg-card: #111e33;
+  --bg-surface: #1c2d42;
+  --bg-hover: #2a3244;
+
+  --point-primary: #60a5fa;
+  --point-hover: #93c5fd;
+  --point-bg: rgba(96, 165, 250, 0.1);
+  --point-glow: rgba(96, 165, 250, 0.22);
+
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #e05252;
+  --color-error-bg: rgba(224, 82, 82, 0.08);
+  --color-error-ring: 0 0 0 2px rgba(224, 82, 82, 0.18);
+
+  /* ──────────────────────────────────────────────────────────
+     TYPOGRAPHY
+     ────────────────────────────────────────────────────────── */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+  --font-size-2xl: 28px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* ──────────────────────────────────────────────────────────
+     DECORATION  (border · radius · shadow · glow · glass)
+     ────────────────────────────────────────────────────────── */
+  --border-default: #1e2d42;
+  --border-strong: #2d3d52;
+  --border-focus: #388bfd;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.22);
+  --shadow-lg: 0 8px 18px rgba(0, 0, 0, 0.28);
+
+  --glow-sm: 0 0 12px rgba(96, 165, 250, 0.18);
+  --glow-md: 0 0 24px rgba(96, 165, 250, 0.25);
+  --glow-light: 0 0 10px rgba(96, 165, 250, 0.15);
+  --glow-normal: 0 0 16px rgba(96, 165, 250, 0.22);
+
+  --glass-blur: blur(16px);
+  --glass-blur-sm: blur(8px);
+  --glass-bg-light: rgba(135, 205, 233, 0.06);
+  --glass-bg-normal: rgba(30, 30, 30, 0.3);
+  --glass-bg-strong: rgba(13, 33, 53, 0.75);
+  --glass-border-light: rgba(135, 205, 233, 0.1);
+  --glass-border: rgba(135, 205, 233, 0.18);
+
+  /* ──────────────────────────────────────────────────────────
+     ACTICLE  (spacing, width)
+     ────────────────────────────────────────────────────────── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+
+  --content-w: 1120px;
+
+  /* ──────────────────────────────────────────────────────────
+     COMMON  (input · modal · wave)
+     ────────────────────────────────────────────────────────── */
+
+  --modal-bg: #1e2d42;
+  --modal-overlay: rgba(0, 0, 0, 0.65);
+
+  --input-bg: #0d1117;
+  --input-bg-hover: #161c26;
+  --input-border: #2d3d52;
+  --input-border-hover: #3d5068;
+  --input-border-focus: #388bfd;
+  --input-focus-ring: 0 0 0 2px rgba(56, 139, 253, 0.18);
+
+  --wave-opacity-back: 0.8;
+  --wave-opacity-front: 1;
+  --wave-speed-slow: 10s;
+  --wave-speed-fast: 7s;
+
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}

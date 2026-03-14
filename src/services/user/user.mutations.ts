@@ -1,0 +1,44 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { userApi } from './user.api';
+import { userKeys } from './user.keys';
+import { useAuthStore } from '../../store/authStore';
+import type * as UserRequest from './_types/user.request';
+
+/**
+ * 프로필 수정 mutation
+ */
+export const useUpdateProfileMutation = () => {
+  const queryClient = useQueryClient();
+  const { user, setUser } = useAuthStore();
+
+  return useMutation({
+    mutationFn: ({
+      request,
+      profileImage,
+    }: {
+      request: UserRequest.UpdateProfile;
+      profileImage?: File | null;
+    }) => userApi.updateProfile(request, profileImage),
+    onSuccess: (data) => {
+      if (data.data) {
+        queryClient.setQueryData(userKeys.myProfile(), data);
+        if (user) {
+          setUser({
+            ...user,
+            nickname: data.data.nickname,
+            profileImagePath: data.data.profileImageUrl,
+          });
+        }
+      }
+    },
+  });
+};
+
+/**
+ * 비밀번호 변경 mutation
+ */
+export const useUpdatePasswordMutation = () => {
+  return useMutation({
+    mutationFn: (request: UserRequest.UpdatePassword) => userApi.updatePassword(request),
+  });
+};

@@ -1,1 +1,0 @@
-export { HomePostsLayout } from "./HomePostsLayout";

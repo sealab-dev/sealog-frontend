@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SeaLog.dev — React Query로 서버 상태 관리 완벽 정리</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="postdetail.css" />
+  </head>
+  <body>
+    <!-- ── Header ── -->
+    <header class="header">
+      <a class="header-logo" href="/">
+        <span class="header-logo__icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 6v16" />
+            <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+            <path d="M9 11h6" />
+            <circle cx="12" cy="4" r="2" />
+          </svg>
+        </span>
+        <span class="header-logo__text"
+          >SeaLog<span class="header-logo__point">.dev</span></span
+        >
+      </a>
+      <button class="header-login" type="button">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+          <polyline points="10 17 15 12 10 7" />
+          <line x1="15" y1="12" x2="3" y2="12" />
+        </svg>
+        로그인
+      </button>
+    </header>
+
+    <!-- 진행 바 -->
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="page">
+      <article>
+        <!-- 포스트 헤더 -->
+        <header class="post-header">
+          <a class="series-badge" href="/series/react-mastery">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path
+                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+              />
+            </svg>
+            React 완전 정복
+            <svg
+              class="series-badge__arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </a>
+
+          <h1 class="post-title">React Query로 서버 상태 관리 완벽 정리</h1>
+          <p class="post-desc">
+            캐싱 전략부터 낙관적 업데이트까지, 실무에서 바로 쓸 수 있는 TanStack
+            Query 패턴들을 깊이 있게 정리했습니다.
+          </p>
+
+          <div class="post-meta">
+            <div class="post-author">
+              <div class="author-avatar">김</div>
+              <div>
+                <div class="author-name">김해린</div>
+                <div class="post-date">2026-03-05</div>
+              </div>
+            </div>
+            <div class="meta-sep"></div>
+            <span class="post-read-time">⏱ 약 8분 읽기</span>
+          </div>
+
+          <div class="post-tags">
+            <span class="badge-stack">React</span>
+            <span class="badge-stack">TypeScript</span>
+            <span class="badge-tag">#상태관리</span>
+            <span class="badge-tag">#TanStack</span>
+            <span class="badge-tag">#비동기</span>
+          </div>
+        </header>
+
+        <!-- 목차 -->
+        <div class="toc-box" id="tocBox">
+          <div class="toc-box__header" onclick="toggleToc()">
+            <div class="toc-box__title">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="3.01" y2="6" />
+                <line x1="3" y1="12" x2="3.01" y2="12" />
+                <line x1="3" y1="18" x2="3.01" y2="18" />
+              </svg>
+              목차
+            </div>
+            <div class="toc-box__chevron">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+          </div>
+          <div class="toc-box__body">
+            <a class="toc-item active" href="#s1">서버 상태란 무엇인가</a>
+            <a class="toc-item" href="#s2">TanStack Query 기본 설정</a>
+            <a class="toc-item" href="#s3">useQuery 핵심 패턴</a>
+            <a class="toc-item h3" href="#s3-1">쿼리 키 설계 전략</a>
+            <a class="toc-item" href="#s4">낙관적 업데이트</a>
+            <a class="toc-item" href="#s5">무한 스크롤 구현</a>
+          </div>
+        </div>
+
+        <!-- 본문 -->
+        <div class="post-body">
+          <h2 id="s1">서버 상태란 무엇인가</h2>
+          <p>
+            React 애플리케이션에서 상태는 크게 두 가지로 나뉩니다. 클라이언트
+            상태와 서버 상태입니다. 클라이언트 상태는 UI의 열림/닫힘, 선택된 탭
+            같은 로컬 데이터를 의미하지만, <strong>서버 상태</strong>는 API를
+            통해 가져오는 원격 데이터를 의미합니다.
+          </p>
+          <p>서버 상태는 다음과 같은 고유한 특성을 가집니다.</p>
+          <ul>
+            <li>당신이 소유하지 않는 원격 위치에 저장됩니다</li>
+            <li>비동기 API를 통해서만 접근 및 수정할 수 있습니다</li>
+            <li>
+              다른 사람에 의해 변경될 수 있어 "오래된(stale)" 상태가 될 수
+              있습니다
+            </li>
+          </ul>
+
+          <div class="img-placeholder">이미지 영역</div>
+
+          <h2 id="s2">TanStack Query 기본 설정</h2>
+          <p>
+            TanStack Query를 프로젝트에 세팅하는 것은 간단합니다.
+            <code>QueryClient</code>를 생성하고
+            <code>QueryClientProvider</code>로 앱을 감싸주면 됩니다.
+          </p>
+
+          <pre><span class="code-lang">tsx</span><code>import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 10,
+    },
+  },
+})
+
+export function App() {
+  return (
+    &lt;QueryClientProvider client={queryClient}&gt;
+      &lt;Router /&gt;
+    &lt;/QueryClientProvider&gt;
+  )
+}</code></pre>
+
+          <blockquote>
+            <code>staleTime</code>과 <code>gcTime</code>은 헷갈리기 쉽습니다.
+            staleTime은 데이터가 "신선"하다고 간주되는 시간이고, gcTime은
+            캐시에서 제거되기까지의 시간입니다.
+          </blockquote>
+
+          <h2 id="s3">useQuery 핵심 패턴</h2>
+          <p>
+            <code>useQuery</code>는 가장 기본적인 훅으로, 데이터를 fetching하고
+            캐싱합니다. 쿼리 키는 배열로 구성하며, 이 키를 기준으로 캐시가
+            관리됩니다.
+          </p>
+
+          <pre><span class="code-lang">tsx</span><code>function useUserPosts(userId: string) {
+  return useQuery({
+    queryKey: ['posts', userId],
+    queryFn: () => fetchUserPosts(userId),
+    enabled: !!userId,
+    select: (data) => data.filter(post => !post.hidden),
+  })
+}</code></pre>
+
+          <h3 id="s3-1">쿼리 키 설계 전략</h3>
+          <p>
+            쿼리 키는 단순한 식별자가 아니라 캐시 전략의 핵심입니다. 계층적으로
+            구성하면 관련 캐시를 한 번에 무효화할 수 있습니다.
+          </p>
+
+          <pre><span class="code-lang">ts</span><code>export const postKeys = {
+  all: ['posts'] as const,
+  lists: () => [...postKeys.all, 'list'] as const,
+  list: (filters: string) => [...postKeys.lists(), { filters }] as const,
+  details: () => [...postKeys.all, 'detail'] as const,
+  detail: (id: string) => [...postKeys.details(), id] as const,
+}</code></pre>
+
+          <h2 id="s4">낙관적 업데이트</h2>
+          <p>
+            낙관적 업데이트는 서버 응답을 기다리지 않고 UI를 즉시 업데이트하는
+            패턴입니다. 사용자에게 빠른 피드백을 줄 수 있지만, 서버 오류 시 롤백
+            처리가 필요합니다.
+          </p>
+
+          <pre><span class="code-lang">tsx</span><code>const mutation = useMutation({
+  mutationFn: updatePost,
+  onMutate: async (newPost) => {
+    await queryClient.cancelQueries({ queryKey: postKeys.detail(newPost.id) })
+    const previousPost = queryClient.getQueryData(postKeys.detail(newPost.id))
+    queryClient.setQueryData(postKeys.detail(newPost.id), newPost)
+    return { previousPost }
+  },
+  onError: (err, newPost, context) => {
+    queryClient.setQueryData(postKeys.detail(newPost.id), context?.previousPost)
+  },
+  onSettled: (data, error, variables) => {
+    queryClient.invalidateQueries({ queryKey: postKeys.detail(variables.id) })
+  },
+})</code></pre>
+
+          <h2 id="s5">무한 스크롤 구현</h2>
+          <p>
+            <code>useInfiniteQuery</code>를 사용하면 페이지네이션 또는 무한
+            스크롤을 선언적으로 구현할 수 있습니다.
+          </p>
+
+          <pre><span class="code-lang">tsx</span><code>const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  queryKey: ['posts', 'infinite'],
+  queryFn: ({ pageParam = 1 }) => fetchPosts({ page: pageParam }),
+  getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+  initialPageParam: 1,
+})</code></pre>
+        </div>
+      </article>
+    </div>
+
+    <script>
+      window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const pct =
+          (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+
+        const sections = ['s1', 's2', 's3', 's3-1', 's4', 's5'];
+        let current = sections[0];
+        sections.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top <= 100) current = id;
+        });
+        document.querySelectorAll('.toc-item').forEach((item) => {
+          item.classList.toggle(
+            'active',
+            item.getAttribute('href') === '#' + current,
+          );
+        });
+      });
+
+      function toggleToc() {
+        document.getElementById('tocBox').classList.toggle('collapsed');
+      }
+    </script>
+  </body>
+</html>

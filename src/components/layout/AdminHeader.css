@@ -1,0 +1,38 @@
+/* 기존 Header.css 스타일을 상속받음 */
+@import './Header.css';
+
+.admin-header {
+  border-bottom: 1px solid var(--border-default);
+  background: var(--bg-secondary);
+}
+
+.admin-badge {
+  display: inline-block;
+  background-color: var(--point-primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-left: 8px;
+  font-style: normal;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.admin-user-badge {
+  font-size: 11px;
+  color: var(--point-primary);
+  background: var(--point-bg);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* 어드민 헤더에서는 드롭다운 트리거의 호버 효과를 다시 활성화 (기존 Header.css 스타일 활용) */
+.admin-header .header-profile__trigger {
+  cursor: pointer;
+  pointer-events: auto;
+}

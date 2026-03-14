@@ -1,0 +1,44 @@
+.btn {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 80px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    width var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+  width: 28px;
+  border-color: rgba(96, 165, 250, 0.3);
+  box-shadow: 2px 0 16px rgba(96, 165, 250, 0.15);
+}
+
+.btn:hover .dot {
+  background: var(--point-primary);
+}
+
+.dot {
+  display: block;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background var(--transition);
+  flex-shrink: 0;
+}

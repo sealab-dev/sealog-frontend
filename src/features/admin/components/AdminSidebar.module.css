@@ -1,0 +1,194 @@
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-default);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: translateX(-240px);
+  transition: transform var(--transition);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 0 40px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+/* ── Sidebar Tab Button ── */
+.sidebarTab {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 210;
+  width: 20px;
+  height: 80px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    width var(--transition),
+    left var(--transition),
+    background var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.sidebarTabText {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.sidebarTab svg {
+  width: 11px;
+  height: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition:
+    color var(--transition),
+    transform var(--transition);
+}
+
+.sidebarTab:hover {
+  width: 28px;
+  background: var(--bg-surface);
+  border-color: rgba(96, 165, 250, 0.3);
+  box-shadow: 2px 0 16px rgba(96, 165, 250, 0.15);
+}
+
+.sidebarTab:hover .sidebarTabText,
+.sidebarTab:hover svg {
+  color: var(--point-primary);
+}
+
+.sidebarTabOpen {
+  left: 240px;
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.sidebarTabOpen svg {
+  transform: rotate(180deg);
+  color: var(--point-primary);
+}
+
+.sidebarTabOpen .sidebarTabText {
+  color: var(--point-primary);
+}
+
+/* ── Sidebar Overlay (mobile) ── */
+.sidebarOverlay {
+  position: fixed;
+  inset: 60px 0 0 0;
+  z-index: 199;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+@media (min-width: 768px) {
+  .sidebarOverlay {
+    display: none;
+  }
+}
+
+/* ── Section ── */
+.section {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 8px;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px 8px;
+  margin: 0;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition);
+  gap: 12px;
+  text-decoration: none;
+}
+
+.navItem:hover {
+  background: var(--bg-surface);
+}
+
+.navItemActive {
+  background: var(--point-bg);
+}
+
+.navIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition);
+}
+
+.navItem:hover .navIcon {
+  color: var(--text-secondary);
+}
+
+.navItemActive .navIcon {
+  color: var(--point-primary);
+}
+
+.navLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color var(--transition);
+}
+
+.navItem:hover .navLabel {
+  color: var(--text-primary);
+}
+
+.navItemActive .navLabel {
+  color: var(--point-primary);
+  font-weight: 600;
+}

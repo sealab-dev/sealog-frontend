@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SeaLog.dev — 김해린의 항해일지</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="userblog.css" />
+  </head>
+  <body>
+    <!-- ── Header ── -->
+    <header class="header">
+      <a class="header-logo" href="/" aria-label="홈으로">
+        <span class="header-logo__icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 6v16" />
+            <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+            <path d="M9 11h6" />
+            <circle cx="12" cy="4" r="2" />
+          </svg>
+        </span>
+        <span class="header-logo__text"
+          >SeaLog<span class="header-logo__point">.dev</span></span
+        >
+      </a>
+      <div class="header-actions">
+        <button class="header-login" type="button">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+          로그인
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Page Wrapper ── -->
+    <div class="page-wrapper">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar" aria-label="블로그 필터">
+        <div class="sb-block">
+          <div class="sb-block__title">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            게시글 검색
+          </div>
+          <div class="sb-search">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input
+              type="text"
+              placeholder="이 블로그에서 검색..."
+              aria-label="블로그 내 검색"
+            />
+          </div>
+        </div>
+
+        <div class="sb-block">
+          <div class="sb-block__title">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            스택
+          </div>
+          <ul class="sb-list" role="list">
+            <li
+              class="sb-stack-item sb-stack-item--active"
+              onclick="filterStack(this)"
+              role="button"
+              tabindex="0"
+            >
+              <div class="sb-stack-item__left">
+                <span class="sb-stack-item__dot"></span>
+                <span class="sb-stack-item__name">전체</span>
+              </div>
+              <span class="sb-stack-item__count">24</span>
+            </li>
+            <li
+              class="sb-stack-item"
+              onclick="filterStack(this)"
+              role="button"
+              tabindex="0"
+            >
+              <div class="sb-stack-item__left">
+                <span class="sb-stack-item__dot"></span>
+                <span class="sb-stack-item__name">React</span>
+              </div>
+              <span class="sb-stack-item__count">10</span>
+            </li>
+            <li
+              class="sb-stack-item"
+              onclick="filterStack(this)"
+              role="button"
+              tabindex="0"
+            >
+              <div class="sb-stack-item__left">
+                <span class="sb-stack-item__dot"></span>
+                <span class="sb-stack-item__name">TypeScript</span>
+              </div>
+              <span class="sb-stack-item__count">8</span>
+            </li>
+            <li
+              class="sb-stack-item"
+              onclick="filterStack(this)"
+              role="button"
+              tabindex="0"
+            >
+              <div class="sb-stack-item__left">
+                <span class="sb-stack-item__dot"></span>
+                <span class="sb-stack-item__name">Vite</span>
+              </div>
+              <span class="sb-stack-item__count">4</span>
+            </li>
+            <li
+              class="sb-stack-item"
+              onclick="filterStack(this)"
+              role="button"
+              tabindex="0"
+            >
+              <div class="sb-stack-item__left">
+                <span class="sb-stack-item__dot"></span>
+                <span class="sb-stack-item__name">Node.js</span>
+              </div>
+              <span class="sb-stack-item__count">2</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sb-block">
+          <div class="sb-block__title">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path
+                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+              />
+            </svg>
+            시리즈
+          </div>
+          <ul class="sb-list" role="list">
+            <li
+              class="sb-series-item"
+              onclick="filterSeries(this)"
+              role="button"
+              tabindex="0"
+            >
+              <span class="sb-series-item__name">React 완전 정복</span>
+              <span class="sb-series-item__count">6편</span>
+            </li>
+            <li
+              class="sb-series-item"
+              onclick="filterSeries(this)"
+              role="button"
+              tabindex="0"
+            >
+              <span class="sb-series-item__name">TypeScript 깊이 파기</span>
+              <span class="sb-series-item__count">5편</span>
+            </li>
+            <li
+              class="sb-series-item"
+              onclick="filterSeries(this)"
+              role="button"
+              tabindex="0"
+            >
+              <span class="sb-series-item__name">빌드 툴 마스터하기</span>
+              <span class="sb-series-item__count">4편</span>
+            </li>
+            <li
+              class="sb-series-item"
+              onclick="filterSeries(this)"
+              role="button"
+              tabindex="0"
+            >
+              <span class="sb-series-item__name">성능 최적화 일지</span>
+              <span class="sb-series-item__count">3편</span>
+            </li>
+            <li
+              class="sb-series-item"
+              onclick="filterSeries(this)"
+              role="button"
+              tabindex="0"
+            >
+              <span class="sb-series-item__name">CSS 모던 테크닉</span>
+              <span class="sb-series-item__count">3편</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- 사이드바 탭 버튼 (B안) -->
+      <button
+        class="sidebar-tab"
+        id="sidebarTab"
+        onclick="toggleSidebar()"
+        aria-label="사이드바 열기"
+        aria-expanded="false"
+        aria-controls="sidebar"
+      >
+        <span class="sidebar-tab__text">Menu</span>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+
+      <!-- 모바일 오버레이 -->
+      <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+        onclick="toggleSidebar()"
+      ></div>
+
+      <!-- Main Area -->
+      <div class="main-area" id="mainArea">
+        <!-- Profile Banner -->
+        <section class="profile-banner">
+          <div class="profile-banner__glow"></div>
+          <div class="profile-banner__inner">
+            <div class="profile-top">
+              <div class="profile-avatar-wrap">
+                <div class="profile-avatar">김</div>
+                <span class="profile-avatar__online"></span>
+              </div>
+
+              <div class="profile-info">
+                <h1 class="profile-info__name">김해린</h1>
+                <p class="profile-info__bio">
+                  바다처럼 깊은 기술을 탐구하는 프론트엔드 개발자 · React와
+                  TypeScript를 주로 사용하며 좋은 사용자 경험을 만드는 데 관심이
+                  많습니다 🌊
+                </p>
+
+                <div class="profile-stats">
+                  <div class="profile-stat">
+                    <span class="profile-stat__value">24</span>
+                    <span class="profile-stat__label">게시글</span>
+                  </div>
+                  <div class="profile-stat__sep"></div>
+                  <div class="profile-stat">
+                    <span class="profile-stat__value">5</span>
+                    <span class="profile-stat__label">시리즈</span>
+                  </div>
+                  <div class="profile-stat__sep"></div>
+                  <div class="profile-stat">
+                    <span class="profile-stat__value">4</span>
+                    <span class="profile-stat__label">스택</span>
+                  </div>
+                </div>
+
+                <div class="profile-socials">
+                  <a class="profile-social" href="#" aria-label="GitHub">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                      />
+                    </svg>
+                    GitHub
+                  </a>
+                  <a class="profile-social" href="#" aria-label="LinkedIn">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                      />
+                      <rect x="2" y="9" width="4" height="12" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                    LinkedIn
+                  </a>
+                  <a class="profile-social" href="#" aria-label="블로그">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                      />
+                      <path
+                        d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                      />
+                    </svg>
+                    Blog
+                  </a>
+                </div>
+
+                <div class="profile-stacks">
+                  <span class="profile-stack">React</span>
+                  <span class="profile-stack">TypeScript</span>
+                  <span class="profile-stack">Vite</span>
+                  <span class="profile-stack">Node.js</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <svg
+            class="profile-banner__wave"
+            viewBox="0 0 1440 52"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0,26 C360,6 720,46 1080,26 C1260,16 1380,32 1440,26 L1440,52 L0,52 Z"
+              fill="rgba(10,18,35,0.5)"
+            />
+            <path
+              d="M0,36 C360,16 720,52 1080,34 C1260,24 1380,40 1440,36 L1440,52 L0,52 Z"
+              fill="#080f1c"
+            />
+          </svg>
+        </section>
+
+        <!-- Post Grid -->
+        <div class="content">
+          <div class="content-header">
+            <h2 class="content-title">
+              전체 게시글 <span class="content-count">24편</span>
+            </h2>
+          </div>
+
+          <div class="post-grid">
+            <article class="post-card">
+              <div class="post-card__thumb" style="--gx: 40%; --gy: 35%">
+                <span class="post-card__series-badge">React 완전 정복 · 6</span>
+              </div>
+              <div class="post-card__body">
+                <div class="post-card__stacks">
+                  <span class="badge-stack">React</span>
+                </div>
+                <h3 class="post-card__title">
+                  React Query로 서버 상태 관리 완벽 정리
+                </h3>
+                <p class="post-card__excerpt">
+                  캐싱 전략부터 낙관적 업데이트까지, 실무에서 바로 쓸 수 있는
+                  TanStack Query 패턴들.
+                </p>
+                <div class="post-card__tags">
+                  <span class="badge-tag">#상태관리</span>
+                  <span class="badge-tag">#TanStack</span>
+                </div>
+                <footer class="post-card__footer">
+                  <time class="post-card__date" datetime="2026-03-05"
+                    >2026-03-05</time
+                  >
+                </footer>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div
+                class="post-card__thumb post-card__thumb--2"
+                style="--gx: 65%; --gy: 40%"
+              ></div>
+              <div class="post-card__body">
+                <div class="post-card__stacks">
+                  <span class="badge-stack">TypeScript</span>
+                </div>
+                <h3 class="post-card__title">
+                  TypeScript 제네릭 — 타입 시스템을 제대로 다루는 법
+                </h3>
+                <p class="post-card__excerpt">
+                  타입 추론을 극대화하면서 재사용성을 높이는 제네릭 패턴을 깊이
+                  있게 다룹니다.
+                </p>
+                <div class="post-card__tags">
+                  <span class="badge-tag">#제네릭</span>
+                  <span class="badge-tag">#타입추론</span>
+                </div>
+                <footer class="post-card__footer">
+                  <time class="post-card__date" datetime="2026-03-04"
+                    >2026-03-04</time
+                  >
+                </footer>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div
+                class="post-card__thumb post-card__thumb--3"
+                style="--gx: 50%; --gy: 55%"
+              >
+                <span class="post-card__series-badge"
+                  >빌드 툴 마스터하기 · 3</span
+                >
+              </div>
+              <div class="post-card__body">
+                <div class="post-card__stacks">
+                  <span class="badge-stack">Vite</span>
+                </div>
+                <h3 class="post-card__title">
+                  Vite 플러그인 시스템을 직접 만들어보며 이해하기
+                </h3>
+                <p class="post-card__excerpt">
+                  Rollup 기반의 Vite 플러그인 API를 분석하고 커스텀 플러그인을
+                  제작하는 전 과정.
+                </p>
+                <div class="post-card__tags">
+                  <span class="badge-tag">#빌드툴</span>
+                  <span class="badge-tag">#플러그인</span>
+                </div>
+                <footer class="post-card__footer">
+                  <time class="post-card__date" datetime="2026-03-02"
+                    >2026-03-02</time
+                  >
+                </footer>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div class="post-card__thumb" style="--gx: 30%; --gy: 60%"></div>
+              <div class="post-card__body">
+                <div class="post-card__stacks">
+                  <span class="badge-stack">React</span>
+                  <span class="badge-stack">TypeScript</span>
+                </div>
+                <h3 class="post-card__title">
+                  모노레포 환경에서 Vite + React 세팅 A to Z
+                </h3>
+                <p class="post-card__excerpt">
+                  pnpm workspace 기반 모노레포에서 멀티 패키지 프로젝트 구성
+                  방법.
+                </p>
+                <div class="post-card__tags">
+                  <span class="badge-tag">#모노레포</span>
+                  <span class="badge-tag">#pnpm</span>
+                </div>
+                <footer class="post-card__footer">
+                  <time class="post-card__date" datetime="2026-02-28"
+                    >2026-02-28</time
+                  >
+                </footer>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div
+                class="post-card__thumb post-card__thumb--4"
+                style="--gx: 55%; --gy: 35%"
+              >
+                <span class="post-card__series-badge"
+                  >성능 최적화 일지 · 2</span
+                >
+              </div>
+              <div class="post-card__body">
+                <div class="post-card__stacks">
+                  <span class="badge-stack">React</span>
+                </div>
+                <h3 class="post-card__title">
+                  React 렌더링 최적화 — memo, useMemo, useCallback 제대로 쓰기
+                </h3>
+                <p class="post-card__excerpt">
+                  불필요한 리렌더링을 막는 메모이제이션 전략과 실제로 효과 있는
+                  케이스들.
+                </p>
+                <div class="post-card__tags">
+                  <span class="badge-tag">#최적화</span>
+                  <span class="badge-tag">#렌더링</span>
+                </div>
+                <footer class="post-card__footer">
+                  <time class="post-card__date" datetime="2026-02-25"
+                    >2026-02-25</time
+                  >
+                </footer>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div class="post-card__thumb" style="--gx: 35%; --gy: 50%"></div>
+              <div class="post-card__body">
+                <div class="post-card__stacks">
+                  <span class="badge-stack">Node.js</span>
+                </div>
+                <h3 class="post-card__title">
+                  Node.js 스트림으로 대용량 파일 처리하기
+                </h3>
+                <p class="post-card__excerpt">
+                  스트림 파이프라인으로 메모리를 최소화하면서 수 GB 파일을
+                  처리하는 방법.
+                </p>
+                <div class="post-card__tags">
+                  <span class="badge-tag">#스트림</span>
+                  <span class="badge-tag">#성능</span>
+                </div>
+                <footer class="post-card__footer">
+                  <time class="post-card__date" datetime="2026-02-20"
+                    >2026-02-20</time
+                  >
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          <div class="load-more">
+            <button class="load-more__btn" type="button">
+              더 보기
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 5v14" />
+                <path d="m19 12-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-logo">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 6v16" />
+              <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+              <path d="M9 11h6" />
+              <circle cx="12" cy="4" r="2" />
+            </svg>
+            SeaLog.dev
+          </div>
+          <span class="footer-copy"
+            >© 2026 SeaLog.dev All rights reserved.</span
+          >
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const tab = document.getElementById('sidebarTab');
+        const overlay = document.getElementById('sidebarOverlay');
+        const mainArea = document.getElementById('mainArea');
+        const isOpen = sidebar.classList.toggle('sidebar--open');
+
+        tab.setAttribute('aria-expanded', isOpen);
+        tab.setAttribute(
+          'aria-label',
+          isOpen ? '사이드바 닫기' : '사이드바 열기',
+        );
+        overlay.classList.toggle('sidebar-overlay--visible', isOpen);
+
+        // 데스크탑: 콘텐츠 push / 모바일: overlay
+        if (window.innerWidth > 768) {
+          mainArea.classList.toggle('main-area--pushed', isOpen);
+        }
+      }
+
+      window.addEventListener('resize', () => {
+        const sidebar = document.getElementById('sidebar');
+        const mainArea = document.getElementById('mainArea');
+        const isOpen = sidebar.classList.contains('sidebar--open');
+        if (window.innerWidth > 768) {
+          mainArea.classList.toggle('main-area--pushed', isOpen);
+        } else {
+          mainArea.classList.remove('main-area--pushed');
+        }
+      });
+
+      function filterStack(el) {
+        document
+          .querySelectorAll('.sb-stack-item')
+          .forEach((i) => i.classList.remove('sb-stack-item--active'));
+        document
+          .querySelectorAll('.sb-series-item')
+          .forEach((i) => i.classList.remove('sb-series-item--active'));
+        el.classList.add('sb-stack-item--active');
+      }
+
+      function filterSeries(el) {
+        document
+          .querySelectorAll('.sb-stack-item')
+          .forEach((i) => i.classList.remove('sb-stack-item--active'));
+        document
+          .querySelectorAll('.sb-series-item')
+          .forEach((i) => i.classList.remove('sb-series-item--active'));
+        el.classList.add('sb-series-item--active');
+      }
+    </script>
+  </body>
+</html>
