@@ -1,0 +1,107 @@
+.footer {
+  border-top: 1px solid var(--border-default);
+  padding: 60px 40px 40px;
+  background: var(--bg-secondary); /* 사이트 배경과 어울리는 어두운 톤으로 변경 */
+}
+
+.footerContent {
+  max-width: var(--content-w); /* 사이트 컨텐츠 폭과 동일하게 설정 */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLogo {
+  font-family: var(--font-family-logo);
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footerLogo svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--point-primary);
+}
+
+.footerSlogan {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: none; /* 잘리는 문제 해결을 위해 너비 제한 해제 */
+  word-break: keep-all; /* 한글 단어 단위 줄바꿈 */
+}
+
+.footerSocial {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0; /* 소셜 영역이 좁아지지 않도록 설정 */
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--glow-md);
+  background: var(--bg-hover);
+}
+
+.footerBottom {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-default);
+  display: flex;
+  justify-content: center;
+}
+
+.footerCopy {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 20px 30px;
+  }
+  
+  .footerContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .footerSlogan {
+    margin: 0 auto;
+    font-size: 13px;
+  }
+}

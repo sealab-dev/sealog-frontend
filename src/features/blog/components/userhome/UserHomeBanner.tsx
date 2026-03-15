@@ -1,12 +1,12 @@
 import { WaveDivider } from '../../../../components/ui/wave/WaveDivider';
 import type { UserProfile, SocialUIType } from '../../types/userProfile';
-import './UserHomeBanner.css';
+import styles from './UserHomeBanner.module.css';
 
 interface UserHomeBannerProps {
   profile: UserProfile;
 }
 
-function SocialIcon({ type }: { type: SocialUIType }) {
+const SocialIcon = ({ type }: { type: SocialUIType }) => {
   if (type === 'github') {
     return (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -54,42 +54,42 @@ function SocialIcon({ type }: { type: SocialUIType }) {
       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
     </svg>
   );
-}
+};
 
-export default function UserHomeBanner({ profile }: UserHomeBannerProps) {
+const UserHomeBanner = ({ profile }: UserHomeBannerProps) => {
   const postStat = profile.stats[0];
   const seriesStat = profile.stats[1];
 
   return (
-    <section className="profile-banner">
-      <div className="profile-banner__glow" />
-      <div className="profile-banner__inner">
-        <div className="profile-top">
-          <div className="profile-left">
-            <div className="profile-avatar-wrap">
-              <div className="profile-avatar">
+    <section className={styles.profileBanner}>
+      <div className={styles.profileBannerGlow} />
+      <div className={styles.profileBannerInner}>
+        <div className={styles.profileTop}>
+          <div className={styles.profileLeft}>
+            <div className={styles.profileAvatarWrap}>
+              <div className={styles.profileAvatar}>
                 {profile.profileImageUrl
                   ? <img src={profile.profileImageUrl} alt="" />
                   : profile.initial}
               </div>
             </div>
 
-            <div className="profile-identity">
-              <div className="profile-identity__name-row">
-                <h1 className="profile-identity__name">{profile.name}</h1>
+            <div className={styles.profileIdentity}>
+              <div className={styles.profileIdentityNameRow}>
+                <h1 className={styles.profileIdentityName}>{profile.name}</h1>
                 {(postStat || seriesStat) && (
-                  <span className="profile-identity__meta">
+                  <span className={styles.profileIdentityMeta}>
                     {postStat && <span>{postStat.value} posts</span>}
-                    {postStat && seriesStat && <span className="profile-identity__meta-dot">·</span>}
+                    {postStat && seriesStat && <span className={styles.profileIdentityMetaDot}>·</span>}
                     {seriesStat && <span>{seriesStat.value} series</span>}
                   </span>
                 )}
               </div>
-              <p className="profile-identity__bio">{profile.bio}</p>
+              <p className={styles.profileIdentityBio}>{profile.bio}</p>
               {profile.socials.length > 0 && (
-                <div className="profile-socials">
+                <div className={styles.profileSocials}>
                   {profile.socials.map((s) => (
-                    <a key={s.type} className="profile-social" href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                    <a key={s.type} className={styles.profileSocial} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
                       <SocialIcon type={s.type} />
                       {s.label}
                     </a>
@@ -103,4 +103,6 @@ export default function UserHomeBanner({ profile }: UserHomeBannerProps) {
       <WaveDivider fillColor="var(--ub-wave-color)" fillColor2="var(--ub-wave-color-2)" height={80} id="ub-wave" />
     </section>
   );
-}
+};
+
+export default UserHomeBanner;

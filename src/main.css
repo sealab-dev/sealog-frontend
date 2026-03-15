@@ -18,7 +18,7 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Pretendard', sans-serif;
+  font-family: var(--font-family-base);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -26,22 +26,23 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-button {
-  border: none;
-  background: none;
-  cursor: pointer;
   font-family: inherit;
 }
 
+button,
 input,
 textarea,
 select {
   font-family: inherit;
   font-size: inherit;
+  color: inherit;
   border: none;
   outline: none;
+}
+
+button {
+  cursor: pointer;
+  background: none;
 }
 
 table {

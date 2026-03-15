@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authApi } from './auth.api';
 import { useAuthStore } from '../../store/authStore';
-import type { LoginRequest } from './auth.types';
+import type { LoginRequest } from './types/auth.request';
 
 /**
  * 로그인 mutation
@@ -13,7 +13,7 @@ export const useLoginMutation = () => {
   return useMutation({
     mutationFn: (request: LoginRequest) => authApi.login(request),
     onSuccess: (res) => {
-      setUser(res.data);
+      setUser(res);
     },
   });
 };

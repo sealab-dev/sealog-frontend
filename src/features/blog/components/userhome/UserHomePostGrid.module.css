@@ -1,0 +1,178 @@
+.uhContent {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 28px 32px 80px;
+}
+
+.uhContentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.uhContentTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uhContentTitle::before {
+  content: '';
+  width: 3px;
+  height: 18px;
+  background: var(--point-primary);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--point-glow);
+}
+
+.uhContentCount {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.uhPostGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+/* Load more */
+.uhLoadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.uhLoadMoreBtn {
+  height: 40px;
+  padding: 0 26px;
+  border-radius: 50px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}
+
+.uhLoadMoreBtn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.uhLoadMoreBtn:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+  box-shadow: var(--glow-sm);
+}
+
+/* ── 스켈레톤 ── */
+@keyframes uh-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.uhPostCardSkeleton {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+}
+
+.uhPostCardSkeletonThumb {
+  height: 160px;
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background-size: 800px 100%;
+  animation: uh-shimmer 1.4s infinite linear;
+}
+
+.uhPostCardSkeletonBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.uhPostCardSkeletonLine {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background-size: 800px 100%;
+  animation: uh-shimmer 1.4s infinite linear;
+}
+
+.uhPostCardSkeletonLineShort { width: 40%; }
+.uhPostCardSkeletonLineMid   { width: 65%; }
+
+/* ── 빈 상태 / 에러 상태 ── */
+.uhPostEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  gap: 10px;
+}
+
+.uhPostEmptyIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.uhPostEmptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.uhPostEmptyDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.uhPostEmptyRetry {
+  margin-top: 8px;
+  height: 36px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.uhPostEmptyRetry:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+}
+
+@media (max-width: 960px) {
+  .uhPostGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .uhContent {
+    padding: 20px 16px 60px;
+  }
+  .uhPostGrid {
+    grid-template-columns: 1fr;
+  }
+}

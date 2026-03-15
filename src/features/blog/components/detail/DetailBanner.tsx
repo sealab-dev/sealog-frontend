@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import type { PostDetail } from '../../types/post';
-import './DetailBanner.css';
+import styles from './DetailBanner.module.css';
 
 interface DetailBannerProps {
   post: PostDetail;
@@ -8,69 +9,68 @@ interface DetailBannerProps {
   onDelete?: () => void;
 }
 
-export default function DetailBanner({ post, isOwner, onEdit, onDelete }: DetailBannerProps) {
+const DetailBanner = ({ post, isOwner, onEdit, onDelete }: DetailBannerProps) => {
   return (
-    <header className="detail-post-header">
-      {isOwner && (
-        <div className="detail-post-actions">
-          <button className="detail-action-btn" type="button" onClick={onEdit}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    <header className={styles.detailHeader}>
+      {/* 상단 액션 및 시리즈 정보 */}
+      <div className={styles.headerTop}>
+        {post.series ? (
+          <a className={styles.seriesBadge} href={post.series.href}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
             </svg>
-            수정
-          </button>
-          <button className="detail-action-btn detail-action-btn--danger" type="button" onClick={onDelete}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-              <path d="M10 11v6M14 11v6" />
-            </svg>
-            삭제
-          </button>
-        </div>
-      )}
+            {post.series.name}
+          </a>
+        ) : <div />}
 
-      {post.series && (
-        <a className="detail-series-badge" href={post.series.href}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-          </svg>
-          {post.series.name}
-          <svg className="detail-series-badge__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </a>
-      )}
-
-      <h1 className="detail-post-title">{post.title}</h1>
-      <p className="detail-post-desc">{post.desc}</p>
-
-      <div className="detail-post-meta">
-        <div className="detail-post-author">
-          <div className="detail-author-avatar">
-            {post.author.profileImageUrl
-              ? <img src={post.author.profileImageUrl} alt="" />
-              : post.author.initial}
+        {isOwner && (
+          <div className={styles.actions}>
+            <button className={styles.actionBtn} onClick={onEdit} aria-label="수정">수정</button>
+            <button className={`${styles.actionBtn} ${styles.actionBtnDanger}`} onClick={onDelete} aria-label="삭제">삭제</button>
           </div>
-          <div>
-            <div className="detail-author-name">{post.author.name}</div>
-            <div className="detail-post-date">{post.date}</div>
-          </div>
-        </div>
-        <div className="detail-meta-sep" />
-        <span className="detail-read-time">⏱ 약 {post.readTime}분 읽기</span>
+        )}
       </div>
 
-      <div className="detail-post-tags">
-        {post.stacks.map((s) => (
-          <span key={s} className="detail-badge-stack">{s}</span>
-        ))}
-        {post.tags.map((t) => (
-          <span key={t} className="detail-badge-tag">{t}</span>
-        ))}
+      {/* 제목 및 설명 */}
+      <h1 className={styles.title}>{post.title}</h1>
+      {post.desc && <p className={styles.description}>{post.desc}</p>}
+
+      {/* 프로필 및 메타 정보 블록 */}
+      <div className={styles.authorBlock}>
+        <Link to={`/${post.author.nickname}/posts`} className={styles.authorLink}>
+          <div className={styles.avatar}>
+            {post.author.profileImageUrl
+              ? <img src={post.author.profileImageUrl} alt={post.author.name} />
+              : <span>{post.author.initial}</span>}
+          </div>
+          <div className={styles.authorName}>{post.author.name}</div>
+        </Link>
+        <div className={styles.authorMetaSeparator} />
+        <div className={styles.authorMeta}>
+          <div className={styles.postInfo}>
+            <time dateTime={post.date}>{post.date}</time>
+            <span className={styles.dot}>·</span>
+            <span>{post.readTime} min read</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 기술 스택 및 태그 그룹 */}
+      <div className={styles.metadata}>
+        <div className={styles.stackGroup}>
+          {post.stacks.map((s) => (
+            <span key={s} className={styles.stackBadge}>{s}</span>
+          ))}
+        </div>
+        <div className={styles.tagGroup}>
+          {post.tags.map((t) => (
+            <span key={t} className={styles.tagItem}>#{t}</span>
+          ))}
+        </div>
       </div>
     </header>
   );
-}
+};
+
+export default DetailBanner;

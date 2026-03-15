@@ -3,7 +3,6 @@ import type { Editor } from '@tiptap/react';
 import PostEditSidebar from './PostEditSidebar';
 import PostEditor from './PostEditor';
 import styles from './PostEditForm.module.css';
-import SidebarToggleBtn from './SidebarToggleBtn';
 import { useStackAutocompleteQuery } from '../../../../services/stack/stack.queries';
 import type { StackOption } from '../../../../pages/blog/PostEditPage';
 
@@ -42,7 +41,7 @@ export default function PostEditForm({
   onArchiveChange,
   onVisibilityChange,
 }: PostEditFormProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tagInput, setTagInput] = useState('');
   const [stackQuery, setStackQuery] = useState('');
   const [debouncedStackQuery, setDebouncedStackQuery] = useState('');
@@ -90,21 +89,19 @@ export default function PostEditForm({
   const removeStack = (id: number) => onStacksChange(selectedStacks.filter((s) => s.id !== id));
 
   return (
-    <div className={styles.wrapper}>
-      <div className={`${styles.sidebarWrap} ${sidebarOpen ? '' : styles.collapsed}`}>
-        <PostEditSidebar
-          coverFile={coverFile}
-          coverUrl={coverUrl}
-          selectedArchiveId={selectedArchiveId}
-          isPublic={isPublic}
-          onCoverChange={onCoverChange}
-          onArchiveChange={onArchiveChange}
-          onVisibilityChange={onVisibilityChange}
-        />
-      </div>
-      <div className={styles.sidebarToggleWrap}>
-        <SidebarToggleBtn isOpen={sidebarOpen} onToggle={() => setSidebarOpen((v) => !v)} />
-      </div>
+    <div className={`${styles.wrapper} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+      <PostEditSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen((v) => !v)}
+        coverFile={coverFile}
+        coverUrl={coverUrl}
+        selectedArchiveId={selectedArchiveId}
+        isPublic={isPublic}
+        onCoverChange={onCoverChange}
+        onArchiveChange={onArchiveChange}
+        onVisibilityChange={onVisibilityChange}
+      />
+
       <div className={styles.editor} data-scroll-root>
         <div className={styles.editorInner}>
 

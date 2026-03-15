@@ -1,7 +1,7 @@
 import HomeBanner from '../../features/blog/components/home/HomeBanner';
 import HomePostGrid from '../../features/blog/components/home/HomePostGrid';
 import { useInfinitePostsQuery } from '../../services/post/post.queries';
-import type { PostItems } from '../../services/post/_types/post.response';
+import type { PostItems } from '../../services/post/types/post.response';
 import type { Post } from '../../features/blog/types/post';
 
 function toPost(item: PostItems): Post {
@@ -27,7 +27,7 @@ export default function HomePage() {
   const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage, isError, refetch } =
     useInfinitePostsQuery();
 
-  const posts = data?.pages.flatMap((page) => page.data.content.map(toPost)) ?? [];
+  const posts = data?.pages.flatMap((page) => page.content.map(toPost)) ?? [];
 
   return (
     <>

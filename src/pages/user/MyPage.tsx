@@ -3,7 +3,7 @@ import { useMyProfileQuery } from '../../services/user/user.queries';
 import { useUpdateProfileMutation, useUpdatePasswordMutation } from '../../services/user/user.mutations';
 import { useToast } from '../../components/ui/toast/useToast';
 import { SOCIAL_ORDER, SOCIAL_LABEL } from '../../features/blog/types/userProfile';
-import type { SocialType } from '../../services/user/_types/user.enum';
+import type { SocialType } from '../../services/user/types/user.enum';
 import './MyPage.css';
 
 const SOCIAL_ICON: Record<SocialType, React.ReactElement> = {
@@ -99,7 +99,6 @@ export default function MyPage() {
       profileImage: avatarFile,
     });
     setAvatarFile(null);
-    toast.success('프로필이 저장되었습니다.');
   };
 
   const handlePasswordSave = async () => {
@@ -115,7 +114,6 @@ export default function MyPage() {
     setCurrentPassword('');
     setNewPassword('');
     setNewPasswordConfirm('');
-    toast.success('비밀번호가 변경되었습니다.');
   };
 
   if (isPending) return null;

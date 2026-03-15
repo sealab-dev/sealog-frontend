@@ -8,8 +8,7 @@ import {
   useUpdateStackMutation, 
   useDeleteStackMutation 
 } from '../../services/stack/stack.mutations';
-import { useToast } from '../../components/ui/toast/useToast';
-import type { StackGroup } from '../../services/stack/_types/stack.enum';
+import type { StackGroup } from '../../services/stack/types/stack.enum';
 import styles from './AdminStackPage.module.css';
 
 const STACK_GROUPS: StackGroup[] = [
@@ -17,7 +16,6 @@ const STACK_GROUPS: StackGroup[] = [
 ];
 
 export default function AdminStackPage() {
-  const toast = useToast();
   const [keyword, setKeyword] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStack, setEditingStack] = useState<{ id: number; name: string; stackGroup: StackGroup } | null>(null);
@@ -41,9 +39,8 @@ export default function AdminStackPage() {
     if (!confirm('정말 이 스택을 삭제하시겠습니까?')) return;
     try {
       await deleteMutation.mutateAsync(id);
-      toast.success('스택이 삭제되었습니다.');
     } catch (e) {
-      toast.error('삭제에 실패했습니다.');
+      // Error handled by interceptor
     }
   };
 
@@ -107,7 +104,6 @@ export default function AdminStackPage() {
           onClose={() => setIsModalOpen(false)} 
           onSuccess={() => {
             setIsModalOpen(false);
-            toast.success(editingStack ? '수정되었습니다.' : '추가되었습니다.');
           }}
         />
       )}
@@ -129,7 +125,6 @@ function StackModal({
   
   const createMutation = useCreateStackMutation();
   const updateMutation = useUpdateStackMutation();
-  const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,7 +141,7 @@ function StackModal({
       }
       onSuccess();
     } catch (e) {
-      toast.error('작업에 실패했습니다.');
+      // Error handled by interceptor
     }
   };
 

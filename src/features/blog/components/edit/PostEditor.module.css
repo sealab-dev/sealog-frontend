@@ -81,7 +81,7 @@
   border: 1px solid var(--border-default);
   border-radius: 4px;
   color: var(--text-secondary);
-  font-family: 'Pretendard', sans-serif;
+  font-family: var(--font-family-base);
   font-size: var(--font-size-xs);
   outline: none;
   cursor: pointer;
@@ -104,7 +104,7 @@
   outline: none;
   min-height: 400px;
   color: var(--text-primary);
-  font-family: 'Pretendard', sans-serif;
+  font-family: var(--font-family-base);
   font-size: var(--font-size-md);
   line-height: 1.8;
   caret-color: var(--point-primary);

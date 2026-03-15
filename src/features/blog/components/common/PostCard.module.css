@@ -1,0 +1,199 @@
+.postCard {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  animation: cardFadeUp 0.4s ease both;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+}
+
+.postCard:hover {
+  border-color: rgba(96, 165, 250, 0.35);
+  box-shadow: var(--glow-md);
+  transform: translateY(-3px);
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 썸네일 */
+.postCardThumb {
+  height: 160px;
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.postCardThumb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(96, 165, 250, 0.13) 0%,
+    transparent 65%
+  );
+}
+
+.postCardThumb::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--point-glow), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.postCard:hover .postCardThumb::after {
+  opacity: 1;
+}
+
+.postCardThumbImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.postCardSeriesBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-warning);
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+/* 카드 바디 */
+.postCardBody {
+  padding: 18px 18px 14px;
+}
+
+.postCardStacks {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.badgeStack {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--point-primary);
+  background: var(--point-bg);
+  border: 1px solid rgba(96, 165, 250, 0.18);
+  border-radius: 4px;
+  padding: 2px 7px;
+  letter-spacing: 0.02em;
+}
+
+.postCardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin-bottom: 7px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color var(--transition);
+}
+
+.postCard:hover .postCardTitle {
+  color: var(--point-hover);
+}
+
+.postCardExcerpt {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.postCardTags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.badgeTag {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+.postCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-default);
+}
+
+.postCardAuthor {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.postCardAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--point-primary);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.postCardAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.postCardAuthorName {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.postCard:hover .postCardAuthorName {
+  color: var(--text-secondary);
+}
+
+.postCardDate {
+  font-size: 12px;
+  color: var(--text-muted);
+}

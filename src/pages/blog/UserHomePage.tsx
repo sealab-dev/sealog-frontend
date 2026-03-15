@@ -5,13 +5,13 @@ import UserHomePostGrid from '../../features/blog/components/userhome/UserHomePo
 import UserHomeSideBar from '../../features/blog/components/userhome/UserHomeSideBar';
 import { usePublicProfileQuery } from '../../services/user/user.queries';
 import { useGroupedStacksByUserQuery } from '../../services/stack/stack.queries';
-import { useGuestArchiveListQuery, useGuestArchivePostsQuery } from '../../services/archive/archive.queries';
+import { useGuestArchiveListQuery, useGuestArchivePostsQuery } from '../../services/series/series.queries';
 import { useInfiniteUserPostsQuery } from '../../services/post/post.queries';
 import type { UserProfile, SidebarStackGroup } from '../../features/blog/types/userProfile';
 import { SOCIAL_ORDER, SOCIAL_LABEL, toSocialUIType } from '../../features/blog/types/userProfile';
-import type { StackGroup } from '../../services/stack/_types/stack.enum';
+import type { StackGroup } from '../../services/stack/types/stack.enum';
 import type { Post } from '../../features/blog/types/post';
-import type { PostItems } from '../../services/post/_types/post.response';
+import type { PostItems } from '../../services/post/types/post.response';
 import './UserHomePage.css';
 
 const GROUP_ORDER: StackGroup[] = [
@@ -75,7 +75,7 @@ export default function UserHomePage() {
     refetch: refetchArchivePosts,
   } = useGuestArchivePostsQuery(activeSeries?.id ?? 0);
 
-  const postCount = postsData?.pages[0]?.data.totalElements ?? 0;
+  const postCount = postsData?.pages[0]?.totalElements ?? 0;
   const seriesCount = archiveListData?.totalElements ?? 0;
 
   // Mapped profile
@@ -128,7 +128,7 @@ export default function UserHomePage() {
 
   // All loaded posts (flat from pages)
   const allPosts: Post[] = useMemo(
-    () => postsData?.pages.flatMap((page) => page.data.content.map(toPost)) ?? [],
+    () => postsData?.pages.flatMap((page) => page.content.map(toPost)) ?? [],
     [postsData],
   );
 
@@ -155,7 +155,7 @@ export default function UserHomePage() {
       ? allPosts.filter((p) => p.stacks.includes(activeStack))
       : allPosts;
 
-  const totalCount = postsData?.pages[0]?.data.totalElements ?? 0;
+  const totalCount = postsData?.pages[0]?.totalElements ?? 0;
 
   const isLoading = activeSeries ? archivePostsPending : postsPending;
   const isError = activeSeries ? archivePostsError : postsError;

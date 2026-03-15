@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { stackApi } from './stack.api';
 import { stackKeys } from './stack.keys';
-import type * as StackRequest from './_types/stack.request';
+import type * as StackRequest from './types/stack.request';
 
 /**
  * 스택 생성 mutation (Admin)

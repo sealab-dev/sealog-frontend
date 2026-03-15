@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postApi } from './post.api';
 import { postKeys } from './post.keys';
-import type * as PostRequest from './_types/post.request';
+import type * as PostRequest from './types/post.request';
 
 /**
  * 게시글 생성 mutation
- * POST /api/user/posts
+ * POST /api/me/posts
  */
 export const useCreatePostMutation = () => {
   const queryClient = useQueryClient();
@@ -19,14 +19,14 @@ export const useCreatePostMutation = () => {
       thumbnail?: File | null;
     }) => postApi.create(request, thumbnail),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: postKeys.posts() });
+      queryClient.invalidateQueries({ queryKey: postKeys.all });
     },
   });
 };
 
 /**
  * 게시글 수정 mutation
- * PUT /api/user/posts/{postId}
+ * PUT /api/me/posts/{postId}
  */
 export const useUpdatePostMutation = () => {
   const queryClient = useQueryClient();
@@ -42,19 +42,18 @@ export const useUpdatePostMutation = () => {
       thumbnail?: File | null;
     }) => postApi.update(postId, request, thumbnail),
     onSuccess: (data) => {
-      if (data.data) {
-        const { author, slug } = data.data;
-        queryClient.invalidateQueries({ queryKey: postKeys.detail(author.nickname, slug) });
-        queryClient.invalidateQueries({ queryKey: postKeys.edit(slug) });
-        queryClient.invalidateQueries({ queryKey: postKeys.posts() });
-      }
+      const { author, slug } = data;
+      queryClient.invalidateQueries({ queryKey: postKeys.detail(author.nickname, slug) });
+      queryClient.invalidateQueries({ queryKey: postKeys.edit(slug) });
+      queryClient.invalidateQueries({ queryKey: postKeys.posts() });
+      queryClient.invalidateQueries({ queryKey: postKeys.userPosts(author.nickname) });
     },
   });
 };
 
 /**
  * 게시글 삭제 mutation (소프트 삭제)
- * DELETE /api/user/posts/{postId}
+ * DELETE /api/me/posts/{postId}
  */
 export const useDeletePostMutation = () => {
   const queryClient = useQueryClient();
@@ -70,7 +69,7 @@ export const useDeletePostMutation = () => {
 
 /**
  * 게시글 복구 mutation
- * PATCH /api/user/posts/{postId}/restore
+ * PATCH /api/me/posts/{postId}/restore
  */
 export const useRestorePostMutation = () => {
   const queryClient = useQueryClient();

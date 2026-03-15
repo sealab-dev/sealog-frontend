@@ -4,7 +4,7 @@ import AdminHeader from './AdminHeader';
 import AdminSidebar from '../../features/admin/components/AdminSidebar';
 import styles from './AdminLayout.module.css';
 
-export default function AdminLayout() {
+const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
@@ -20,4 +20,6 @@ export default function AdminLayout() {
       </div>
     </div>
   );
-}
+};
+
+export default AdminLayout;

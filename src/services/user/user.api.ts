@@ -1,7 +1,6 @@
 import { client } from '../core/client';
-import type { ApiResponse } from '../core/client.types';
-import type * as UserRequest from './_types/user.request';
-import type * as UserResponse from './_types/user.response';
+import type * as UserRequest from './types/user.request';
+import type * as UserResponse from './types/user.response';
 
 export const userApi = {
 
@@ -9,33 +8,31 @@ export const userApi = {
 
   /**
    * 블로그 사용자 프로필 정보 조회
-   * GET /api/guest/user/{nickname}/profile
+   * GET /api/{nickname}/profile
    */
-  getPublicProfile: async (nickname: string): Promise<ApiResponse<UserResponse.PublicProfile>> => {
-    const response = await client.get<ApiResponse<UserResponse.PublicProfile>>(`/guest/user/${nickname}/profile`);
-    return response.data;
+  getPublicProfile: (nickname: string): Promise<UserResponse.PublicProfile> => {
+    return client.get(`/${nickname}/profile`);
   },
 
   // ==================== User APIs ====================
 
   /**
    * 내 프로필 정보 조회
-   * GET /api/user/me/profile
+   * GET /api/me/profile
    */
-  getMyProfile: async (): Promise<ApiResponse<UserResponse.MyProfile>> => {
-    const response = await client.get<ApiResponse<UserResponse.MyProfile>>('/user/me/profile');
-    return response.data;
+  getMyProfile: (): Promise<UserResponse.MyProfile> => {
+    return client.get('/me/profile');
   },
 
   /**
    * 프로필 수정
-   * PATCH /api/user/me/profile
+   * PATCH /api/me/profile
    * - multipart/form-data 전송: JSON → "request" part, 이미지 → "profileImage" part
    */
-  updateProfile: async (
+  updateProfile: (
     request: UserRequest.UpdateProfile,
     profileImage?: File | null,
-  ): Promise<ApiResponse<UserResponse.MyProfile>> => {
+  ): Promise<UserResponse.MyProfile> => {
     const formData = new FormData();
 
     formData.append(
@@ -47,20 +44,29 @@ export const userApi = {
       formData.append('profileImage', profileImage);
     }
 
-    const response = await client.patch<ApiResponse<UserResponse.MyProfile>>(
-      'user/me/profile',
+    return client.patch(
+      '/me/profile',
       formData,
       { headers: { 'Content-Type': 'multipart/form-data' } },
     );
-    return response.data;
   },
 
   /**
    * 비밀번호 변경
-   * PATCH /api/user/me/password
+   * PATCH /api/me/password
    */
-  updatePassword: async (request: UserRequest.UpdatePassword): Promise<ApiResponse<void>> => {
-    const response = await client.patch<ApiResponse<void>>('user/me/password', request);
-    return response.data;
+  updatePassword: (request: UserRequest.UpdatePassword): Promise<void> => {
+    return client.patch('/me/password', request);
   },
+
+  // ==================== Admin APIs ====================
+
+  /**
+   * 사용자 생성
+   * POST /api/admin/users
+   */
+  createUser: (request: UserRequest.Create): Promise<void> => {
+    return client.post('/admin/users', request);
+  },
+
 };

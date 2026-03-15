@@ -5,7 +5,7 @@ import PostEditFooter from '../../features/blog/components/edit/PostEditFooter';
 import PostEditForm from '../../features/blog/components/edit/PostEditForm';
 import { usePostEditQuery } from '../../services/post/post.queries';
 import { useCreatePostMutation, useUpdatePostMutation } from '../../services/post/post.mutations';
-import { useChangePostArchiveMutation } from '../../services/archive/archive.mutations';
+import { useChangePostArchiveMutation } from '../../services/series/series.mutations';
 import { useAuthStore } from '../../store/authStore';
 import styles from './PostEditPage.module.css';
 
@@ -60,10 +60,10 @@ export default function PostEditPage() {
         navigate(`/${user?.nickname}/entry/${slug}`);
       } else {
         const res = await createMutation.mutateAsync({ request, thumbnail: coverFile });
-        if (selectedArchiveId && res.data) {
-          await changeArchiveMutation.mutateAsync({ archiveId: selectedArchiveId, postId: res.data.id });
+        if (selectedArchiveId && res) {
+          await changeArchiveMutation.mutateAsync({ archiveId: selectedArchiveId, postId: res.id });
         }
-        navigate(`/${user?.nickname}/entry/${res.data.slug}`);
+        navigate(`/${user?.nickname}/entry/${res.slug}`);
       }
     } catch {
       // 에러는 상위 인터셉터 또는 mutation.isError로 처리
@@ -77,8 +77,8 @@ export default function PostEditPage() {
         await updateMutation.mutateAsync({ postId: editData.id, request, thumbnail: coverFile });
       } else {
         const res = await createMutation.mutateAsync({ request, thumbnail: coverFile });
-        if (selectedArchiveId && res.data) {
-          await changeArchiveMutation.mutateAsync({ archiveId: selectedArchiveId, postId: res.data.id });
+        if (selectedArchiveId && res) {
+          await changeArchiveMutation.mutateAsync({ archiveId: selectedArchiveId, postId: res.id });
         }
       }
     } catch {

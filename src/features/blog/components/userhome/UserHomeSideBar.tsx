@@ -14,7 +14,7 @@ import {
   BookMarked,
 } from 'lucide-react';
 import type { SidebarStackGroup } from '../../types/userProfile';
-import type { StackGroup } from '../../../../services/stack/_types/stack.enum';
+import type { StackGroup } from '../../../../services/stack/types/stack.enum';
 import styles from './UserHomeSideBar.module.css';
 
 const GROUP_META: Record<StackGroup, { icon: React.ElementType; label: string }> = {
@@ -41,7 +41,7 @@ interface UserHomeSideBarProps {
   sidebarSeries: { id: number; name: string; count: number }[];
 }
 
-export default function UserHomeSideBar({
+const UserHomeSideBar = ({
   isOpen,
   onToggle,
   searchQuery,
@@ -52,7 +52,7 @@ export default function UserHomeSideBar({
   activeSeries,
   onSeriesClick,
   sidebarSeries,
-}: UserHomeSideBarProps) {
+}: UserHomeSideBarProps) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<StackGroup>>(new Set());
 
   const toggleGroup = (group: StackGroup) => {
@@ -178,4 +178,6 @@ export default function UserHomeSideBar({
       )}
     </>
   );
-}
+};
+
+export default UserHomeSideBar;

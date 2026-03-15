@@ -2,24 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuthStore } from '../../../store/authStore';
 import { useLoginMutation } from '../../../services/auth/auth.mutations';
-import { useToast } from '../../../components/ui/toast/useToast';
-import { getFieldErrors } from '../../../services/core/client.error';
-import type { AxiosError } from 'axios';
 import styles from './LoginModal.module.css';
-
-// AppLayout에서 isLoginModalOpen일 때만 렌더되므로
-// 마운트 시점 = 모달 열림 → state는 항상 초기값으로 시작
 
 export default function LoginModal() {
   const closeLoginModal = useAuthStore((s) => s.closeLoginModal);
-  const toast = useToast();
   const loginMutation = useLoginMutation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
 
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   // 마운트 시 이메일 인풋 포커스
   useEffect(() => {
@@ -36,23 +30,46 @@ export default function LoginModal() {
     return () => window.removeEventListener('keydown', handleKey);
   }, [closeLoginModal]);
 
+  const validate = () => {
+    const errors: { email?: string; password?: string } = {};
+
+    // 이메일 유효성 검사
+    if (!email.trim()) {
+      errors.email = '이메일을 입력해주세요.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = '올바른 이메일 형식이 아닙니다.';
+    }
+
+    // 비밀번호 유효성 검사 (8자 이상 20자 미만)
+    if (!password) {
+      errors.password = '비밀번호를 입력해주세요.';
+    } else if (password.length < 8 || password.length >= 20) {
+      errors.password = '비밀번호는 8자 이상 20자 미만이어야 합니다.';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFieldErrors({});
+
+    if (loginMutation.isPending) return;
+
+    // 프론트엔드 유효성 검증
+    if (!validate()) return;
 
     loginMutation.mutate(
       { email, password },
       {
         onSuccess: () => {
-          toast.success('로그인되었습니다');
           closeLoginModal();
         },
-        onError: (err) => {
-          const errors = getFieldErrors(err as AxiosError);
-          if (errors && Object.keys(errors).length > 0) {
-            setFieldErrors(errors);
-          }
-          // 글로벌 에러(toast)는 인터셉터가 처리
+        onError: () => {
+          // 로그인 실패 시 비밀번호 필드 초기화 및 포커스 재설정
+          setPassword('');
+          passwordRef.current?.focus();
+          // 서버 에러(아이디/비번 불일치 등)는 인터셉터가 토스트로 처리함
         },
       },
     );
@@ -104,7 +121,10 @@ export default function LoginModal() {
               type="email"
               placeholder="이메일을 입력하세요"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+              }}
               autoComplete="email"
               required
             />
@@ -118,12 +138,16 @@ export default function LoginModal() {
               비밀번호
             </label>
             <input
+              ref={passwordRef}
               id="login-password"
               className={`${styles.input} ${fieldErrors.password ? styles.inputError : ''}`}
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (fieldErrors.password) setFieldErrors({ ...fieldErrors, password: undefined });
+              }}
               autoComplete="current-password"
               required
             />

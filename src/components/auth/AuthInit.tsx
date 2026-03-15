@@ -10,7 +10,7 @@ export default function AuthInit() {
     if (!localStorage.getItem('hasSession')) return;
 
     authApi.me()
-      .then((res) => setUser(res.data))
+      .then((res) => setUser(res))
       .catch(() => {
         // 401 → 인터셉터가 refresh 시도, 실패 시 logout 처리
         setAuthReady();

@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { WaveDivider } from '../../../../components/ui/wave/WaveDivider';
-import './HomeBanner.css';
+import styles from './HomeBanner.module.css';
 
-export default function HomeBanner() {
+const HomeBanner = () => {
   const starsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function HomeBanner() {
 
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
-      star.className = 'hero-star';
+      star.className = styles.heroStar;
       star.style.cssText = `
         left: ${Math.random() * 100}%;
         top: ${Math.random() * 85}%;
@@ -30,22 +30,22 @@ export default function HomeBanner() {
   }, []);
 
   return (
-    <section className="hero">
-      <div className="hero-bg" />
-      <div className="hero-stars" ref={starsRef} />
+    <section className={styles.hero}>
+      <div className={styles.heroBg} />
+      <div className={styles.heroStars} ref={starsRef} />
 
-      <div className="hero-content">
-        <p className="hero-eyebrow">Developer Knowledge Log</p>
-        <h1 className="hero-title">
+      <div className={styles.heroContent}>
+        <p className={styles.heroEyebrow}>Developer Knowledge Log</p>
+        <h1 className={styles.heroTitle}>
           깊이 있는 기술의 파도,<br />
           <em>바다의 기록</em>
         </h1>
-        <p className="hero-sub">
+        <p className={styles.heroSub}>
           개발자들이 항해하며 발견한 지식을 함께 나누는 공간
         </p>
       </div>
 
-<WaveDivider
+      <WaveDivider
         fillColor="var(--banner-wave-color)"
         fillColor2="var(--banner-wave-color-2)"
         height={80}
@@ -53,4 +53,6 @@ export default function HomeBanner() {
       />
     </section>
   );
-}
+};
+
+export default HomeBanner;

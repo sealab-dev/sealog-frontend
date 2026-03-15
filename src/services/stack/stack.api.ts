@@ -1,7 +1,7 @@
 import { client } from '../core/client';
-import type { ApiResponse, PageResponse } from '../core/client.types';
-import type * as StackRequest from './_types/stack.request';
-import type * as StackResponse from './_types/stack.response';
+import type { PageResponse } from '../core/client.types';
+import type * as StackRequest from './types/stack.request';
+import type * as StackResponse from './types/stack.response';
 
 export const stackApi = {
 
@@ -9,25 +9,18 @@ export const stackApi = {
 
   /**
    * 사용자의 그룹별 스택 목록 조회 (게시글 수 포함)
-   * GET /api/guest/stacks/grouped/user/{nickname}
+   * GET /api/{nickname}/stacks
    */
-  getGroupedByUser: async (nickname: string): Promise<ApiResponse<StackResponse.GroupedStacks>> => {
-    const response = await client.get<ApiResponse<StackResponse.GroupedStacks>>(
-      `guest/stacks/grouped/user/${nickname}`,
-    );
-    return response.data;
+  getGroupedByUser: (nickname: string): Promise<StackResponse.GroupedStacks> => {
+    return client.get(`/${nickname}/stacks`);
   },
 
   /**
-   * 스택 자동완성 검색
-   * GET /api/guest/stacks/autocomplete?keyword=검색어
+   * 스택 검색
+   * GET /api/stacks/search?keyword=검색어
    */
-  autocomplete: async (keyword: string): Promise<ApiResponse<StackResponse.StackItem[]>> => {
-    const response = await client.get<ApiResponse<StackResponse.StackItem[]>>(
-      'guest/stacks/autocomplete',
-      { params: { keyword } },
-    );
-    return response.data;
+  searchStackByName: (keyword: string): Promise<StackResponse.StackItem[]> => {
+    return client.get('/stacks/search', { params: { keyword } });
   },
 
   // ==================== Admin APIs ====================
@@ -36,50 +29,38 @@ export const stackApi = {
    * 전체 스택 목록 조회 / 검색 (페이지네이션)
    * GET /api/admin/stacks?keyword=java&page=0&size=20
    */
-  getAll: async (params?: {
+  getAll: (params?: {
     keyword?: string;
     page?: number;
     size?: number;
-  }): Promise<ApiResponse<PageResponse<StackResponse.StackItem>>> => {
-    const response = await client.get<ApiResponse<PageResponse<StackResponse.StackItem>>>(
-      'admin/stacks',
-      { params },
-    );
-    return response.data;
+  }): Promise<PageResponse<StackResponse.StackItem>> => {
+    return client.get('admin/stacks', { params });
   },
 
   /**
    * 스택 생성
    * POST /api/admin/stacks
    */
-  create: async (request: StackRequest.Create): Promise<ApiResponse<StackResponse.StackItem>> => {
-    const response = await client.post<ApiResponse<StackResponse.StackItem>>(
-      'admin/stacks',
-      request,
-    );
-    return response.data;
+  create: (request: StackRequest.Create): Promise<StackResponse.StackItem> => {
+    return client.post('admin/stacks', request);
   },
 
   /**
    * 스택 수정
    * PUT /api/admin/stacks/{stackId}
    */
-  update: async (
+  update: (
     stackId: number,
     request: StackRequest.Update,
-  ): Promise<ApiResponse<StackResponse.StackItem>> => {
-    const response = await client.put<ApiResponse<StackResponse.StackItem>>(
-      `admin/stacks/${stackId}`,
-      request,
-    );
-    return response.data;
+  ): Promise<StackResponse.StackItem> => {
+    return client.put(`admin/stacks/${stackId}`, request);
   },
 
   /**
    * 스택 삭제
    * DELETE /api/admin/stacks/{stackId}
    */
-  delete: async (stackId: number): Promise<void> => {
-    await client.delete(`admin/stacks/${stackId}`);
+  delete: (stackId: number): Promise<void> => {
+    return client.delete(`admin/stacks/${stackId}`);
   },
 };

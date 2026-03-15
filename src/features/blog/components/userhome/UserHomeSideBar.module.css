@@ -159,7 +159,7 @@
   background: none;
   border: none;
   outline: none;
-  font-family: 'Pretendard', sans-serif;
+  font-family: var(--font-family-base);
   font-size: 13px;
   color: var(--text-primary);
   min-width: 0;
