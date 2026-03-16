@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import AdminHeader from './AdminHeader';
-import AdminSidebar from '../../features/admin/components/AdminSidebar';
+import AdminSidebar from './AdminSidebar';
 import styles from './AdminLayout.module.css';
 
 const AdminLayout = () => {

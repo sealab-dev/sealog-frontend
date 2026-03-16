@@ -15,11 +15,55 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { common, createLowlight } from 'lowlight';
+import { Node, mergeAttributes } from '@tiptap/core';
 import { useCallback, useRef, useState, useEffect } from 'react';
 import type { Editor } from '@tiptap/react';
 import styles from './PostEditor.module.css';
+import { fileApi } from '../../../../services/file/file.api';
 
 const lowlight = createLowlight(common);
+
+/* ── 커스텀 Image: data-file-id, data-file-path 속성 허용 ── */
+const CustomImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      'data-file-id': {
+        default: null,
+        parseHTML: (el) => el.getAttribute('data-file-id'),
+        renderHTML: (attrs) => attrs['data-file-id'] ? { 'data-file-id': attrs['data-file-id'] } : {},
+      },
+      'data-file-path': {
+        default: null,
+        parseHTML: (el) => el.getAttribute('data-file-path'),
+        renderHTML: (attrs) => attrs['data-file-path'] ? { 'data-file-path': attrs['data-file-path'] } : {},
+      },
+    };
+  },
+});
+
+/* ── 커스텀 Video 노드: data-file-id, data-file-path 속성 포함 ── */
+const VideoNode = Node.create({
+  name: 'video',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      src: { default: null },
+      'data-file-id': { default: null },
+      'data-file-path': { default: null },
+    };
+  },
+
+  parseHTML() {
+    return [{ tag: 'video[src], video[data-file-id]' }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['video', mergeAttributes(HTMLAttributes, { controls: '' })];
+  },
+});
 
 interface PostEditorProps {
   editorRef?: React.MutableRefObject<Editor | null>;
@@ -54,8 +98,10 @@ function ToolbarDivider() {
 
 export default function PostEditor({ editorRef, initialContent }: PostEditorProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const [isSticky, setIsSticky] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const toolbar = toolbarRef.current;
@@ -82,7 +128,8 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
       Color,
       Highlight.configure({ multicolor: true }),
       Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
-      Image.configure({ inline: false }),
+      CustomImage.configure({ inline: false }),
+      VideoNode,
       Table.configure({ resizable: true }),
       TableRow,
       TableHeader,
@@ -91,20 +138,12 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
       CharacterCount,
       CodeBlockLowlight.configure({ lowlight }),
     ],
-    content: '',
+    content: initialContent ?? '',
   });
 
   useEffect(() => {
     if (editorRef) editorRef.current = editor;
   }, [editor, editorRef]);
-
-  const initialContentSetRef = useRef(false);
-  useEffect(() => {
-    if (editor && initialContent && !initialContentSetRef.current) {
-      editor.commands.setContent(initialContent);
-      initialContentSetRef.current = true;
-    }
-  }, [editor, initialContent]);
 
   const setLink = useCallback(() => {
     if (!editor) return;
@@ -118,14 +157,30 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }, [editor]);
 
-  const insertImage = useCallback((file: File) => {
-    if (!editor) return;
-    const url = URL.createObjectURL(file);
-    editor.chain().focus().setImage({ src: url }).run();
-  }, [editor]);
-
   const insertTable = useCallback(() => {
     editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+  }, [editor]);
+
+  /* ── 미디어 업로드 공통 핸들러 ── */
+  const handleMediaUpload = useCallback(async (file: File) => {
+    if (!editor) return;
+    setIsUploading(true);
+    try {
+      const res = await fileApi.upload(file);
+      const nodeType = file.type.startsWith('video/') ? 'video' : 'image';
+      editor.chain().focus().insertContent({
+        type: nodeType,
+        attrs: {
+          src: res.fileUrl,
+          'data-file-id': String(res.id),
+          'data-file-path': res.path,
+        },
+      }).run();
+    } catch {
+      // 에러는 interceptor에서 처리
+    } finally {
+      setIsUploading(false);
+    }
   }, [editor]);
 
   if (!editor) return null;
@@ -223,11 +278,13 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
 
         <ToolbarDivider />
 
-        {/* 링크 / 이미지 / 표 */}
+        {/* 링크 / 이미지 / 비디오 / 표 */}
         <ToolbarButton onClick={setLink} active={editor.isActive('link')} title="링크">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         </ToolbarButton>
-        <ToolbarButton onClick={() => imageInputRef.current?.click()} title="이미지 삽입">
+
+        {/* 이미지 */}
+        <ToolbarButton onClick={() => imageInputRef.current?.click()} disabled={isUploading} title="이미지 삽입">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
         </ToolbarButton>
         <input
@@ -235,8 +292,29 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
           type="file"
           accept="image/*"
           className={styles.hiddenInput}
-          onChange={(e) => { const f = e.target.files?.[0]; if (f) insertImage(f); e.target.value = ''; }}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) handleMediaUpload(f);
+            e.target.value = '';
+          }}
         />
+
+        {/* 비디오 */}
+        <ToolbarButton onClick={() => videoInputRef.current?.click()} disabled={isUploading} title="비디오 삽입">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </ToolbarButton>
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/*"
+          className={styles.hiddenInput}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) handleMediaUpload(f);
+            e.target.value = '';
+          }}
+        />
+
         <ToolbarButton onClick={insertTable} title="표 삽입">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
         </ToolbarButton>
@@ -250,6 +328,8 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
         <ToolbarButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="다시 실행 (Ctrl+Y)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
         </ToolbarButton>
+
+        {isUploading && <span className={styles.uploadingIndicator}>업로드 중...</span>}
       </div>
 
       {/* 에디터 본문 */}

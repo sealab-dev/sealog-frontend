@@ -8,15 +8,15 @@ export const stackApi = {
   // ==================== Guest APIs ====================
 
   /**
-   * 사용자의 그룹별 스택 목록 조회 (게시글 수 포함)
-   * GET /api/{nickname}/stacks
+   * 그룹별 스택 목록 조회 (사용자별)
+   * GET /api/stacks/user/{nickname}
    */
   getGroupedByUser: (nickname: string): Promise<StackResponse.GroupedStacks> => {
-    return client.get(`/${nickname}/stacks`);
+    return client.get(`/stacks/user/${nickname}`);
   },
 
   /**
-   * 스택 검색
+   * 스택 자동완성 검색
    * GET /api/stacks/search?keyword=검색어
    */
   searchStackByName: (keyword: string): Promise<StackResponse.StackItem[]> => {
@@ -26,7 +26,7 @@ export const stackApi = {
   // ==================== Admin APIs ====================
 
   /**
-   * 전체 스택 목록 조회 / 검색 (페이지네이션)
+   * 전체 기술 스택 목록 조회 (페이징)
    * GET /api/admin/stacks?keyword=java&page=0&size=20
    */
   getAll: (params?: {
@@ -34,33 +34,33 @@ export const stackApi = {
     page?: number;
     size?: number;
   }): Promise<PageResponse<StackResponse.StackItem>> => {
-    return client.get('admin/stacks', { params });
+    return client.get('/admin/stacks', { params });
   },
 
   /**
-   * 스택 생성
+   * 신규 기술 스택 생성
    * POST /api/admin/stacks
    */
   create: (request: StackRequest.Create): Promise<StackResponse.StackItem> => {
-    return client.post('admin/stacks', request);
+    return client.post('/admin/stacks', request);
   },
 
   /**
-   * 스택 수정
+   * 기술 스택 정보 수정
    * PUT /api/admin/stacks/{stackId}
    */
   update: (
     stackId: number,
     request: StackRequest.Update,
   ): Promise<StackResponse.StackItem> => {
-    return client.put(`admin/stacks/${stackId}`, request);
+    return client.put(`/admin/stacks/${stackId}`, request);
   },
 
   /**
-   * 스택 삭제
+   * 기술 스택 삭제
    * DELETE /api/admin/stacks/{stackId}
    */
   delete: (stackId: number): Promise<void> => {
-    return client.delete(`admin/stacks/${stackId}`);
+    return client.delete(`/api/admin/stacks/${stackId}`);
   },
 };

@@ -4,7 +4,8 @@ import PostEditSidebar from './PostEditSidebar';
 import PostEditor from './PostEditor';
 import styles from './PostEditForm.module.css';
 import { useStackAutocompleteQuery } from '../../../../services/stack/stack.queries';
-import type { StackOption } from '../../../../pages/blog/PostEditPage';
+import type { StackOption, PostEditErrors } from '../../../../pages/blog/PostEditPage';
+import type { MySeriesItem } from '../../../../services/series/types/series.response';
 
 interface PostEditFormProps {
   title: string;
@@ -14,8 +15,10 @@ interface PostEditFormProps {
   coverUrl: string | null;
   selectedArchiveId: number | null;
   isPublic: boolean;
+  series: MySeriesItem[];
   editorRef: React.MutableRefObject<Editor | null>;
   initialContent?: string;
+  errors?: PostEditErrors;
   onTitleChange: (title: string) => void;
   onTagsChange: (tags: string[]) => void;
   onStacksChange: (stacks: StackOption[]) => void;
@@ -32,8 +35,10 @@ export default function PostEditForm({
   coverUrl,
   selectedArchiveId,
   isPublic,
+  series,
   editorRef,
   initialContent,
+  errors = {},
   onTitleChange,
   onTagsChange,
   onStacksChange,
@@ -59,7 +64,7 @@ export default function PostEditForm({
   /* ── 태그 ── */
   const addTag = () => {
     const trimmed = tagInput.trim();
-    if (trimmed && !tags.includes(trimmed) && tags.length < 10) {
+    if (trimmed && !tags.includes(trimmed) && tags.length < 5) {
       onTagsChange([...tags, trimmed]);
       setTagInput('');
     }
@@ -80,7 +85,7 @@ export default function PostEditForm({
 
   /* ── 스택 ── */
   const addStack = (stack: StackOption) => {
-    if (!selectedStacks.some((s) => s.id === stack.id)) {
+    if (!selectedStacks.some((s) => s.id === stack.id) && selectedStacks.length < 5) {
       onStacksChange([...selectedStacks, stack]);
     }
     setStackQuery('');
@@ -97,6 +102,7 @@ export default function PostEditForm({
         coverUrl={coverUrl}
         selectedArchiveId={selectedArchiveId}
         isPublic={isPublic}
+        series={series}
         onCoverChange={onCoverChange}
         onArchiveChange={onArchiveChange}
         onVisibilityChange={onVisibilityChange}
@@ -118,6 +124,7 @@ export default function PostEditForm({
               el.style.height = `${el.scrollHeight}px`;
             }}
           />
+          {errors.title && <span className={styles.fieldError}>{errors.title}</span>}
 
           <div className={styles.divider} />
 
@@ -134,37 +141,38 @@ export default function PostEditForm({
                 </button>
               </span>
             ))}
-            <div className={styles.stackSearch}>
-              <input
-                className={styles.stackInput}
-                type="text"
-                placeholder={selectedStacks.length === 0 ? '사용 스택을 추가해보세요' : '스택 추가...'}
-                value={stackQuery}
-                onChange={(e) => setStackQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && filteredSuggestions.length > 0) {
-                    e.preventDefault();
-                    addStack(filteredSuggestions[0]);
-                  }
-                  if (e.key === 'Backspace' && !stackQuery && selectedStacks.length > 0) {
-                    removeStack(selectedStacks[selectedStacks.length - 1].id);
-                  }
-                }}
-              />
-              {filteredSuggestions.length > 0 && (
-                <ul className={styles.stackDropdown}>
-                  {filteredSuggestions.map((stack) => (
-                    <li key={stack.id}>
-                      <button type="button" onMouseDown={() => addStack(stack)}>
-                        {stack.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            {selectedStacks.length < 5 && (
+              <div className={styles.stackSearch}>
+                <input
+                  className={styles.stackInput}
+                  type="text"
+                  placeholder={selectedStacks.length === 0 ? '사용 스택을 추가해보세요' : '스택 추가...'}
+                  value={stackQuery}
+                  onChange={(e) => setStackQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && filteredSuggestions.length > 0) {
+                      e.preventDefault();
+                      addStack(filteredSuggestions[0]);
+                    }
+                    if (e.key === 'Backspace' && !stackQuery && selectedStacks.length > 0) {
+                      removeStack(selectedStacks[selectedStacks.length - 1].id);
+                    }
+                  }}
+                />
+                {filteredSuggestions.length > 0 && (
+                  <ul className={styles.stackDropdown}>
+                    {filteredSuggestions.map((stack) => (
+                      <li key={stack.id}>
+                        <button type="button" onMouseDown={() => addStack(stack)}>
+                          {stack.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
-
           <div className={styles.divider} />
 
           {/* 태그 */}
@@ -180,21 +188,24 @@ export default function PostEditForm({
                 </button>
               </span>
             ))}
-            <input
-              className={styles.tagInput}
-              type="text"
-              placeholder={tags.length === 0 ? '태그를 입력하세요 (Enter로 추가)' : '태그 추가...'}
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyDown={handleTagKeyDown}
-              onBlur={addTag}
-            />
+            {tags.length < 5 && (
+              <input
+                className={styles.tagInput}
+                type="text"
+                placeholder={tags.length === 0 ? '태그를 입력하세요 (Enter로 추가)' : '태그 추가...'}
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleTagKeyDown}
+                onBlur={addTag}
+              />
+            )}
           </div>
 
           <div className={styles.divider} />
 
           {/* 에디터 */}
           <PostEditor editorRef={editorRef} initialContent={initialContent} />
+          {errors.content && <span className={styles.fieldError}>{errors.content}</span>}
 
         </div>
       </div>

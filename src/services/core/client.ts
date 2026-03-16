@@ -50,7 +50,7 @@ client.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await client.post("/api/auth/refresh");
+        await client.post("/auth/refresh");
         return client(originalRequest);
       } catch (refreshError) {
         const wasLoggedIn = useAuthStore.getState().isLoggedIn;

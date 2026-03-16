@@ -126,9 +126,63 @@
   }
 }
 
+/* ── 전체 글 ── */
+.allSection {
+  padding: 4px 8px 8px;
+  border-bottom: 1px solid var(--border-default);
+  margin-bottom: 4px;
+}
+
+.allBtn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 10px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: background var(--transition), color var(--transition);
+  text-align: left;
+}
+
+.allBtn:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.allBtnActive {
+  background: var(--point-bg);
+  color: var(--point-primary);
+}
+
+.allBtnIcon {
+  flex-shrink: 0;
+  color: inherit;
+}
+
 /* ── Search ── */
 .searchWrap {
-  padding: 14px 14px 10px;
+  padding: 10px 14px 10px;
+}
+
+.searchLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 8px 2px;
+}
+
+.searchDivider {
+  margin: 10px 0 0;
+  border: none;
+  border-top: 1px solid var(--border-default);
 }
 
 .search {
@@ -369,6 +423,7 @@
 .seriesItem {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: 8px 10px;
   background: none;
@@ -423,4 +478,26 @@
 .seriesItemActive .seriesItemName {
   color: var(--point-primary);
   font-weight: 600;
+}
+
+.seriesItemCount {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border-radius: 20px;
+  padding: 1px 7px;
+  flex-shrink: 0;
+  transition:
+    color var(--transition),
+    background var(--transition);
+}
+
+.seriesItem:hover .seriesItemCount {
+  color: var(--text-secondary);
+}
+
+.seriesItemActive .seriesItemCount {
+  color: var(--point-primary);
+  background: rgba(96, 165, 250, 0.15);
 }

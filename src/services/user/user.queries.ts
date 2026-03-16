@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { userApi } from './user.api';
 import { userKeys } from './user.keys';
-import type * as UserResponse from './types/user.response';
 
 /**
  * 블로그 사용자 정보 조회
@@ -16,8 +15,7 @@ export const usePublicProfileQuery = (nickname: string) => {
 };
 
 /**
- * 내 정보 조회
- * GET /api/user/me
+ * 내 프로필 정보 조회
  */
 export const useMyProfileQuery = (options?: { enabled?: boolean }) => {
   return useQuery({

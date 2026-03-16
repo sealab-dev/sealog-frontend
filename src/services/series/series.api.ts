@@ -1,114 +1,98 @@
 import { client } from '../core/client';
 import type { PageResponse } from '../core/client.types';
-import type * as ArchiveRequest from './types/series.request';
-import type * as ArchiveResponse from './types/series.response';
+import type * as SeriesRequest from './types/series.request';
+import type * as SeriesResponse from './types/series.response';
 
-export const archiveApi = {
+export const seriesApi = {
 
   // ==================== Guest APIs ====================
 
   /**
-   * 사용자의 공개 아카이브 목록 조회
-   * GET /api/guest/archive/{nickname}
+   * 유저의 공개 시리즈 목록 조회
+   * GET /api/{nickname}/series
    */
   getGuestList: (
     nickname: string,
     params?: { page?: number; size?: number },
-  ): Promise<PageResponse<ArchiveResponse.ArchiveItems>> => {
-    return client.get(`guest/archive/${nickname}`, { params });
+  ): Promise<PageResponse<SeriesResponse.SeriesItem>> => {
+    return client.get(`/${nickname}/series`, { params });
   },
 
   /**
-   * 아카이브에 속한 공개 게시글 목록 조회
-   * GET /api/guest/archive/{archiveId}/posts
+   * 시리즈 내 공개 게시글 목록 조회
+   * GET /api/{nickname}/series/{slug}
    */
   getGuestPosts: (
-    archiveId: number,
+    nickname: string,
+    slug: string,
     params?: { page?: number; size?: number },
-  ): Promise<PageResponse<ArchiveResponse.PostItems>> => {
-    return client.get(`guest/archive/${archiveId}/posts`, { params });
+  ): Promise<PageResponse<SeriesResponse.SeriesPostItem>> => {
+    return client.get(`/${nickname}/series/${slug}`, { params });
   },
 
   // ==================== User APIs ====================
 
   /**
-   * 내 아카이브 목록 조회
-   * GET /api/user/archive
+   * 내 시리즈 목록 조회
+   * GET /api/me/series
    */
   getMyList: (
     params?: { page?: number; size?: number },
-  ): Promise<PageResponse<ArchiveResponse.ArchiveItems>> => {
-    return client.get('user/archive', { params });
+  ): Promise<PageResponse<SeriesResponse.MySeriesItem>> => {
+    return client.get('/me/series', { params });
   },
 
   /**
-   * 내 아카이브 게시글 목록 조회
-   * GET /api/user/archive/{archiveId}/posts
+   * 내 시리즈 상세/게시글 목록 조회
+   * GET /api/me/series/{slug}
    */
   getMyPosts: (
-    archiveId: number,
+    slug: string,
     params?: { page?: number; size?: number },
-  ): Promise<PageResponse<ArchiveResponse.PostItems>> => {
-    return client.get(`user/archive/${archiveId}/posts`, { params });
+  ): Promise<PageResponse<SeriesResponse.MySeriesPostItem>> => {
+    return client.get(`/me/series/${slug}`, { params });
   },
 
   /**
-   * 아카이브 생성
-   * POST /api/user/archive
+   * 시리즈 생성
+   * POST /api/me/series
    */
-  create: (request: ArchiveRequest.Create): Promise<void> => {
-    return client.post('user/archive', request);
+  create: (request: SeriesRequest.Create): Promise<void> => {
+    return client.post('/me/series', request);
   },
 
   /**
-   * 아카이브 수정
-   * PUT /api/user/archive/{nickname}/{slug}
+   * 시리즈 수정
+   * PUT /api/me/series/{seriesId}
    */
   update: (
-    nickname: string,
-    slug: string,
-    request: ArchiveRequest.Update,
+    seriesId: number,
+    request: SeriesRequest.Update,
   ): Promise<void> => {
-    return client.put(`user/archive/${nickname}/${slug}`, request);
+    return client.put(`/me/series/${seriesId}`, request);
   },
 
   /**
-   * 아카이브 공개
-   * PATCH /api/user/archive/{nickname}/{slug}/show
+   * 시리즈 삭제
+   * DELETE /api/me/series/{seriesId}
    */
-  show: (nickname: string, slug: string): Promise<void> => {
-    return client.patch(`user/archive/${nickname}/${slug}/show`);
+  delete: (seriesId: number): Promise<void> => {
+    return client.delete(`/me/series/${seriesId}`);
   },
 
   /**
-   * 아카이브 비공개
-   * PATCH /api/user/archive/{nickname}/{slug}/hide
+   * 시리즈 공개 처리
+   * PATCH /api/me/series/{seriesId}/show
    */
-  hide: (nickname: string, slug: string): Promise<void> => {
-    return client.patch(`user/archive/${nickname}/${slug}/hide`);
+  show: (seriesId: number): Promise<void> => {
+    return client.patch(`/me/series/${seriesId}/show`);
   },
 
   /**
-   * 아카이브 삭제
-   * DELETE /api/user/archive/{nickname}/{slug}
+   * 시리즈 비공개 처리
+   * PATCH /api/me/series/{seriesId}/hide
    */
-  delete: (nickname: string, slug: string): Promise<void> => {
-    return client.delete(`user/archive/${nickname}/${slug}`);
-  },
-
-  /**
-   * 게시글 아카이브 배정
-   * PATCH /api/user/archive/{archiveId}/post/{postId}
-   */
-  changePostArchive: (archiveId: number, postId: number): Promise<void> => {
-    return client.patch(`user/archive/${archiveId}/post/${postId}`);
-  },
-
-  /**
-   * 게시글 아카이브 해제
-   * DELETE /api/user/archive/post/{postId}
-   */
-  deletePostArchive: (postId: number): Promise<void> => {
-    return client.delete(`user/archive/post/${postId}`);
+  hide: (seriesId: number): Promise<void> => {
+    return client.patch(`/me/series/${seriesId}/hide`);
   },
 };

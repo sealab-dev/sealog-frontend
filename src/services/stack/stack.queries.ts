@@ -1,12 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { stackApi } from './stack.api';
 import { stackKeys } from './stack.keys';
-import type { PageResponse } from '../core/client.types';
-import type * as StackResponse from './types/stack.response';
 
 /**
  * 사용자의 그룹별 스택 목록 조회
- * GET /api/guest/stacks/grouped/user/{nickname}
  */
 export const useGroupedStacksByUserQuery = (nickname: string) => {
   return useQuery({
@@ -19,7 +16,6 @@ export const useGroupedStacksByUserQuery = (nickname: string) => {
 
 /**
  * 스택 자동완성 검색
- * GET /api/guest/stacks/autocomplete?keyword=검색어
  */
 export const useStackAutocompleteQuery = (keyword: string) => {
   return useQuery({
@@ -31,8 +27,7 @@ export const useStackAutocompleteQuery = (keyword: string) => {
 };
 
 /**
- * 전체 스택 목록 조회 / 검색 (Admin)
- * GET /api/admin/stacks
+ * 어드민용 전체 스택 목록 조회
  */
 export const useAdminStackListQuery = (params?: {
   keyword?: string;

@@ -1,5 +1,5 @@
 /**
- * 파일 업로드 응답
+ * 파일 업로드 응답 (FileResponse)
  */
 export interface FileResponse {
   id: number;

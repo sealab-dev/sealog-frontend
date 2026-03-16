@@ -1,5 +1,6 @@
 export interface Author {
   name: string;
+  nickname?: string;
   initial: string;
   profileImageUrl?: string | null;
 }
@@ -27,7 +28,6 @@ export interface TocItem {
 export interface PostDetail {
   id: number;
   title: string;
-  desc: string;
   author: Author;
   date: string;
   readTime: number;

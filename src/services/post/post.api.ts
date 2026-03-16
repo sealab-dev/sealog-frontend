@@ -14,30 +14,30 @@ export const postApi = {
   getPosts: (params?: {
     page?: number;
     size?: number;
-  }): Promise<PageResponse<PostResponse.PostItems>> => {
+  }): Promise<PageResponse<PostResponse.PostItem>> => {
     return client.get('/posts', { params });
   },
-  
+
   /**
-   * 특정 유저의 전체 게시글 목록 조회
+   * 유저의 전체 게시글 목록 조회
    * GET /api/{nickname}/posts
    */
   getUserPosts: (
     nickname: string,
     params?: { page?: number; size?: number },
-  ): Promise<PageResponse<PostResponse.PostItems>> => {
+  ): Promise<PageResponse<PostResponse.PostItem>> => {
     return client.get(`/${nickname}/posts`, { params });
   },
 
   /**
-   * 특정 유저의 스택별 게시글 목록 조회
+   * 유저의 스택별 게시글 목록 조회
    * GET /api/{nickname}/posts?stackName={stackName}
    */
   getPostsByStack: (
     nickname: string,
     stackName: string,
     params?: { page?: number; size?: number },
-  ): Promise<PageResponse<PostResponse.PostItems>> => {
+  ): Promise<PageResponse<PostResponse.PostItem>> => {
     return client.get(
       `/${nickname}/posts`,
       { params: { stackName, ...params } },
@@ -45,13 +45,13 @@ export const postApi = {
   },
 
   /**
-   * 전체 게시글 검색
+   * 공개 게시글 검색
    * GET /api/posts/search?keyword=검색어
    */
   searchPosts: (
     keyword: string,
     params?: { page?: number; size?: number }
-  ): Promise<PageResponse<PostResponse.PostItems>> => {
+  ): Promise<PageResponse<PostResponse.PostItem>> => {
     return client.get(
       '/posts/search',
       { params: { keyword, ...params } },
@@ -59,14 +59,14 @@ export const postApi = {
   },
 
   /**
-   * 특정 유저 전체 게시글 검색
+   * 유저의 공개 게시글 검색
    * GET /api/{nickname}/posts/search?keyword=검색어
    */
   searchPostsByNickname: (
     nickname: string,
     keyword: string,
     params?: { page?: number; size?: number }
-  ): Promise<PageResponse<PostResponse.PostItems>> => {
+  ): Promise<PageResponse<PostResponse.PostItem>> => {
     return client.get(
       `/${nickname}/posts/search`,
       { params: { keyword, ...params } },
@@ -77,11 +77,36 @@ export const postApi = {
    * 게시글 상세 조회 (Nickname + Slug 기반)
    * GET /api/{nickname}/posts/{slug}
    */
-  getDetail: (nickname: string, slug: string): Promise<PostResponse.Detail> => {
+  getDetail: (nickname: string, slug: string): Promise<PostResponse.PostDetail> => {
     return client.get(`/${nickname}/posts/${slug}`);
   },
 
   // ==================== User APIs ====================
+
+  /**
+   * 내 게시글 검색 (DRAFT 포함)
+   * GET /api/me/posts/search?keyword=검색어
+   */
+  searchMyPosts: (
+    keyword: string,
+    params?: { page?: number; size?: number }
+  ): Promise<PageResponse<PostResponse.MyPostItem>> => {
+    return client.get(
+      '/me/posts/search',
+      { params: { keyword, ...params } }
+    );
+  },
+
+  /**
+   * 내 전체 게시글 목록 조회 (DRAFT 포함)
+   * GET /api/me/posts
+   */
+  getMyPosts: (params?: {
+    page?: number;
+    size?: number;
+  }): Promise<PageResponse<PostResponse.MyPostItem>> => {
+    return client.get('/me/posts', { params });
+  },
 
   /**
    * 게시글 생성
@@ -90,7 +115,7 @@ export const postApi = {
   create: (
     request: PostRequest.Create,
     thumbnail?: File | null,
-  ): Promise<PostResponse.Detail> => {
+  ): Promise<PostResponse.MyPostItem> => {
     const formData = new FormData();
 
     formData.append(
@@ -111,10 +136,10 @@ export const postApi = {
 
   /**
    * 게시글 수정용 데이터 조회
-   * GET /api/me/posts/{slug}
+   * GET /api/me/posts/edit/{slug}
    */
-  getEdit: (slug: string): Promise<PostResponse.Edit> => {
-    return client.get(`/me/posts/${slug}`);
+  getEdit: (slug: string): Promise<PostResponse.MyPostEdit> => {
+    return client.get(`/me/posts/edit/${slug}`);
   },
 
   /**
@@ -125,7 +150,7 @@ export const postApi = {
     postId: number,
     request: PostRequest.Update,
     thumbnail?: File | null,
-  ): Promise<PostResponse.Detail> => {
+  ): Promise<PostResponse.MyPostItem> => {
     const formData = new FormData();
 
     formData.append(
@@ -160,17 +185,6 @@ export const postApi = {
     return client.patch(`/me/posts/${postId}/restore`);
   },
 
-  /** 내 게시글 검색 (PUBLISHED + DRAFT 포함) */
-  searchMyPosts: (
-    keyword: string,
-    params?: { page?: number; size?: number }
-  ): Promise<PageResponse<PostResponse.PostItems>> => {
-    return client.get(
-      '/me/posts/search',
-      { params: { keyword, ...params } }
-    );
-  },
-
   /**
    * 삭제된 게시글 목록 조회
    * GET /api/me/posts/deleted
@@ -178,7 +192,7 @@ export const postApi = {
   getDeleted: (params?: {
     page?: number;
     size?: number;
-  }): Promise<PageResponse<PostResponse.PostItems>> => {
+  }): Promise<PageResponse<PostResponse.MyPostItem>> => {
     return client.get(
       '/me/posts/deleted',
       { params },

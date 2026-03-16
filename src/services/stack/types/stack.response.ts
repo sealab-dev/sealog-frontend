@@ -1,7 +1,7 @@
-import type { StackGroup } from './stack.enum';
+import type { StackGroup } from "./stack.enum";
 
 /**
- * 스택 기본 정보
+ * 스택 아이템 (어드민용/기본)
  */
 export interface StackItem {
   id: number;
@@ -10,7 +10,7 @@ export interface StackItem {
 }
 
 /**
- * 스택 + 게시글 수
+ * 스택 + 게시글 수 정보 (StackWithCount)
  */
 export interface StackWithCount {
   id: number;
@@ -20,8 +20,8 @@ export interface StackWithCount {
 }
 
 /**
- * 그룹별 스택 목록
+ * 그룹별 스택 목록 (GroupedStacks)
  */
 export interface GroupedStacks {
-  groupedTags: Partial<Record<StackGroup, StackWithCount[]>>;
+  groupedTags: Record<string, StackWithCount[]>;
 }

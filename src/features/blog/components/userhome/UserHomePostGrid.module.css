@@ -1,7 +1,7 @@
 .uhContent {
   max-width: var(--content-w);
   margin: 0 auto;
-  padding: 28px 32px 80px;
+  padding: 56px 32px 80px;
 }
 
 .uhContentHeader {
@@ -20,19 +20,48 @@
   gap: 8px;
 }
 
-.uhContentTitle::before {
-  content: '';
-  width: 3px;
-  height: 18px;
-  background: var(--point-primary);
-  border-radius: 2px;
-  box-shadow: 0 0 8px var(--point-glow);
+.uhFilterLabel {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.uhFilterValue {
+  color: var(--text-primary);
 }
 
 .uhContentCount {
   font-size: 13px;
   color: var(--text-muted);
   font-weight: 400;
+}
+
+.uhClearFilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 20px;
+  padding: 3px 10px 3px 7px;
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    border-color var(--transition);
+  margin-left: 4px;
+}
+
+.uhClearFilter svg {
+  width: 11px;
+  height: 11px;
+}
+
+.uhClearFilter:hover {
+  color: var(--point-primary);
+  border-color: var(--point-primary);
 }
 
 .uhPostGrid {
@@ -79,8 +108,12 @@
 
 /* ── 스켈레톤 ── */
 @keyframes uh-shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position:  400px 0; }
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
 }
 
 .uhPostCardSkeleton {
@@ -92,7 +125,12 @@
 
 .uhPostCardSkeletonThumb {
   height: 160px;
-  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 25%,
+    var(--bg-card) 50%,
+    var(--bg-surface) 75%
+  );
   background-size: 800px 100%;
   animation: uh-shimmer 1.4s infinite linear;
 }
@@ -107,13 +145,22 @@
 .uhPostCardSkeletonLine {
   height: 14px;
   border-radius: 6px;
-  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 25%,
+    var(--bg-card) 50%,
+    var(--bg-surface) 75%
+  );
   background-size: 800px 100%;
   animation: uh-shimmer 1.4s infinite linear;
 }
 
-.uhPostCardSkeletonLineShort { width: 40%; }
-.uhPostCardSkeletonLineMid   { width: 65%; }
+.uhPostCardSkeletonLineShort {
+  width: 40%;
+}
+.uhPostCardSkeletonLineMid {
+  width: 65%;
+}
 
 /* ── 빈 상태 / 에러 상태 ── */
 .uhPostEmpty {
@@ -154,7 +201,9 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color var(--transition), color var(--transition);
+  transition:
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .uhPostEmptyRetry:hover {

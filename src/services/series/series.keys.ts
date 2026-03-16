@@ -1,11 +1,11 @@
-export const archiveKeys = {
-  all: ['archive'] as const,
+export const seriesKeys = {
+  all: ['series'] as const,
 
   // Guest
-  guestList: (nickname: string) => [...archiveKeys.all, 'guest', 'list', nickname] as const,
-  guestPosts: (archiveId: number) => [...archiveKeys.all, 'guest', 'posts', archiveId] as const,
+  guestList: (nickname: string) => [...seriesKeys.all, 'guest', 'list', nickname] as const,
+  guestPosts: (nickname: string, slug: string) => [...seriesKeys.all, 'guest', 'posts', nickname, slug] as const,
 
   // User
-  myList: () => [...archiveKeys.all, 'user', 'list'] as const,
-  myPosts: (archiveId: number) => [...archiveKeys.all, 'user', 'posts', archiveId] as const,
+  myList: () => [...seriesKeys.all, 'me', 'list'] as const,
+  myPosts: (slug: string) => [...seriesKeys.all, 'me', 'posts', slug] as const,
 };

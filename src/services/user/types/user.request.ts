@@ -1,27 +1,21 @@
-import type { SocialType } from "./user.enum";
+import type { SocialType } from './user.enum';
 
 /**
- * 소셜 링크 단건
- */
-export interface UpdateSocialLink {
-  socialType: SocialType;
-  url: string;
-}
-
-/**
- * 프로필 수정
- * - multipart/form-data 로 전송 (JSON part: "request", 이미지 part: "profileImage")
+ * 프로필 수정 요청 (UpdateProfile)
  */
 export interface UpdateProfile {
   nickname?: string;
   position?: string;
   about?: string;
   removeProfileImage?: boolean;
-  socialLinks?: UpdateSocialLink[] | null; // null: 변경 없음, []: 전체 삭제
+  socialLinks?: {
+    socialType: SocialType;
+    url: string;
+  }[];
 }
 
 /**
- * 비밀번호 변경
+ * 비밀번호 변경 요청 (UpdatePassword)
  */
 export interface UpdatePassword {
   currentPassword: string;
@@ -30,9 +24,9 @@ export interface UpdatePassword {
 }
 
 /**
- * 사용자 생성 요청 (Admin용)
+ * 사용자 생성 요청 (Create - Admin용)
  */
-export interface Create {
+export interface CreateUser {
   email: string;
   password: string;
   name: string;

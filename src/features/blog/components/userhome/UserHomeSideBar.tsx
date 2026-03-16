@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Code2,
   Layers,
@@ -12,6 +12,7 @@ import {
   Search,
   X,
   BookMarked,
+  House,
 } from 'lucide-react';
 import type { SidebarStackGroup } from '../../types/userProfile';
 import type { StackGroup } from '../../../../services/stack/types/stack.enum';
@@ -35,10 +36,12 @@ interface UserHomeSideBarProps {
   onSearchChange: (query: string) => void;
   sortedGroupedStacks: SidebarStackGroup[];
   activeStack: string;
-  onStackClick: (name: string) => void;
-  activeSeries: { id: number; name: string } | null;
-  onSeriesClick: (item: { id: number; name: string }) => void;
-  sidebarSeries: { id: number; name: string; count: number }[];
+  onStackClick: (group: StackGroup, name: string) => void;
+  activeSeries: { id: number; slug: string; name: string } | null;
+  onSeriesClick: (item: { id: number; slug: string; name: string }) => void;
+  sidebarSeries: { id: number; slug: string; name: string; count: number }[];
+  isAllActive: boolean;
+  onAllClick: () => void;
 }
 
 const UserHomeSideBar = ({
@@ -52,8 +55,16 @@ const UserHomeSideBar = ({
   activeSeries,
   onSeriesClick,
   sidebarSeries,
+  isAllActive,
+  onAllClick,
 }: UserHomeSideBarProps) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<StackGroup>>(new Set());
+  const [inputValue, setInputValue] = useState(searchQuery);
+
+  // URL keyword가 외부에서 바뀌면 입력값도 동기화
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
 
   const toggleGroup = (group: StackGroup) => {
     setExpandedGroups((prev) => {
@@ -64,25 +75,56 @@ const UserHomeSideBar = ({
     });
   };
 
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) return;
+    if (e.key === 'Enter') {
+      onSearchChange(inputValue.trim());
+    }
+    if (e.key === 'Escape') {
+      setInputValue('');
+      onSearchChange('');
+    }
+  };
+
+  const handleSearchClear = () => {
+    setInputValue('');
+    onSearchChange('');
+  };
+
   return (
     <>
       <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`} aria-label="블로그 필터">
+
+        {/* 전체 글 */}
+        <div className={styles.allSection}>
+          <button
+            type="button"
+            className={`${styles.allBtn} ${isAllActive ? styles.allBtnActive : ''}`}
+            onClick={onAllClick}
+          >
+            <House size={14} className={styles.allBtnIcon} />
+            <span>유저 홈</span>
+          </button>
+        </div>
+
         {/* Search */}
         <div className={styles.searchWrap}>
+          <p className={styles.searchLabel}>검색</p>
           <div className={styles.search}>
             <Search size={13} className={styles.searchIcon} aria-hidden="true" />
             <input
               type="text"
               placeholder="이 블로그에서 검색..."
               aria-label="블로그 내 검색"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
             />
-            {searchQuery && (
+            {inputValue && (
               <button
                 className={styles.searchClear}
                 type="button"
-                onClick={() => onSearchChange('')}
+                onClick={handleSearchClear}
                 aria-label="검색어 지우기"
               >
                 <X size={12} />
@@ -90,6 +132,8 @@ const UserHomeSideBar = ({
             )}
           </div>
         </div>
+
+        <hr className={styles.searchDivider} />
 
         {/* Stacks */}
         <section className={styles.section}>
@@ -125,7 +169,7 @@ const UserHomeSideBar = ({
                         <button
                           type="button"
                           className={`${styles.stackItem} ${activeStack === stack.name && !activeSeries ? styles.stackItemActive : ''}`}
-                          onClick={() => onStackClick(stack.name)}
+                          onClick={() => onStackClick(group, stack.name)}
                         >
                           <span className={styles.stackItemName}>{stack.name}</span>
                           <span className={styles.stackItemCount}>{stack.count}</span>
@@ -147,11 +191,12 @@ const UserHomeSideBar = ({
               <li key={item.id}>
                 <button
                   type="button"
-                  className={`${styles.seriesItem} ${activeSeries?.id === item.id ? styles.seriesItemActive : ''}`}
-                  onClick={() => onSeriesClick(item)}
+                  className={`${styles.seriesItem} ${activeSeries?.slug === item.slug ? styles.seriesItemActive : ''}`}
+                  onClick={() => onSeriesClick({ id: item.id, slug: item.slug, name: item.name })}
                 >
                   <BookMarked size={13} className={styles.seriesItemIcon} />
                   <span className={styles.seriesItemName}>{item.name}</span>
+                  <span className={styles.seriesItemCount}>{item.count}</span>
                 </button>
               </li>
             ))}

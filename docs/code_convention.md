@@ -41,6 +41,7 @@ src/
   - CSS Modules: `FileName.module.css` (권장)
   - 일반 CSS: `FileName.css`
 - **폴더명**: 소문자 중심 (예: `components`, `features`, `user`), 도메인이 명확할 경우 `camelCase`
+- **서비스 파일**: 도메인.목적.ts 형태 (예: `user.api.ts`, `post.queries.ts` 등)
 
 ### 3.2 코드 내부
 
@@ -88,17 +89,3 @@ export default function PostCard({ post }: PostCardProps) {
 - API 응답 데이터와 UI 데이터의 구조가 다를 경우, `toPost`와 같은 **Mapper 함수**를 사용하여 변환하는 것을 지향합니다.
 
 ---
-
-## 7. 현재 불일치 및 개선 사항 (Checklist)
-
-아래 항목들은 현재 프로젝트에서 일관성이 부족한 부분으로, 점진적인 개선이 필요합니다.
-
-1. **[Style] 스타일링 방식 혼용**:
-   - `features/blog`는 일반 `.css`를 사용 중이나 `features/admin`은 `.module.css`를 사용 중입니다.
-   - 향후 모든 컴포넌트 스타일은 **CSS Modules**로 통일할 것을 권장합니다.
-2. **[Structure] `src/design` 폴더**:
-   - 현재 퍼블리싱용 HTML/CSS가 포함되어 있습니다. 실제 리액트 컴포넌트로 변환이 완료되면 삭제하거나 별도 레퍼런스 폴더로 이동해야 합니다.
-3. **[Types] API 타입 폴더명**:
-   - 어떤 곳은 `_types`를 사용하고 어떤 곳은 `types`를 사용합니다. `_types`로 통일하거나 표준화가 필요합니다.
-4. **[Convention] 컴포넌트 내보내기**:
-   - `AuthInit.tsx`는 `export default AuthInit` (하단) 방식이고, `PostCard.tsx`는 `export default function PostCard` (인라인) 방식입니다. 인라인 방식으로 통일하는 것을 권장합니다.

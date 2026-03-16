@@ -1,65 +1,61 @@
 import { useQuery } from '@tanstack/react-query';
-import { archiveApi } from './series.api';
-import { archiveKeys } from './series.keys';
-import type { PageResponse } from '../core/client.types';
-import type * as ArchiveResponse from './types/series.response';
+import { seriesApi } from './series.api';
+import { seriesKeys } from './series.keys';
 
 /**
- * 사용자의 공개 아카이브 목록 조회
- * GET /api/guest/archive/{nickname}
+ * 유저의 공개 시리즈 목록 조회
  */
-export const useGuestArchiveListQuery = (
+export const useGuestSeriesListQuery = (
   nickname: string,
   params?: { page?: number; size?: number },
 ) => {
   return useQuery({
-    queryKey: [...archiveKeys.guestList(nickname), params],
-    queryFn: () => archiveApi.getGuestList(nickname, params),
+    queryKey: [...seriesKeys.guestList(nickname), params],
+    queryFn: () => seriesApi.getGuestList(nickname, params),
     staleTime: 1000 * 60 * 5,
     enabled: !!nickname,
   });
 };
 
 /**
- * 아카이브에 속한 공개 게시글 목록 조회
- * GET /api/guest/archive/{archiveId}/posts
+ * 시리즈 내 공개 게시글 목록 조회
  */
-export const useGuestArchivePostsQuery = (
-  archiveId: number,
+export const useGuestSeriesPostsQuery = (
+  nickname: string,
+  slug: string,
   params?: { page?: number; size?: number },
+  options?: { enabled?: boolean },
 ) => {
   return useQuery({
-    queryKey: [...archiveKeys.guestPosts(archiveId), params],
-    queryFn: () => archiveApi.getGuestPosts(archiveId, params),
+    queryKey: [...seriesKeys.guestPosts(nickname, slug), params],
+    queryFn: () => seriesApi.getGuestPosts(nickname, slug, params),
     staleTime: 1000 * 60 * 5,
-    enabled: !!archiveId,
+    enabled: (options?.enabled ?? true) && !!nickname && !!slug,
   });
 };
 
 /**
- * 내 아카이브 목록 조회
- * GET /api/user/archive
+ * 내 시리즈 목록 조회
  */
-export const useMyArchiveListQuery = (params?: { page?: number; size?: number }) => {
+export const useMySeriesListQuery = (params?: { page?: number; size?: number }) => {
   return useQuery({
-    queryKey: [...archiveKeys.myList(), params],
-    queryFn: () => archiveApi.getMyList(params),
+    queryKey: params ? [...seriesKeys.myList(), params] : seriesKeys.myList(),
+    queryFn: () => seriesApi.getMyList(params),
     staleTime: 1000 * 60 * 5,
   });
 };
 
 /**
- * 내 아카이브 게시글 목록 조회
- * GET /api/user/archive/{archiveId}/posts
+ * 내 시리즈 상세/게시글 목록 조회
  */
-export const useMyArchivePostsQuery = (
-  archiveId: number,
+export const useMySeriesPostsQuery = (
+  slug: string,
   params?: { page?: number; size?: number },
 ) => {
   return useQuery({
-    queryKey: [...archiveKeys.myPosts(archiveId), params],
-    queryFn: () => archiveApi.getMyPosts(archiveId, params),
+    queryKey: [...seriesKeys.myPosts(slug), params],
+    queryFn: () => seriesApi.getMyPosts(slug, params),
     staleTime: 1000 * 60 * 5,
-    enabled: !!archiveId,
+    enabled: !!slug,
   });
 };

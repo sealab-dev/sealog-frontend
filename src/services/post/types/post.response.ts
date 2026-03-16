@@ -9,16 +9,25 @@ export interface AuthorInfo {
 }
 
 /**
- * 스택 정보
+ * 스택 정보 (일반)
  */
 export interface StackItem {
+  id: number;
+  name: string;
+  stackGroup: 'LANGUAGE' | 'FRAMEWORK' | 'LIBRARY' | 'DATABASE' | 'DEVOPS' | 'KNOWLEDGE' | 'TOOL' | 'ETC';
+}
+
+/**
+ * 게시글 관련 스택 정보 (ID, 이름, 순서)
+ */
+export interface MyStackItem {
   id: number;
   name: string;
   sortOrder: number;
 }
 
 /**
- * 시리즈 정보
+ * 시리즈 요약 정보
  */
 export interface SeriesInfo {
   id: number;
@@ -27,9 +36,23 @@ export interface SeriesInfo {
 }
 
 /**
- * 게시글 목록 응답 (요약 정보)
+ * 공개 게시글 목록 정보 (PostItem)
  */
-export interface PostItems {
+export interface PostItem {
+  postId: number;
+  title: string;
+  slug: string;
+  thumbnailPath: string | null;
+  excerpt: string;
+  tags: string[];
+  stacks: { id: number; name: string }[];
+  createdAt: string;
+}
+
+/**
+ * 내 게시글 목록 정보 (MyPostItem)
+ */
+export interface MyPostItem {
   id: number;
   slug: string;
   title: string;
@@ -37,15 +60,14 @@ export interface PostItems {
   status: PostStatus;
   thumbnailUrl: string | null;
   tags: string[];
-  stacks: StackItem[];
-  author: AuthorInfo;
+  stacks: MyStackItem[];
   createdAt: string;
 }
 
 /**
- * 게시글 상세 응답
+ * 게시글 상세 정보 (PostDetail)
  */
-export interface Detail {
+export interface PostDetail {
   id: number;
   slug: string;
   title: string;
@@ -53,28 +75,28 @@ export interface Detail {
   content: string;
   status: PostStatus;
   thumbnailUrl: string | null;
-  seriesInfo: SeriesInfo | null;
   tags: string[];
   stacks: StackItem[];
   author: AuthorInfo;
+  seriesInfo: SeriesInfo | null;
   createdAt: string;
   updatedAt: string;
 }
 
 /**
- * 게시글 수정용 응답 (author 없음)
+ * 게시글 수정용 상세 정보 (MyPostEdit)
  */
-export interface Edit {
+export interface MyPostEdit {
   id: number;
   slug: string;
   title: string;
   excerpt: string;
   content: string;
-  seriesId: number
   status: PostStatus;
   thumbnailUrl: string | null;
   tags: string[];
-  stacks: StackItem[];
+  stacks: MyStackItem[];
+  seriesId: number;
   createdAt: string;
   updatedAt: string;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { WaveDivider } from '../../components/ui/wave/WaveDivider';
 import DetailBanner from '../../features/blog/components/detail/DetailBanner';
+import DetailPostHeader from '../../features/blog/components/detail/DetailPostHeader';
 import DetailPost from '../../features/blog/components/detail/DetailPost';
 import { usePostDetailQuery } from '../../services/post/post.queries';
 import { useDeletePostMutation } from '../../services/post/post.mutations';
@@ -11,16 +11,16 @@ import './PostDetailPage.css';
 
 function generateToc(html: string): TocItem[] {
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  return Array.from(doc.querySelectorAll('h2, h3')).map((h, i) => ({
+  return Array.from(doc.querySelectorAll('h1, h2, h3')).map((h, i) => ({
     id: `h-${i}`,
     text: h.textContent?.trim() ?? '',
-    level: Number(h.tagName[1]) as 2 | 3,
+    level: Number(h.tagName[1]) as 1 | 2 | 3,
   }));
 }
 
 function injectHeadingIds(html: string): string {
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  Array.from(doc.querySelectorAll('h2, h3')).forEach((h, i) => h.setAttribute('id', `h-${i}`));
+  Array.from(doc.querySelectorAll('h1, h2, h3')).forEach((h, i) => h.setAttribute('id', `h-${i}`));
   return doc.body.innerHTML;
 }
 
@@ -63,9 +63,9 @@ export default function PostDetailPage() {
     ? {
         id: postData.id,
         title: postData.title,
-        desc: postData.excerpt,
         author: {
           name: postData.author.nickname,
+          nickname: postData.author.nickname,
           initial: postData.author.nickname.charAt(0).toUpperCase(),
           profileImageUrl: postData.author.profileImageUrl,
         },
@@ -73,6 +73,9 @@ export default function PostDetailPage() {
         readTime: calcReadTime(postData.content),
         stacks: postData.stacks.map((s) => s.name),
         tags: postData.tags,
+        series: postData.seriesInfo
+          ? { name: postData.seriesInfo.name, href: `/${postData.author.nickname}/posts` }
+          : undefined,
         toc,
       }
     : null;
@@ -96,22 +99,11 @@ export default function PostDetailPage() {
         <div className="pd-progress-fill" style={{ width: `${progress}%` }} />
       </div>
 
-      <section className="pd-thumb-banner">
-        <div className="pd-thumb-banner__img">
-          {postData?.thumbnailUrl && <img src={postData.thumbnailUrl} alt="" />}
-        </div>
-        <div className="pd-thumb-banner__bg" />
-        <WaveDivider
-          fillColor="var(--pd-wave-color)"
-          fillColor2="var(--pd-wave-color-2)"
-          height={80}
-          id="pd-wave"
-        />
-      </section>
+      <DetailBanner thumbnailUrl={postData?.thumbnailUrl} />
 
       <div className="pd-page">
         <article>
-          <DetailBanner
+          <DetailPostHeader
             post={postDetail}
             isOwner={isOwner}
             onEdit={handleEdit}

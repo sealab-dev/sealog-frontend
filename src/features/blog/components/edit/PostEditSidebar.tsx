@@ -11,8 +11,8 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import styles from './PostEditSidebar.module.css';
-import { useMyArchiveListQuery } from '../../../../services/series/series.queries';
-import { useCreateArchiveMutation } from '../../../../services/series/series.mutations';
+import { useCreateSeriesMutation } from '@/services/series/series.mutations';
+import type { MySeriesItem } from '@/services/series/types/series.response';
 
 interface PostEditSidebarProps {
   isOpen: boolean;
@@ -21,6 +21,7 @@ interface PostEditSidebarProps {
   coverUrl: string | null;
   selectedArchiveId: number | null;
   isPublic: boolean;
+  series: MySeriesItem[];
   onCoverChange: (file: File | null) => void;
   onArchiveChange: (archiveId: number | null) => void;
   onVisibilityChange: (isPublic: boolean) => void;
@@ -33,6 +34,7 @@ export default function PostEditSidebar({
   coverUrl,
   selectedArchiveId,
   isPublic,
+  series,
   onCoverChange,
   onArchiveChange,
   onVisibilityChange,
@@ -43,9 +45,7 @@ export default function PostEditSidebar({
   const [showNewInput, setShowNewInput] = useState(false);
   const [newSeriesName, setNewSeriesName] = useState('');
 
-  const { data: archiveData } = useMyArchiveListQuery();
-  const archives = archiveData?.content ?? [];
-  const createArchiveMutation = useCreateArchiveMutation();
+  const createArchiveMutation = useCreateSeriesMutation();
 
   const effectiveCoverPreview = coverFile ? coverPreview : coverUrl;
 
@@ -83,7 +83,7 @@ export default function PostEditSidebar({
     setShowNewInput(false);
   };
 
-  const selectedArchive = archives.find((a) => a.id === selectedArchiveId);
+  const selectedArchive = series.find((a) => a.id === selectedArchiveId);
 
   return (
     <>
@@ -150,9 +150,9 @@ export default function PostEditSidebar({
             </div>
           )}
 
-          {archives.length > 0 && (
+          {series.length > 0 && (
             <ul className={styles.seriesList}>
-              {archives.map((archive) => (
+              {series.map((archive) => (
                 <li key={archive.id}>
                   <button
                     type="button"

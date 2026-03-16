@@ -5,7 +5,7 @@ import PostEditFooter from '../../features/blog/components/edit/PostEditFooter';
 import PostEditForm from '../../features/blog/components/edit/PostEditForm';
 import { usePostEditQuery } from '../../services/post/post.queries';
 import { useCreatePostMutation, useUpdatePostMutation } from '../../services/post/post.mutations';
-import { useChangePostArchiveMutation } from '../../services/series/series.mutations';
+import { useMySeriesListQuery } from '../../services/series/series.queries';
 import { useAuthStore } from '../../store/authStore';
 import styles from './PostEditPage.module.css';
 
@@ -13,6 +13,11 @@ export interface StackOption {
   id: number;
   name: string;
 }
+
+export type PostEditErrors = {
+  title?: string;
+  content?: string;
+};
 
 export default function PostEditPage() {
   const { slug } = useParams<{ username: string; slug: string }>();
@@ -25,12 +30,15 @@ export default function PostEditPage() {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [selectedStacks, setSelectedStacks] = useState<StackOption[]>([]);
+  const [errors, setErrors] = useState<PostEditErrors>({});
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
-  const [selectedArchiveId, setSelectedArchiveId] = useState<number | null>(null);
+  const [selectedSeriesId, setSelectedSeriesId] = useState<number | null>(null);
   const [isPublic, setIsPublic] = useState(true);
 
   const { data: editData } = usePostEditQuery(slug ?? '', { enabled: isEditMode });
+  const { data: seriesData } = useMySeriesListQuery();
+  const series = seriesData?.content ?? [];
 
   useEffect(() => {
     if (editData) {
@@ -39,20 +47,53 @@ export default function PostEditPage() {
       setTags(editData.tags);
       setSelectedStacks(editData.stacks.map((s: { id: number; name: string }) => ({ id: s.id, name: s.name })));
       setIsPublic(editData.status === 'PUBLISHED');
+      setSelectedSeriesId(editData.seriesId || null);
     }
   }, [editData]);
 
   const createMutation = useCreatePostMutation();
   const updateMutation = useUpdatePostMutation();
-  const changeArchiveMutation = useChangePostArchiveMutation();
+
+  const validate = (): boolean => {
+    const newErrors: PostEditErrors = {};
+
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) {
+      newErrors.title = '제목을 입력해주세요.';
+    } else if (/[\u3131-\u3163]/.test(trimmedTitle)) {
+      newErrors.title = '제목에 단독 자음 또는 모음은 사용할 수 없습니다.';
+    } else if (trimmedTitle.length > 50) {
+      newErrors.title = `제목은 50자 이내로 입력해주세요. (현재 ${trimmedTitle.length}자)`;
+    }
+
+
+    const content = editorRef.current?.getHTML() ?? '';
+    const textContent = editorRef.current?.getText() ?? '';
+    if (!textContent.trim()) {
+      newErrors.content = '본문을 입력해주세요.';
+    } else if (content.length > 150000) {
+      newErrors.content = '본문이 최대 길이를 초과했습니다.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const buildRequest = () => {
-    const content = editorRef.current?.getHTML() ?? '';
-    const excerpt = content.replace(/<[^>]*>/g, '').trim().slice(0, 200) || title;
-    return { title, excerpt, content, tags, stackIds: selectedStacks.map((s) => s.id) };
+    const rawContent = editorRef.current?.getHTML() ?? '';
+    // 빈 단락을 <p><br></p>로 변환해 서버에 빈 줄을 보존
+    const content = rawContent.replace(/<p><\/p>/g, '<p><br></p>');
+    return {
+      title,
+      content,
+      tags,
+      stackIds: selectedStacks.map((s) => s.id),
+      seriesId: selectedSeriesId,
+    };
   };
 
   const handlePublish = async () => {
+    if (!validate()) return;
     try {
       const request = buildRequest();
       if (isEditMode && editData) {
@@ -60,34 +101,28 @@ export default function PostEditPage() {
         navigate(`/${user?.nickname}/entry/${slug}`);
       } else {
         const res = await createMutation.mutateAsync({ request, thumbnail: coverFile });
-        if (selectedArchiveId && res) {
-          await changeArchiveMutation.mutateAsync({ archiveId: selectedArchiveId, postId: res.id });
-        }
         navigate(`/${user?.nickname}/entry/${res.slug}`);
       }
     } catch {
-      // 에러는 상위 인터셉터 또는 mutation.isError로 처리
+      // 에러는 client.ts 인터셉터에서 처리
     }
   };
 
   const handleSave = async () => {
+    if (!validate()) return;
     try {
       const request = buildRequest();
       if (isEditMode && editData) {
         await updateMutation.mutateAsync({ postId: editData.id, request, thumbnail: coverFile });
       } else {
-        const res = await createMutation.mutateAsync({ request, thumbnail: coverFile });
-        if (selectedArchiveId && res) {
-          await changeArchiveMutation.mutateAsync({ archiveId: selectedArchiveId, postId: res.id });
-        }
+        await createMutation.mutateAsync({ request, thumbnail: coverFile });
       }
     } catch {
       // handled
     }
   };
 
-  const isPending =
-    createMutation.isPending || updateMutation.isPending || changeArchiveMutation.isPending;
+  const isPending = createMutation.isPending || updateMutation.isPending;
 
   return (
     <div className={styles.page}>
@@ -97,15 +132,18 @@ export default function PostEditPage() {
         selectedStacks={selectedStacks}
         coverFile={coverFile}
         coverUrl={coverUrl}
-        selectedArchiveId={selectedArchiveId}
+        selectedArchiveId={selectedSeriesId}
         isPublic={isPublic}
+        series={series}
         editorRef={editorRef}
         initialContent={isEditMode ? editData?.content : undefined}
-        onTitleChange={setTitle}
+        key={isEditMode ? (editData?.id ?? 'loading') : 'new'}
+        errors={errors}
+        onTitleChange={(v) => { setTitle(v); if (errors.title) setErrors((p) => ({ ...p, title: undefined })); }}
         onTagsChange={setTags}
         onStacksChange={setSelectedStacks}
         onCoverChange={setCoverFile}
-        onArchiveChange={setSelectedArchiveId}
+        onArchiveChange={setSelectedSeriesId}
         onVisibilityChange={setIsPublic}
       />
       <PostEditFooter onSave={handleSave} onPublish={handlePublish} isPending={isPending} isEditMode={isEditMode} />

@@ -31,12 +31,13 @@ export const usePostsByStackQuery = (
   nickname: string,
   stackName: string,
   params?: { page?: number; size?: number },
+  options?: { enabled?: boolean },
 ) => {
   return useQuery({
     queryKey: [...postKeys.stackPosts(nickname, stackName), params],
     queryFn: () => postApi.getPostsByStack(nickname, stackName, params),
     staleTime: 1000 * 60 * 5,
-    enabled: !!nickname && !!stackName,
+    enabled: (options?.enabled ?? true) && !!nickname && !!stackName,
   });
 };
 
@@ -51,12 +52,17 @@ export const useSearchPostsQuery = (keyword: string, params?: { page?: number; s
 };
 
 /* 특정 유저 전체 게시글 검색 */
-export const useSearchUserPostsQuery = (nickname: string, keyword: string, params?: { page?: number; size?: number }) => {
+export const useSearchUserPostsQuery = (
+  nickname: string,
+  keyword: string,
+  params?: { page?: number; size?: number },
+  options?: { enabled?: boolean },
+) => {
   return useQuery({
     queryKey: [...postKeys.searchUser(nickname, keyword), params],
     queryFn: () => postApi.searchPostsByNickname(nickname, keyword, params),
     staleTime: 1000 * 60 * 5,
-    enabled: !!nickname && !!keyword,
+    enabled: (options?.enabled ?? true) && !!nickname && !!keyword,
   });
 };
 
@@ -67,6 +73,15 @@ export const usePostDetailQuery = (nickname: string, slug: string) => {
     queryFn: () => postApi.getDetail(nickname, slug),
     staleTime: 1000 * 60 * 5,
     enabled: !!nickname && !!slug,
+  });
+};
+
+/* 내 전체 게시글 목록 조회 (DRAFT 포함) */
+export const useMyPostsQuery = (params?: { page?: number; size?: number }) => {
+  return useQuery({
+    queryKey: postKeys.myList(params),
+    queryFn: () => postApi.getMyPosts(params),
+    staleTime: 1000 * 60 * 5,
   });
 };
 

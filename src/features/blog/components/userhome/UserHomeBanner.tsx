@@ -85,7 +85,13 @@ const UserHomeBanner = ({ profile }: UserHomeBannerProps) => {
                   </span>
                 )}
               </div>
+              
+              {profile.position && (
+                <p className={styles.profilePosition}>{profile.position}</p>
+              )}
+
               <p className={styles.profileIdentityBio}>{profile.bio}</p>
+              
               {profile.socials.length > 0 && (
                 <div className={styles.profileSocials}>
                   {profile.socials.map((s) => (

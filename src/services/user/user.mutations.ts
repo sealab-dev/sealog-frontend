@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userApi } from './user.api';
 import { userKeys } from './user.keys';
 import { useAuthStore } from '../../store/authStore';
+import { toast } from '../../components/ui/toast/useToast';
 import type * as UserRequest from './types/user.request';
 
 /**
@@ -38,5 +39,14 @@ export const useUpdateProfileMutation = () => {
 export const useUpdatePasswordMutation = () => {
   return useMutation({
     mutationFn: (request: UserRequest.UpdatePassword) => userApi.updatePassword(request),
+  });
+};
+
+/**
+ * 사용자 생성 mutation (Admin)
+ */
+export const useCreateUserMutation = () => {
+  return useMutation({
+    mutationFn: (request: UserRequest.CreateUser) => userApi.createUser(request),
   });
 };

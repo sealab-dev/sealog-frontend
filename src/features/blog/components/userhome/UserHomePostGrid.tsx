@@ -7,6 +7,8 @@ const SKELETON_COUNT = 6;
 interface UserHomePostGridProps {
   posts: Post[];
   total: number;
+  filterLabel?: string;
+  filterValue?: string;
   isLoading?: boolean;
   isError?: boolean;
   onRetry?: () => void;
@@ -18,6 +20,8 @@ interface UserHomePostGridProps {
 const UserHomePostGrid = ({
   posts,
   total,
+  filterLabel,
+  filterValue,
   isLoading,
   isError,
   onRetry,
@@ -29,7 +33,15 @@ const UserHomePostGrid = ({
     <div className={styles.uhContent}>
       <div className={styles.uhContentHeader}>
         <h2 className={styles.uhContentTitle}>
-          전체 게시글 <span className={styles.uhContentCount}>{total}편</span>
+          {filterLabel && filterValue ? (
+            <>
+              <span className={styles.uhFilterLabel}>{filterLabel}:</span>{' '}
+              <span className={styles.uhFilterValue}>{filterValue}</span>
+            </>
+          ) : (
+            '전체 글'
+          )}
+          <span className={styles.uhContentCount}>{total}posts</span>
         </h2>
       </div>
 
@@ -71,7 +83,7 @@ const UserHomePostGrid = ({
       ) : (
         <div className={styles.uhPostGrid}>
           {posts.map((post, i) => (
-            <PostCard key={post.id} post={post} index={i} />
+            <PostCard key={post.slug} post={post} index={i} />
           ))}
         </div>
       )}

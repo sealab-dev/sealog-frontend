@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postApi } from './post.api';
 import { postKeys } from './post.keys';
+import { useAuthStore } from '../../store/authStore';
 import type * as PostRequest from './types/post.request';
 
 /**
@@ -42,11 +43,13 @@ export const useUpdatePostMutation = () => {
       thumbnail?: File | null;
     }) => postApi.update(postId, request, thumbnail),
     onSuccess: (data) => {
-      const { author, slug } = data;
-      queryClient.invalidateQueries({ queryKey: postKeys.detail(author.nickname, slug) });
+      const nickname = useAuthStore.getState().user?.nickname ?? '';
+      const { slug } = data;
+      queryClient.invalidateQueries({ queryKey: postKeys.detail(nickname, slug) });
       queryClient.invalidateQueries({ queryKey: postKeys.edit(slug) });
+      queryClient.invalidateQueries({ queryKey: postKeys.myList() });
       queryClient.invalidateQueries({ queryKey: postKeys.posts() });
-      queryClient.invalidateQueries({ queryKey: postKeys.userPosts(author.nickname) });
+      queryClient.invalidateQueries({ queryKey: postKeys.userPosts(nickname) });
     },
   });
 };
@@ -61,8 +64,9 @@ export const useDeletePostMutation = () => {
   return useMutation({
     mutationFn: (postId: number) => postApi.delete(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: postKeys.posts() });
+      queryClient.invalidateQueries({ queryKey: postKeys.myList() });
       queryClient.invalidateQueries({ queryKey: postKeys.deleted() });
+      queryClient.invalidateQueries({ queryKey: postKeys.posts() });
     },
   });
 };
@@ -77,8 +81,9 @@ export const useRestorePostMutation = () => {
   return useMutation({
     mutationFn: (postId: number) => postApi.restore(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: postKeys.posts() });
+      queryClient.invalidateQueries({ queryKey: postKeys.myList() });
       queryClient.invalidateQueries({ queryKey: postKeys.deleted() });
+      queryClient.invalidateQueries({ queryKey: postKeys.posts() });
     },
   });
 };

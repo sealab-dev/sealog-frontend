@@ -10,14 +10,14 @@ export const userApi = {
    * 블로그 사용자 프로필 정보 조회
    * GET /api/{nickname}/profile
    */
-  getPublicProfile: (nickname: string): Promise<UserResponse.PublicProfile> => {
+  getPublicProfile: (nickname: string): Promise<UserResponse.UserProfile> => {
     return client.get(`/${nickname}/profile`);
   },
 
-  // ==================== User APIs ====================
+  // ==================== Me APIs ====================
 
   /**
-   * 내 프로필 정보 조회
+   * 내 정보 조회
    * GET /api/me/profile
    */
   getMyProfile: (): Promise<UserResponse.MyProfile> => {
@@ -27,7 +27,6 @@ export const userApi = {
   /**
    * 프로필 수정
    * PATCH /api/me/profile
-   * - multipart/form-data 전송: JSON → "request" part, 이미지 → "profileImage" part
    */
   updateProfile: (
     request: UserRequest.UpdateProfile,
@@ -65,8 +64,7 @@ export const userApi = {
    * 사용자 생성
    * POST /api/admin/users
    */
-  createUser: (request: UserRequest.Create): Promise<void> => {
+  createUser: (request: UserRequest.CreateUser): Promise<void> => {
     return client.post('/admin/users', request);
   },
-
 };

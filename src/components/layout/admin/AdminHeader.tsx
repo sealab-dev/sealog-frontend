@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { useAuthStore } from '../../store/authStore';
-import { useLogoutMutation } from '../../services/auth/auth.mutations';
-import headerStyles from './Header.module.css';
+import { useAuthStore } from '@/store/authStore';
+import { useLogoutMutation } from '@/services/auth/auth.mutations';
+import headerStyles from '../Header.module.css';
 import adminStyles from './AdminHeader.module.css';
 
 const AdminHeader = () => {

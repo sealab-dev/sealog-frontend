@@ -1,0 +1,392 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+/* ── Page Header ── */
+.pageHeader {
+  margin-bottom: var(--spacing-sm);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.pageTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.pageSubtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Create Button ── */
+.createBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--point-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+
+.createBtn:hover {
+  background: var(--point-hover, #3b82f6);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: var(--spacing-2xl) 0;
+  margin: 0;
+}
+
+/* ── Series List ── */
+.seriesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.seriesItem {
+  border-bottom: 1px solid var(--border-default);
+}
+
+.seriesItem:last-child {
+  border-bottom: none;
+}
+
+.seriesRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-xl);
+  transition: background var(--transition);
+}
+
+.seriesRow:hover {
+  background: var(--bg-hover);
+}
+
+.seriesMain {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 0;
+  flex: 1;
+}
+
+.seriesExpandBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: background var(--transition), color var(--transition);
+}
+
+.seriesExpandBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.seriesName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Visibility Badge ── */
+.visibilityBadge {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.visibilityPublic {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+}
+
+.visibilityPrivate {
+  background: rgba(156, 163, 175, 0.15);
+  color: var(--text-secondary);
+}
+
+/* ── Series Actions ── */
+.seriesActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.actionBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.actionBtnDelete:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ── Series Posts (expanded) ── */
+.seriesPostsWrap {
+  padding: 0 var(--spacing-xl) var(--spacing-md) 56px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-default);
+}
+
+.postsEmpty {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: var(--spacing-md) 0 var(--spacing-sm);
+  margin: 0;
+}
+
+.postsList {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-sm) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.postsItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 13px;
+}
+
+.postStatus {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+
+.postPublished {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+}
+
+.postPrivate {
+  background: rgba(156, 163, 175, 0.15);
+  color: var(--text-secondary);
+}
+
+.postDraft {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+.postsItemTitle {
+  color: var(--text-primary);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postsItemDate {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ── Modal ── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+}
+
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: var(--spacing-xl);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.modalTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modalDesc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+  box-sizing: border-box;
+  transition: border-color var(--transition);
+}
+
+.modalInput:focus {
+  outline: none;
+  border-color: var(--point-primary);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
+
+.modalCancelBtn {
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.modalCancelBtn:hover {
+  background: var(--bg-hover);
+}
+
+.modalSubmitBtn {
+  padding: 8px 16px;
+  background: var(--point-primary);
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition);
+}
+
+.modalSubmitBtn:hover {
+  background: var(--point-hover, #3b82f6);
+}
+
+.modalSubmitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modalDeleteBtn {
+  padding: 8px 16px;
+  background: #dc2626;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition);
+}
+
+.modalDeleteBtn:hover {
+  background: #b91c1c;
+}
+
+.modalDeleteBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .createBtn {
+    justify-content: center;
+  }
+
+  .seriesPostsWrap {
+    padding-left: var(--spacing-xl);
+  }
+
+  .postsItemDate {
+    display: none;
+  }
+}

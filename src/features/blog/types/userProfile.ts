@@ -1,4 +1,4 @@
-import type { SocialType } from '../../../services/user/types/user.enum';
+import type { SocialType } from '../../../services/user/types/user.response';
 
 export type SocialUIType = 'github' | 'portfolio' | 'notion' | 'linkedin' | 'youtube' | 'instagram';
 
@@ -12,6 +12,7 @@ export interface UserProfile {
   name: string;
   initial: string;
   profileImageUrl?: string | null;
+  position?: string | null;
   bio: string;
   stats: { value: number; label: string }[];
   socials: UserProfileSocial[];
@@ -23,7 +24,7 @@ export interface SidebarStackItem {
 }
 
 export interface SidebarStackGroup {
-  group: import('../../../services/stack/types/stack.enum').StackGroup;
+  group: import('../../../services/stack/types/stack.response').StackGroup;
   stacks: SidebarStackItem[];
 }
 

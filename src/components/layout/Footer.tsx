@@ -30,7 +30,7 @@ const Footer = () => {
 
         <div className={styles.footerSocial}>
           <a 
-            href="https://github.com" 
+            href="https://github.com/sealab-dev" 
             target="_blank" 
             rel="noopener noreferrer" 
             className={styles.socialLink}
@@ -39,7 +39,7 @@ const Footer = () => {
             <Github size={20} />
           </a>
           <a 
-            href="mailto:contact@sealog.dev" 
+            href="idpc8090@gmail.com" 
             className={styles.socialLink}
             aria-label="Email"
           >

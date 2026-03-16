@@ -1,7 +1,7 @@
 /* ── Profile Banner ── */
 .profileBanner {
   position: relative;
-  height: 400px;
+  height: 420px;
   background: linear-gradient(
     180deg,
     #06101f 0%,
@@ -192,6 +192,16 @@
 
 .profileIdentityMetaDot {
   color: #3d4a5a;
+}
+
+.profilePosition {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--point-primary);
+  margin: -4px 0 12px;
+  opacity: 0.9;
+  letter-spacing: -0.01em;
+  animation: fadeUp 0.4s 0.12s ease both;
 }
 
 @keyframes fadeUp {

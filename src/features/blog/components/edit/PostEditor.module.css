@@ -281,3 +281,15 @@
   font-size: var(--font-size-xs);
   color: var(--text-muted);
 }
+
+.uploadingIndicator {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

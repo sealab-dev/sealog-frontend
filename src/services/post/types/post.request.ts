@@ -4,7 +4,6 @@
  */
 export interface Create {
   title: string;
-  excerpt: string;
   content: string;
   seriesId?: number | null;
   tags?: string[];
@@ -17,7 +16,6 @@ export interface Create {
  */
 export interface Update {
   title: string;
-  excerpt: string;
   content: string;
   seriesId: number | null;
   tags?: string[];

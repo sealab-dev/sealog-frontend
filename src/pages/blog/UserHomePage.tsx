@@ -1,17 +1,22 @@
 import { useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import UserHomeBanner from '../../features/blog/components/userhome/UserHomeBanner';
 import UserHomePostGrid from '../../features/blog/components/userhome/UserHomePostGrid';
 import UserHomeSideBar from '../../features/blog/components/userhome/UserHomeSideBar';
 import { usePublicProfileQuery } from '../../services/user/user.queries';
 import { useGroupedStacksByUserQuery } from '../../services/stack/stack.queries';
-import { useGuestArchiveListQuery, useGuestArchivePostsQuery } from '../../services/series/series.queries';
-import { useInfiniteUserPostsQuery } from '../../services/post/post.queries';
+import { useGuestSeriesListQuery, useGuestSeriesPostsQuery } from '../../services/series/series.queries';
+import {
+  useInfiniteUserPostsQuery,
+  usePostsByStackQuery,
+  useSearchUserPostsQuery,
+} from '../../services/post/post.queries';
 import type { UserProfile, SidebarStackGroup } from '../../features/blog/types/userProfile';
 import { SOCIAL_ORDER, SOCIAL_LABEL, toSocialUIType } from '../../features/blog/types/userProfile';
 import type { StackGroup } from '../../services/stack/types/stack.enum';
 import type { Post } from '../../features/blog/types/post';
-import type { PostItems } from '../../services/post/types/post.response';
+import type { PostItem } from '../../services/post/types/post.response';
+import type { SeriesPostItem } from '../../services/series/types/series.response';
 import './UserHomePage.css';
 
 const GROUP_ORDER: StackGroup[] = [
@@ -25,38 +30,56 @@ const GROUP_ORDER: StackGroup[] = [
   'ETC',
 ];
 
-function toPost(item: PostItems): Post {
+type ActiveSeries = { id: number; slug: string; name: string };
+
+function toPost(
+  item: PostItem | SeriesPostItem,
+  nickname: string,
+  profileImageUrl?: string | null,
+): Post {
   return {
-    id: item.id,
+    id: item.postId,
     slug: item.slug,
-    authorNickname: item.author.nickname,
+    authorNickname: nickname,
     title: item.title,
     excerpt: item.excerpt,
-    thumbnailUrl: item.thumbnailUrl,
+    thumbnailUrl: item.thumbnailPath,
     stacks: item.stacks.map((s) => s.name),
     tags: item.tags,
     author: {
-      name: item.author.nickname,
-      initial: item.author.nickname.charAt(0).toUpperCase(),
-      profileImageUrl: item.author.profileImageUrl,
+      name: nickname,
+      initial: nickname.charAt(0).toUpperCase(),
+      profileImageUrl: profileImageUrl ?? null,
     },
-    date: item.createdAt.slice(0, 10),
+    date: new Date(item.createdAt).toLocaleDateString('ko-KR'),
   };
 }
 
 export default function UserHomePage() {
-  const { username } = useParams<{ username: string }>();
+  const { username, stackName, seriesSlug } = useParams<{
+    username: string;
+    stackGroup?: string;
+    stackName?: string;
+    seriesSlug?: string;
+  }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const nickname = username ?? '';
 
+  // URL에서 필터 상태 파생
+  const keyword = searchParams.get('keyword') ?? '';
+  const isSearchMode = keyword.length > 0;
+  const isSeriesMode = !isSearchMode && !!seriesSlug;
+  const isStackMode = !isSearchMode && !isSeriesMode && !!stackName;
+
+  const activeStack = stackName ?? '전체';
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeStack, setActiveStack] = useState('전체');
-  const [activeSeries, setActiveSeries] = useState<{ id: number; name: string } | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
 
   // API queries
   const { data: profileData } = usePublicProfileQuery(nickname);
   const { data: groupedStacksData } = useGroupedStacksByUserQuery(nickname);
-  const { data: archiveListData } = useGuestArchiveListQuery(nickname);
+  const { data: seriesListData } = useGuestSeriesListQuery(nickname);
 
   const {
     data: postsData,
@@ -69,14 +92,29 @@ export default function UserHomePage() {
   } = useInfiniteUserPostsQuery(nickname);
 
   const {
-    data: archivePostsData,
-    isPending: archivePostsPending,
-    isError: archivePostsError,
-    refetch: refetchArchivePosts,
-  } = useGuestArchivePostsQuery(activeSeries?.id ?? 0);
+    data: stackPostsData,
+    isPending: stackPostsPending,
+    isError: stackPostsError,
+    refetch: refetchStackPosts,
+  } = usePostsByStackQuery(nickname, activeStack, undefined, { enabled: isStackMode });
 
-  const postCount = postsData?.pages[0]?.totalElements ?? 0;
-  const seriesCount = archiveListData?.totalElements ?? 0;
+  const {
+    data: searchPostsData,
+    isPending: searchPostsPending,
+    isError: searchPostsError,
+    refetch: refetchSearchPosts,
+  } = useSearchUserPostsQuery(nickname, keyword, undefined, { enabled: isSearchMode });
+
+  const {
+    data: seriesPostsData,
+    isPending: seriesPostsPending,
+    isError: seriesPostsError,
+    refetch: refetchSeriesPosts,
+  } = useGuestSeriesPostsQuery(nickname, seriesSlug ?? '', undefined, { enabled: isSeriesMode });
+
+  const totalAllPosts = postsData?.pages[0]?.totalElements ?? 0;
+  const seriesCount = seriesListData?.totalElements ?? 0;
+  const profileImageUrl = profileData?.profileImageUrl ?? null;
 
   // Mapped profile
   const userProfile: UserProfile = profileData
@@ -84,9 +122,10 @@ export default function UserHomePage() {
         name: profileData.nickname,
         initial: profileData.nickname.charAt(0).toUpperCase(),
         profileImageUrl: profileData.profileImageUrl,
+        position: profileData.position,
         bio: profileData.about ?? '아직 소개를 작성하지 않았어요. 어떤 개발자인지 궁금하네요!',
         stats: [
-          { value: postCount, label: 'posts' },
+          { value: totalAllPosts, label: 'posts' },
           { value: seriesCount, label: 'series' },
         ],
         socials: SOCIAL_ORDER
@@ -101,7 +140,7 @@ export default function UserHomePage() {
         initial: nickname.charAt(0).toUpperCase(),
         bio: '아직 소개를 작성하지 않았어요. 어떤 개발자인지 궁금하네요!',
         stats: [
-          { value: postCount, label: 'posts' },
+          { value: totalAllPosts, label: 'posts' },
           { value: seriesCount, label: 'series' },
         ],
         socials: [],
@@ -117,81 +156,137 @@ export default function UserHomePage() {
     }));
   }, [groupedStacksData]);
 
-  // Mapped archive list (series)
+  // Mapped series list for sidebar
   const sidebarSeries = useMemo(() => {
-    return (archiveListData?.content ?? []).map((a) => ({
-      id: a.id,
-      name: a.name,
-      count: 0,
+    return (seriesListData?.content ?? []).map((s) => ({
+      id: s.id,
+      slug: s.slug,
+      name: s.name,
+      count: s.postCount,
     }));
-  }, [archiveListData]);
+  }, [seriesListData]);
 
-  // All loaded posts (flat from pages)
+  // 현재 활성 시리즈 (URL slug → 시리즈 정보 매핑)
+  const activeSeries: ActiveSeries | null = useMemo(() => {
+    if (!seriesSlug) return null;
+    return sidebarSeries.find((s) => s.slug === seriesSlug) ?? null;
+  }, [seriesSlug, sidebarSeries]);
+
+  // All loaded posts (flat from infinite scroll pages)
   const allPosts: Post[] = useMemo(
-    () => postsData?.pages.flatMap((page) => page.content.map(toPost)) ?? [],
-    [postsData],
+    () =>
+      postsData?.pages.flatMap((page) =>
+        page.content.map((item) => toPost(item, nickname, profileImageUrl)),
+      ) ?? [],
+    [postsData, nickname, profileImageUrl],
   );
 
-  // Archive posts
-  const archivePosts: Post[] = useMemo(() => {
-    if (!activeSeries || !archivePostsData?.content) return [];
-    return archivePostsData.content.map((p) => ({
-      id: p.postId,
-      slug: p.slug,
-      authorNickname: nickname,
-      title: p.title,
-      excerpt: '',
-      stacks: [],
-      tags: [],
-      author: { name: nickname, initial: nickname.charAt(0).toUpperCase() },
-      date: '',
-    }));
-  }, [archivePostsData, activeSeries, nickname]);
+  // Display posts based on current mode
+  const displayPosts: Post[] = useMemo(() => {
+    if (isSearchMode) {
+      return (searchPostsData?.content ?? []).map((item) => toPost(item, nickname, profileImageUrl));
+    }
+    if (isSeriesMode) {
+      return (seriesPostsData?.content ?? []).map((item) => toPost(item, nickname, profileImageUrl));
+    }
+    if (isStackMode) {
+      return (stackPostsData?.content ?? []).map((item) => toPost(item, nickname, profileImageUrl));
+    }
+    return allPosts;
+  }, [
+    isSearchMode,
+    isSeriesMode,
+    isStackMode,
+    searchPostsData,
+    seriesPostsData,
+    stackPostsData,
+    allPosts,
+    nickname,
+    profileImageUrl,
+  ]);
 
-  // Filtered display posts
-  const displayPosts = activeSeries
-    ? archivePosts
-    : activeStack !== '전체'
-      ? allPosts.filter((p) => p.stacks.includes(activeStack))
-      : allPosts;
+  const currentCount = isSearchMode
+    ? searchPostsData?.totalElements ?? 0
+    : isSeriesMode
+      ? seriesPostsData?.totalElements ?? 0
+      : isStackMode
+        ? stackPostsData?.totalElements ?? 0
+        : totalAllPosts;
 
-  const totalCount = postsData?.pages[0]?.totalElements ?? 0;
+  const filterLabel = isSearchMode ? '검색어' : isSeriesMode ? '시리즈' : isStackMode ? '스택' : undefined;
+  const filterValue = isSearchMode ? keyword : isSeriesMode ? activeSeries?.name : isStackMode ? activeStack : undefined;
 
-  const isLoading = activeSeries ? archivePostsPending : postsPending;
-  const isError = activeSeries ? archivePostsError : postsError;
-  const onRetry = activeSeries ? () => refetchArchivePosts() : () => refetchPosts();
+  const isLoading = isSearchMode
+    ? searchPostsPending
+    : isSeriesMode
+      ? seriesPostsPending
+      : isStackMode
+        ? stackPostsPending
+        : postsPending;
 
-  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const isError = isSearchMode
+    ? searchPostsError
+    : isSeriesMode
+      ? seriesPostsError
+      : isStackMode
+        ? stackPostsError
+        : postsError;
+
+  const onRetry = isSearchMode
+    ? refetchSearchPosts
+    : isSeriesMode
+      ? refetchSeriesPosts
+      : isStackMode
+        ? refetchStackPosts
+        : () => refetchPosts();
 
   const closeOnMobile = () => {
     if (window.innerWidth < 768) setSidebarOpen(false);
   };
 
-  const handleStackClick = (name: string) => {
-    setActiveStack((prev) => (prev === name ? '전체' : name));
-    setActiveSeries(null);
+  const handleStackClick = (group: StackGroup, name: string) => {
+    // 같은 스택 클릭 시 전체로 돌아감
+    if (activeStack === name) {
+      navigate(`/${nickname}/posts`);
+    } else {
+      navigate(`/${nickname}/posts/${group}/${name}`);
+    }
     closeOnMobile();
   };
 
-  const handleSeriesClick = (item: { id: number; name: string }) => {
-    setActiveSeries((prev) => (prev?.id === item.id ? null : item));
-    setActiveStack('전체');
+  const handleSeriesClick = (item: ActiveSeries) => {
+    // 같은 시리즈 클릭 시 전체로 돌아감
+    if (seriesSlug === item.slug) {
+      navigate(`/${nickname}/posts`);
+    } else {
+      navigate(`/${nickname}/series/${item.slug}`);
+    }
     closeOnMobile();
+  };
+
+  const handleSearchChange = (query: string) => {
+    if (query) {
+      setSearchParams({ keyword: query }, { replace: true });
+    } else {
+      navigate(`/${nickname}/posts`, { replace: true });
+    }
   };
 
   return (
     <div className={`uh-page-wrapper${sidebarOpen ? ' uh-page-wrapper--sidebar-open' : ''}`}>
       <UserHomeSideBar
         isOpen={sidebarOpen}
-        onToggle={toggleSidebar}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        onToggle={() => setSidebarOpen((prev) => !prev)}
+        searchQuery={keyword}
+        onSearchChange={handleSearchChange}
         sortedGroupedStacks={sortedGroupedStacks}
         activeStack={activeStack}
         onStackClick={handleStackClick}
         activeSeries={activeSeries}
         onSeriesClick={handleSeriesClick}
         sidebarSeries={sidebarSeries}
+        isAllActive={!isSearchMode && !isSeriesMode && !isStackMode}
+        onAllClick={() => navigate(`/${nickname}/posts`)}
       />
 
       {/* Main Area */}
@@ -199,11 +294,13 @@ export default function UserHomePage() {
         <UserHomeBanner profile={userProfile} />
         <UserHomePostGrid
           posts={displayPosts}
-          total={totalCount}
+          total={currentCount}
+          filterLabel={filterLabel}
+          filterValue={filterValue}
           isLoading={isLoading}
           isError={isError}
           onRetry={onRetry}
-          hasNextPage={!activeSeries && hasNextPage}
+          hasNextPage={!isSearchMode && !isSeriesMode && !isStackMode && hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           onLoadMore={() => fetchNextPage()}
         />
