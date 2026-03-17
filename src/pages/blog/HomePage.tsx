@@ -6,18 +6,18 @@ import type { Post } from '../../features/blog/types/post';
 
 function toPost(item: PostItem): Post {
   return {
-    id: item.postId,
+    id: item.id,
     slug: item.slug,
-    authorNickname: '', // PostItem에는 작성자 정보가 없으므로 빈 문자열 처리
+    authorNickname: item.author.nickname,
     title: item.title,
     excerpt: item.excerpt,
-    thumbnailUrl: item.thumbnailPath,
+    thumbnailUrl: item.thumbnailUrl,
     stacks: item.stacks.map((s: { name: string }) => s.name),
     tags: item.tags,
     author: {
-      name: '',
-      initial: '',
-      profileImageUrl: null,
+      name: item.author.nickname,
+      initial: item.author.nickname.charAt(0),
+      profileImageUrl: item.author.profileImageUrl,
     },
     date: item.createdAt.slice(0, 10),
   };

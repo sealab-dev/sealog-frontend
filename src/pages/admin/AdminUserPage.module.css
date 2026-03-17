@@ -281,3 +281,15 @@
 .confirmBtn:hover {
   background-color: var(--point-hover);
 }
+
+.confirmBtn:disabled,
+.cancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fieldError {
+  font-size: var(--font-size-xs);
+  color: var(--color-error, #ef4444);
+  margin-top: 2px;
+}
