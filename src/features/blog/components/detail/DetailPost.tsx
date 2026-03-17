@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, useMemo, memo } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -51,18 +51,6 @@ const CalloutNode = Node.create({
   },
 });
 
-/* ── 뷰어 전용 익스텐션 (에디터와 동일, 편집 전용 기능만 제외) ── */
-const viewerExtensions = [
-  StarterKit.configure({ codeBlock: false }),
-  Underline,
-  TextAlign.configure({ types: ['heading', 'paragraph'] }),
-  TextStyle, Color,
-  Link.configure({ openOnClick: true, HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' } }),
-  CustomImage.configure({ inline: false }),
-  VideoNode, CalloutNode,
-  Table.configure({ resizable: false }), TableRow, TableHeader, TableCell,
-  CodeBlockLowlight.configure({ lowlight }),
-];
 
 interface DetailPostProps {
   toc: TocItem[];
@@ -70,9 +58,22 @@ interface DetailPostProps {
 }
 
 const PostBody = memo(({ content }: { content: string }) => {
+  const extensions = useMemo(() => [
+    StarterKit.configure({ codeBlock: false }),
+    Underline,
+    TextAlign.configure({ types: ['heading', 'paragraph'] }),
+    TextStyle, Color,
+    Link.configure({ openOnClick: true, HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' } }),
+    CustomImage.configure({ inline: false }),
+    VideoNode, CalloutNode,
+    Table.configure({ resizable: false }), TableRow, TableHeader, TableCell,
+    CodeBlockLowlight.configure({ lowlight }),
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], []);
+
   const editor = useEditor({
     editable: false,
-    extensions: viewerExtensions,
+    extensions,
     content,
   });
 

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Search, Filter, UserCog, UserPlus } from 'lucide-react';
 import styles from './AdminUserPage.module.css';
+import { useCreateUserMutation } from '../../services/user/user.mutations';
 
 // Mock Data
 interface User {
@@ -156,30 +157,100 @@ export default function AdminUserPage() {
 
 // Sub-components for Modals
 function UserCreateModal({ onClose }: { onClose: () => void }) {
+  const [formData, setFormData] = useState({ email: '', password: '', name: '', nickname: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { mutate: createUser, isPending } = useCreateUserMutation();
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.email) {
+      newErrors.email = '이메일을 입력해주세요.';
+    } else if (formData.email.length > 50) {
+      newErrors.email = '이메일은 최대 50자까지 입력 가능합니다.';
+    }
+
+    if (!formData.password) {
+      newErrors.password = '비밀번호를 입력해주세요.';
+    } else if (formData.password.length < 8 || formData.password.length >= 20) {
+      newErrors.password = '비밀번호는 8자 이상 20자 미만으로 입력해주세요.';
+    }
+
+    if (!formData.name) {
+      newErrors.name = '이름을 입력해주세요.';
+    } else if (formData.name.length < 2 || formData.name.length >= 20) {
+      newErrors.name = '이름은 2자 이상 20자 미만으로 입력해주세요.';
+    }
+
+    if (!formData.nickname) {
+      newErrors.nickname = '닉네임을 입력해주세요.';
+    } else if (formData.nickname.length < 2 || formData.nickname.length >= 20) {
+      newErrors.nickname = '닉네임은 2자 이상 20자 미만으로 입력해주세요.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    createUser(formData, {
+      onSuccess: () => onClose(),
+    });
+  };
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h2 className={styles.modalTitle}>사용자 생성</h2>
-        <form className={styles.modalForm} onSubmit={(e) => { e.preventDefault(); onClose(); }}>
+        <form className={styles.modalForm} onSubmit={handleSubmit}>
           <div className={styles.formField}>
             <label>이름</label>
-            <input type="text" placeholder="이름 입력" required />
+            <input
+              type="text"
+              placeholder="이름 입력 (2자 이상 20자 미만)"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+            {errors.name && <span className={styles.fieldError}>{errors.name}</span>}
           </div>
           <div className={styles.formField}>
             <label>닉네임</label>
-            <input type="text" placeholder="닉네임 입력" required />
+            <input
+              type="text"
+              placeholder="닉네임 입력 (2자 이상 20자 미만)"
+              value={formData.nickname}
+              onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
+            />
+            {errors.nickname && <span className={styles.fieldError}>{errors.nickname}</span>}
           </div>
           <div className={styles.formField}>
             <label>이메일</label>
-            <input type="email" placeholder="이메일 입력" required />
+            <input
+              type="email"
+              placeholder="이메일 입력 (최대 50자)"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+            {errors.email && <span className={styles.fieldError}>{errors.email}</span>}
           </div>
           <div className={styles.formField}>
             <label>비밀번호</label>
-            <input type="password" placeholder="비밀번호 입력" required />
+            <input
+              type="password"
+              placeholder="비밀번호 입력 (8자 이상 20자 미만)"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            />
+            {errors.password && <span className={styles.fieldError}>{errors.password}</span>}
           </div>
           <div className={styles.modalActions}>
-            <button type="button" className={styles.cancelBtn} onClick={onClose}>취소</button>
-            <button type="submit" className={styles.confirmBtn}>생성하기</button>
+            <button type="button" className={styles.cancelBtn} onClick={onClose} disabled={isPending}>취소</button>
+            <button type="submit" className={styles.confirmBtn} disabled={isPending}>
+              {isPending ? '생성 중...' : '생성하기'}
+            </button>
           </div>
         </form>
       </div>
