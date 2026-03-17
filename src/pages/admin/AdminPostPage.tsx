@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, Filter, ExternalLink, FileText, Calendar } from 'lucide-react';
+import { Search, Filter, ExternalLink } from 'lucide-react';
 import styles from './AdminPostPage.module.css';
 
 // Mock Data
@@ -20,7 +20,7 @@ const MOCK_POSTS: Post[] = [
 ];
 
 export default function AdminPostPage() {
-  const [posts, setPosts] = useState<Post[]>(MOCK_POSTS);
+  const [posts] = useState<Post[]>(MOCK_POSTS);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'PUBLISHED' | 'DRAFT'>('ALL');
 

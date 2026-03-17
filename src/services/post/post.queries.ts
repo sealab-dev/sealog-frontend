@@ -1,8 +1,6 @@
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { postApi } from './post.api';
 import { postKeys } from './post.keys';
-import type { PageResponse } from '../core/client.types';
-import type * as PostResponse from './types/post.response';
 
 /* 전체 게시글 목록 조회 */
 export const usePostsQuery = (params?: { page?: number; size?: number }) => {

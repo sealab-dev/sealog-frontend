@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Search, Plus, Filter, Edit2, Trash2, Layers } from 'lucide-react';
+import { Search, Plus, Edit2, Trash2 } from 'lucide-react';
 import { 
   useAdminStackListQuery 
 } from '../../services/stack/stack.queries';
 import {
-  useCreateStackMutation, 
+  useDeleteStackMutation,
+  useCreateStackMutation,
   useUpdateStackMutation, 
-  useDeleteStackMutation 
 } from '../../services/stack/stack.mutations';
 import type { StackGroup } from '../../services/stack/types/stack.enum';
 import styles from './AdminStackPage.module.css';
@@ -21,8 +21,6 @@ export default function AdminStackPage() {
   const [editingStack, setEditingStack] = useState<{ id: number; name: string; stackGroup: StackGroup } | null>(null);
 
   const { data, isLoading } = useAdminStackListQuery({ keyword, size: 100 });
-  const createMutation = useCreateStackMutation();
-  const updateMutation = useUpdateStackMutation();
   const deleteMutation = useDeleteStackMutation();
 
   const handleCreate = () => {

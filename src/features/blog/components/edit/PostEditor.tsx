@@ -37,7 +37,7 @@ const TableCellSelect = Extension.create({
     };
 
     const deleteIfSameCell = (editor: Editor) => {
-      const { selection, tr } = editor.state;
+      const { selection } = editor.state;
 
       // 1. 테이블 자체가 선택된 경우 (NodeSelection) 삭제
       if (selection instanceof NodeSelection && selection.node.type.name === 'table') {
@@ -156,7 +156,7 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
   const [isSticky, setIsSticky] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
-  const hideOverlayTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const hideOverlayTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [tableOverlay, setTableOverlay] = useState<{
     addColPos: { x: number; y: number } | null;
     addRowPos: { x: number; y: number } | null;
@@ -219,7 +219,7 @@ export default function PostEditor({ editorRef, initialContent }: PostEditorProp
   useEffect(() => { if (editorRef) editorRef.current = editor; }, [editor, editorRef]);
 
   const active = useEditorState({
-    editor,
+    editor: editor!,
     selector: ({ editor: e }) => ({
       bold:        e?.isActive('bold') ?? false,
       italic:      e?.isActive('italic') ?? false,

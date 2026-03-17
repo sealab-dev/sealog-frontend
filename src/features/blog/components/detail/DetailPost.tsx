@@ -79,7 +79,7 @@ const PostBody = memo(({ content }: { content: string }) => {
   useEffect(() => {
     if (!editor || !content) return;
     if (editor.getHTML() === content) return;
-    editor.commands.setContent(content, false);
+    editor.commands.setContent(content, { emitUpdate: false });
   }, [editor, content]);
 
   // TipTap이 heading의 id 속성을 스키마에 없다는 이유로 제거하므로, 렌더링 후 DOM에 직접 주입

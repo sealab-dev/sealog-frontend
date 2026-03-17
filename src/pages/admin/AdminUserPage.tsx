@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, Plus, Filter, UserCog, UserPlus, Calendar } from 'lucide-react';
+import { Search, Filter, UserCog, UserPlus } from 'lucide-react';
 import styles from './AdminUserPage.module.css';
 
 // Mock Data
@@ -21,7 +21,7 @@ const MOCK_USERS: User[] = [
 ];
 
 export default function AdminUserPage() {
-  const [users, setUsers] = useState<User[]>(MOCK_USERS);
+  const [users] = useState<User[]>(MOCK_USERS);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
