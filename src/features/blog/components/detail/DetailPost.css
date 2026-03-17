@@ -110,145 +110,86 @@
   margin-right: 4px;
 }
 
-/* ── Post Body ── */
-.detail-post-body {
-  font-size: 16px;
-  line-height: 1.9;
-  color: var(--text-secondary);
+/* ── 뷰어 모드 오버라이드 ── */
+.detail-post-body .tiptap {
+  min-height: unset;
+  caret-color: transparent;
 }
 
-.detail-post-body h1 {
-  font-size: 28px;
-  font-weight: 800;
-  color: #f0f6fc;
-  margin: 64px 0 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-strong);
-  scroll-margin-top: 80px;
-}
-
-.detail-post-body h2 {
-  font-size: 23px;
-  font-weight: 700;
-  color: #f0f6fc;
-  margin: 52px 0 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border-default);
-  scroll-margin-top: 80px;
-}
-
-.detail-post-body h3 {
-  font-size: 17px;
-  font-weight: 700;
-  color: #f0f6fc;
-  margin: 32px 0 10px;
-  scroll-margin-top: 80px;
-}
-
-.detail-post-body p {
-  margin-bottom: 20px;
-}
-
-.detail-post-body strong {
-  color: #f0f6fc;
-  font-weight: 700;
-}
-
-.detail-post-body ul,
-.detail-post-body ol {
-  padding-left: 22px;
-  margin-bottom: 20px;
-}
-
-.detail-post-body ul { list-style: disc; }
-.detail-post-body ol { list-style: decimal; }
-.detail-post-body li { margin-bottom: 6px; }
-
-.detail-post-body pre {
-  background: #0d1117;
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  padding: 20px 24px;
-  overflow-x: auto;
-  margin: 24px 0;
+.detail-post-body .tiptap pre {
   position: relative;
-  font-size: 14px;
-  line-height: 1.7;
 }
 
-.detail-code-lang {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.detail-post-body code {
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  font-size: 0.875em;
-  color: #79c0ff;
-}
-
-.detail-post-body p code,
-.detail-post-body li code {
-  background: rgba(110, 188, 255, 0.08);
-  border: 1px solid rgba(110, 188, 255, 0.15);
-  border-radius: 4px;
-  padding: 1px 6px;
-  font-size: 0.84em;
-  color: #79c0ff;
-}
-
-.detail-post-body blockquote {
-  border-left: 3px solid var(--point-primary);
-  padding: 12px 20px;
-  background: var(--point-bg);
-  border-radius: 0 8px 8px 0;
-  margin: 24px 0;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-/* 이미지 스타일 */
-.detail-post-body img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 36px auto;
-  border-radius: 12px;
+/* ── 테이블 래퍼 (Tiptap 자동 생성 .tableWrapper) ── */
+.detail-post-body .tableWrapper {
+  overflow-x: auto;
+  border-radius: 8px;
   border: 1px solid var(--border-strong);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  background-color: var(--bg-surface);
-  transition: transform var(--transition);
+  margin: 1.5em 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
 }
 
-.detail-post-body img:hover {
-  transform: translateY(-2px);
+.detail-post-body .tableWrapper::-webkit-scrollbar { height: 4px; }
+.detail-post-body .tableWrapper::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+/* ── 구분선 ── */
+.detail-post-body .tiptap hr {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: 1.5em 0;
 }
 
-.detail-img-placeholder {
-  width: 100%;
-  height: 220px;
-  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-secondary) 100%);
-  border-radius: 10px;
-  border: 1px solid var(--border-default);
+/* ── 콜아웃 ── */
+.detail-post-body .callout {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 1em 0;
+}
+
+.detail-post-body .callout p {
+  margin: 0.3em 0;
+}
+
+/* ── 복사 버튼 ── */
+.detail-code-copy-floating {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
   color: var(--text-muted);
-  font-size: 13px;
-  margin: 24px 0;
-  position: relative;
-  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s;
+  z-index: 10;
 }
 
-.detail-img-placeholder::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(96, 165, 250, 0.07) 0%, transparent 65%);
+.detail-post-body .tiptap pre:hover .detail-code-copy-floating {
+  opacity: 1;
+}
+
+.detail-code-copy-floating:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.detail-code-copy-floating.copied {
+  color: var(--point-primary);
+  border-color: var(--point-primary);
+}
+
+.detail-code-copy-floating svg {
+  width: 16px;
+  height: 16px;
 }

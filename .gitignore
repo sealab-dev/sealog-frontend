@@ -27,3 +27,7 @@ dist-ssr
 .AppleDouble
 .LSOverride
 
+### AI ###
+GEMINI.md
+CLAUDE.md
+.claude

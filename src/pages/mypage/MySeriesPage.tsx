@@ -60,8 +60,8 @@ function SeriesPosts({ slug }: { slug: string }) {
   const { data, isPending } = useMySeriesPostsQuery(slug);
   const posts = data?.content ?? [];
 
-  if (isPending) return <p className={styles.postsEmpty}>불러오는 중...</p>;
-  if (posts.length === 0) return <p className={styles.postsEmpty}>등록된 게시글이 없습니다.</p>;
+  if (isPending) return <div className={styles.postsEmpty}>불러오는 중...</div>;
+  if (posts.length === 0) return <div className={styles.postsEmpty}>시리즈에 포함된 게시글이 없습니다.</div>;
 
   return (
     <ul className={styles.postsList}>
@@ -100,13 +100,20 @@ function SeriesRow({ series, onEdit, onDelete, onTogglePublic, isTogglePending, 
             onClick={() => setExpanded((v) => !v)}
             title={expanded ? '접기' : '게시글 보기'}
           >
-            {expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+            {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </button>
-          <span className={`${styles.visibilityBadge} ${series.isPublic ? styles.visibilityPublic : styles.visibilityPrivate}`}>
-            {series.isPublic ? '공개' : '비공개'}
-          </span>
-          <span className={styles.seriesName}>{series.name}</span>
+          
+          <div className={styles.seriesInfo}>
+            <div className={styles.seriesName}>{series.name}</div>
+            <div className={styles.seriesMeta}>
+              <span className={`${styles.visibilityBadge} ${series.isPublic ? styles.visibilityPublic : styles.visibilityPrivate}`}>
+                {series.isPublic ? '공개됨' : '비공개'}
+              </span>
+              <span className={styles.postCount}>게시글 {series.postCount}개</span>
+            </div>
+          </div>
         </div>
+
         <div className={styles.seriesActions}>
           <button
             className={styles.actionBtn}
@@ -114,22 +121,22 @@ function SeriesRow({ series, onEdit, onDelete, onTogglePublic, isTogglePending, 
             onClick={() => onTogglePublic(series)}
             disabled={isTogglePending}
           >
-            {series.isPublic ? <EyeOff size={15} /> : <Eye size={15} />}
+            {series.isPublic ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
           <button
             className={styles.actionBtn}
-            title="수정"
+            title="이름 수정"
             onClick={() => onEdit(series)}
           >
-            <Edit2 size={15} />
+            <Edit2 size={16} />
           </button>
           <button
             className={`${styles.actionBtn} ${styles.actionBtnDelete}`}
-            title="삭제"
+            title="시리즈 삭제"
             onClick={() => onDelete(series)}
             disabled={isDeletePending}
           >
-            <Trash2 size={15} />
+            <Trash2 size={16} />
           </button>
         </div>
       </div>
@@ -227,11 +234,11 @@ export default function MySeriesPage() {
         </div>
       </header>
 
-      <div className={styles.card}>
+      <div className={styles.content}>
         {isPending ? (
-          <p className={styles.empty}>불러오는 중...</p>
+          <div className={styles.empty}>시리즈를 불러오는 중...</div>
         ) : seriesList.length === 0 ? (
-          <p className={styles.empty}>시리즈가 없습니다. 새 시리즈를 만들어보세요.</p>
+          <div className={styles.empty}>시리즈가 없습니다. 첫 시리즈를 만들어보세요!</div>
         ) : (
           <ul className={styles.seriesList}>
             {seriesList.map((series) => (

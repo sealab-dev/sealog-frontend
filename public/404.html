@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>sealog.dev - Redirecting...</title>
+    <script type="text/javascript">
+      // 현재 URL 정보를 sessionStorage에 저장하고 index.html로 리다이렉트합니다.
+      // 이 스크립트는 정적 호스팅(GitHub Pages 등)에서 SPA의 경로 새로고침 문제를 해결하기 위해 사용됩니다.
+      var segmentCount = 0; // 필요한 경우 서브디렉토리 경로 깊이에 맞춰 조절 (보통 0)
+      var location = window.location;
+
+      // 현재의 모든 경로 정보를 저장 (쿼리 스트링, 해시 포함)
+      sessionStorage.setItem(
+        'redirect',
+        location.href.slice(location.origin.length),
+      );
+
+      // index.html(메인 페이지)로 리다이렉트
+      location.replace(location.origin + '/');
+    </script>
+  </head>
+  <body>
+    Redirecting...
+  </body>
+</html>

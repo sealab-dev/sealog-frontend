@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import type { Editor } from '@tiptap/react';
 import PostEditFooter from '../../features/blog/components/edit/PostEditFooter';
 import PostEditForm from '../../features/blog/components/edit/PostEditForm';
@@ -7,6 +8,8 @@ import { usePostEditQuery } from '../../services/post/post.queries';
 import { useCreatePostMutation, useUpdatePostMutation } from '../../services/post/post.mutations';
 import { useMySeriesListQuery } from '../../services/series/series.queries';
 import { useAuthStore } from '../../store/authStore';
+import { postApi } from '../../services/post/post.api';
+import { postKeys } from '../../services/post/post.keys';
 import styles from './PostEditPage.module.css';
 
 export interface StackOption {
@@ -51,6 +54,7 @@ export default function PostEditPage() {
     }
   }, [editData]);
 
+  const queryClient = useQueryClient();
   const createMutation = useCreatePostMutation();
   const updateMutation = useUpdatePostMutation();
 
@@ -80,9 +84,7 @@ export default function PostEditPage() {
   };
 
   const buildRequest = () => {
-    const rawContent = editorRef.current?.getHTML() ?? '';
-    // 빈 단락을 <p><br></p>로 변환해 서버에 빈 줄을 보존
-    const content = rawContent.replace(/<p><\/p>/g, '<p><br></p>');
+    const content = editorRef.current?.getHTML() ?? '';
     return {
       title,
       content,
@@ -96,12 +98,23 @@ export default function PostEditPage() {
     if (!validate()) return;
     try {
       const request = buildRequest();
+      const nickname = user?.nickname ?? '';
       if (isEditMode && editData) {
         await updateMutation.mutateAsync({ postId: editData.id, request, thumbnail: coverFile });
-        navigate(`/${user?.nickname}/entry/${slug}`);
+        await queryClient.prefetchQuery({
+          queryKey: postKeys.detail(nickname, slug ?? ''),
+          queryFn: () => postApi.getDetail(nickname, slug ?? ''),
+          staleTime: 0,
+        });
+        navigate(`/${nickname}/entry/${slug}`);
       } else {
         const res = await createMutation.mutateAsync({ request, thumbnail: coverFile });
-        navigate(`/${user?.nickname}/entry/${res.slug}`);
+        await queryClient.prefetchQuery({
+          queryKey: postKeys.detail(nickname, res.slug),
+          queryFn: () => postApi.getDetail(nickname, res.slug),
+          staleTime: 0,
+        });
+        navigate(`/${nickname}/entry/${res.slug}`);
       }
     } catch {
       // 에러는 client.ts 인터셉터에서 처리

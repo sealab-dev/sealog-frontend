@@ -62,7 +62,12 @@ client.interceptors.response.use(
       }
     }
 
-    // 401 이외의 네트워크 에러나 서버 에러 시 메시지 토스트 표시
+    // 401 에러 이외의 처리
+    if (error.response?.status === 404) {
+      window.location.href = "/404";
+      return Promise.reject(error);
+    }
+
     if (error.response?.status !== 401) {
       const serverMessage = error.response?.data?.message;
       toast.error(serverMessage || "서버와의 통신 중 오류가 발생했습니다.");

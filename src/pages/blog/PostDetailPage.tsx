@@ -18,12 +18,6 @@ function generateToc(html: string): TocItem[] {
   }));
 }
 
-function injectHeadingIds(html: string): string {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  Array.from(doc.querySelectorAll('h1, h2, h3')).forEach((h, i) => h.setAttribute('id', `h-${i}`));
-  return doc.body.innerHTML;
-}
-
 function calcReadTime(html: string): number {
   const words = html.replace(/<[^>]*>/g, '').trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 200));
@@ -47,12 +41,7 @@ export default function PostDetailPage() {
   const { data: postData, isLoading, isError } = usePostDetailQuery(username ?? '', slug ?? '');
   const deleteMutation = useDeletePostMutation();
 
-  const content = postData?.content;
-
-  const processedContent = useMemo(
-    () => (content ? injectHeadingIds(content) : ''),
-    [content],
-  );
+  const content = postData?.content ?? '';
 
   const toc = useMemo(
     () => (content ? generateToc(content) : []),
@@ -109,7 +98,7 @@ export default function PostDetailPage() {
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
-          <DetailPost toc={toc} content={processedContent} />
+          <DetailPost toc={toc} content={content} />
         </article>
       </div>
     </>

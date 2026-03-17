@@ -22,7 +22,7 @@ export interface Post {
 export interface TocItem {
   id: string;
   text: string;
-  level: 2 | 3;
+  level: 1 | 2 | 3;
 }
 
 export interface PostDetail {
