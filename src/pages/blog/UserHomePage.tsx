@@ -37,15 +37,13 @@ function toPost(
   nickname: string,
   profileImageUrl?: string | null,
 ): Post {
-  const isPostItem = (it: PostItem | SeriesPostItem): it is PostItem => 'postId' in it;
-
   return {
-    id: isPostItem(item) ? item.postId : item.id,
+    id: item.id,
     slug: item.slug,
     authorNickname: nickname,
     title: item.title,
     excerpt: item.excerpt,
-    thumbnailUrl: isPostItem(item) ? item.thumbnailPath : item.thumbnailUrl,
+    thumbnailUrl: item.thumbnailUrl,
     stacks: item.stacks.map((s) => s.name),
     tags: item.tags,
     author: {
