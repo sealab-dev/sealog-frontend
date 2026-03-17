@@ -24,7 +24,7 @@ export interface SidebarStackItem {
 }
 
 export interface SidebarStackGroup {
-  group: import('../../../services/stack/types/stack.response').StackGroup;
+  group: import('../../../services/stack/types/stack.enum').StackGroup;
   stacks: SidebarStackItem[];
 }
 

@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userApi } from './user.api';
 import { userKeys } from './user.keys';
 import { useAuthStore } from '../../store/authStore';
-import { toast } from '../../components/ui/toast/useToast';
 import type * as UserRequest from './types/user.request';
 
 /**

@@ -1,23 +1,23 @@
 import HomeBanner from '../../features/blog/components/home/HomeBanner';
 import HomePostGrid from '../../features/blog/components/home/HomePostGrid';
 import { useInfinitePostsQuery } from '../../services/post/post.queries';
-import type { PostItems } from '../../services/post/types/post.response';
+import type { PostItem } from '../../services/post/types/post.response';
 import type { Post } from '../../features/blog/types/post';
 
-function toPost(item: PostItems): Post {
+function toPost(item: PostItem): Post {
   return {
-    id: item.id,
+    id: item.postId,
     slug: item.slug,
-    authorNickname: item.author.nickname,
+    authorNickname: '', // PostItem에는 작성자 정보가 없으므로 빈 문자열 처리
     title: item.title,
     excerpt: item.excerpt,
-    thumbnailUrl: item.thumbnailUrl,
-    stacks: item.stacks.map((s) => s.name),
+    thumbnailUrl: item.thumbnailPath,
+    stacks: item.stacks.map((s: { name: string }) => s.name),
     tags: item.tags,
     author: {
-      name: item.author.nickname,
-      initial: item.author.nickname.charAt(0).toUpperCase(),
-      profileImageUrl: item.author.profileImageUrl,
+      name: '',
+      initial: '',
+      profileImageUrl: null,
     },
     date: item.createdAt.slice(0, 10),
   };
