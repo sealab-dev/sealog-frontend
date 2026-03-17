@@ -1,0 +1,434 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ── Page Header ── */
+.pageHeader {
+  margin-bottom: var(--spacing-md);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--border-default);
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Create Button ── */
+.createBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--point-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--transition);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.createBtn:hover {
+  background: var(--point-hover, #3b82f6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+}
+
+.createBtn:active {
+  transform: translateY(0);
+}
+
+/* ── Series List Container ── */
+.seriesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.empty {
+  text-align: center;
+  padding: 80px 0;
+  background: var(--bg-secondary);
+  border: 2px dashed var(--border-default);
+  border-radius: 16px;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+/* ── Series Item (Card) ── */
+.seriesItem {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.seriesItem:hover {
+  border-color: var(--point-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.seriesRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.seriesMain {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  min-width: 0;
+  flex: 1;
+}
+
+.seriesExpandBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+
+.seriesExpandBtn:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+  background: var(--bg-hover);
+}
+
+.seriesInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.seriesName {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.seriesMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.postCount {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── Visibility Badge ── */
+.visibilityBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.visibilityPublic {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.visibilityPrivate {
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-default);
+}
+
+/* ── Series Actions ── */
+.seriesActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.actionBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.actionBtnDelete:hover {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+/* ── Series Posts (Expanded) ── */
+.seriesPostsWrap {
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-default);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.postsEmpty {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.postsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.postsItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  transition: border-color var(--transition);
+}
+
+.postsItem:hover {
+  border-color: var(--border-strong);
+}
+
+.postStatus {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.postPublished { background: rgba(34, 197, 94, 0.1); color: #16a34a; }
+.postPrivate { background: var(--bg-primary); color: var(--text-muted); }
+.postDraft { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+
+.postsItemTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postsItemDate {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* ── Modal Improvements ── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.9) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.modalDesc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-default);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  transition: all var(--transition);
+}
+
+.modalInput:focus {
+  outline: none;
+  border-color: var(--point-primary);
+  background: var(--bg-secondary);
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+}
+
+.modalCancelBtn, .modalSubmitBtn, .modalDeleteBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.modalCancelBtn {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}
+
+.modalCancelBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.modalSubmitBtn {
+  background: var(--point-primary);
+  border: none;
+  color: white;
+}
+
+.modalSubmitBtn:hover {
+  background: var(--point-hover);
+  transform: translateY(-1px);
+}
+
+.modalDeleteBtn {
+  background: #dc2626;
+  border: none;
+  color: white;
+}
+
+.modalDeleteBtn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .seriesRow {
+    padding: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .seriesActions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .seriesPostsWrap {
+    padding: var(--spacing-md);
+  }
+}
+

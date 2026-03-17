@@ -1,0 +1,234 @@
+/* ── Profile Banner ── */
+.profileBanner {
+  position: relative;
+  height: 420px;
+  background: linear-gradient(
+    180deg,
+    #06101f 0%,
+    #0a1828 50%,
+    var(--bg-primary) 100%
+  );
+  overflow: hidden;
+  --ub-wave-color: var(--bg-primary);
+  --ub-wave-color-2: color-mix(
+    in srgb,
+    var(--bg-primary) 96%,
+    var(--point-primary) 4%
+  );
+}
+
+.profileBannerGlow {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 300px;
+  background: radial-gradient(
+    ellipse,
+    rgba(96, 165, 250, 0.07) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.profileBannerInner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* ── 전체 레이아웃: 좌측 프로필 + 우측 통계 ── */
+.profileTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+}
+
+/* ── 좌측: 아바타 + 신원 묶음 ── */
+.profileLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── 아바타 ── */
+.profileAvatarWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profileAvatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a3050, #0d1e35);
+  border: 3px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--point-primary);
+  box-shadow:
+    0 0 0 6px rgba(96, 165, 250, 0.07),
+    var(--glow-sm);
+  animation: avatarPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  overflow: hidden;
+}
+
+@keyframes avatarPop {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.profileAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileAvatarOnline {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-success);
+  border: 2px solid #0a1828;
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+}
+
+/* ── 신원 정보 (이름 + 소개 + 소셜) ── */
+.profileIdentity {
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.profileIdentityBio {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.7;
+  margin: 0 0 16px;
+  max-width: 480px;
+  animation: fadeUp 0.4s 0.15s ease both;
+}
+
+/* ── 소셜 링크 ── */
+.profileSocials {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.4s 0.2s ease both;
+}
+
+.profileSocial {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.04);
+  color: #8b949e;
+  font-size: 12px;
+  text-decoration: none;
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.profileSocial:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+  background: rgba(96, 165, 250, 0.06);
+  box-shadow: var(--glow-sm);
+}
+
+.profileSocial svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── 이름 + 메타 행 ── */
+.profileIdentityNameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.profileIdentityName {
+  font-size: 26px;
+  font-weight: 800;
+  color: #f0f6fc;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+  animation: fadeUp 0.4s 0.1s ease both;
+}
+
+.profileIdentityMeta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #6b7989;
+  animation: fadeUp 0.4s 0.15s ease both;
+}
+
+.profileIdentityMetaDot {
+  color: #3d4a5a;
+}
+
+.profilePosition {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--point-primary);
+  margin: -4px 0 12px;
+  opacity: 0.9;
+  letter-spacing: -0.01em;
+  animation: fadeUp 0.4s 0.12s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 반응형 ── */
+
+/* 모바일 */
+@media (max-width: 560px) {
+  .profileBannerInner {
+    padding: 52px 20px 100px;
+  }
+
+  .profileAvatar {
+    width: 72px;
+    height: 72px;
+    font-size: 26px;
+  }
+
+  .profileIdentityName {
+    font-size: 20px;
+  }
+
+  .profileIdentityBio {
+    max-width: 100%;
+    font-size: 12px;
+  }
+}

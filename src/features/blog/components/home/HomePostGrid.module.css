@@ -1,0 +1,165 @@
+.postSection {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 56px 32px 80px;
+}
+
+/* 섹션 헤더 */
+.sectionHeader {
+  margin-bottom: 28px;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionTitle h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* 포스트 그리드 */
+.postGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* 더보기 버튼 */
+.loadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.loadMoreBtn {
+  height: 44px;
+  padding: 0 32px;
+  border-radius: 50px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}
+
+.loadMoreBtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.loadMoreBtn:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+  box-shadow: var(--glow-sm);
+}
+
+/* ── 스켈레톤 ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.postCardSkeleton {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+}
+
+.postCardSkeletonThumb {
+  height: 160px;
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.postCardSkeletonBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.postCardSkeletonLine {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.postCardSkeletonLineShort { width: 40%; }
+.postCardSkeletonLineMid   { width: 65%; }
+
+/* ── 빈 상태 / 에러 상태 ── */
+.postEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  gap: 10px;
+}
+
+.postEmptyIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.postEmptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.postEmptyDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.postEmptyRetry {
+  margin-top: 8px;
+  height: 36px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.postEmptyRetry:hover {
+  border-color: var(--point-primary);
+  color: var(--point-primary);
+}
+
+@media (max-width: 900px) {
+  .postGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .postSection {
+    padding: 40px 20px 60px;
+  }
+
+  .postGrid {
+    grid-template-columns: 1fr;
+  }
+}

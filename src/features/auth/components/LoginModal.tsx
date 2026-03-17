@@ -1,187 +1,211 @@
-import { useEffect, type FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useLoginModalStore } from '@/features/auth/stores/loginModalStore';
-import { useLoginModal } from '@/features/auth/hooks/useLoginModal';
+import { useAuthStore } from '../../../store/authStore';
+import { useLoginMutation } from '../../../services/auth/auth.mutations';
 import styles from './LoginModal.module.css';
 
-export const LoginModal = () => {
-  const { 
-    isOpen, 
-    email, 
-    password, 
-    closeLoginModal, 
-    setEmail, 
-    setPassword 
-  } = useLoginModalStore();
-  const { isLoading, error, fieldErrors, login, clearError } = useLoginModal();
+export default function LoginModal() {
+  const closeLoginModal = useAuthStore((s) => s.closeLoginModal);
+  const loginMutation = useLoginMutation();
 
-  // ESC 키로 모달 닫기
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  // 마운트 시 이메일 인풋 포커스
   useEffect(() => {
-    const handleEsc = (e: globalThis.KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        closeLoginModal();
-      }
+    const timer = setTimeout(() => emailRef.current?.focus(), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // ESC 닫기
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLoginModal();
     };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [closeLoginModal]);
 
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [isOpen, closeLoginModal]);
+  const validate = () => {
+    const errors: { email?: string; password?: string } = {};
 
-  // 모달 열릴 때 스크롤 방지
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
+    // 이메일 유효성 검사
+    if (!email.trim()) {
+      errors.email = '이메일을 입력해주세요.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = '올바른 이메일 형식이 아닙니다.';
     }
 
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+    // 비밀번호 유효성 검사 (8자 이상 20자 미만)
+    if (!password) {
+      errors.password = '비밀번호를 입력해주세요.';
+    } else if (password.length < 8 || password.length >= 20) {
+      errors.password = '비밀번호는 8자 이상 20자 미만이어야 합니다.';
+    }
 
-  const handleSubmit = async (e: FormEvent) => {
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    await login({ email, password });
-  };
 
-  const handleInputChange = () => {
-    if (error) clearError();
-  };
+    if (loginMutation.isPending) return;
 
-  const handleClose = () => {
-    if (!isLoading) {
-      clearError();
-      closeLoginModal();
-    }
-  };
+    // 프론트엔드 유효성 검증
+    if (!validate()) return;
 
-  const handleOverlayClick = () => {
-    handleClose();
+    loginMutation.mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          closeLoginModal();
+        },
+        onError: () => {
+          // 로그인 실패 시 비밀번호 필드 초기화 및 포커스 재설정
+          setPassword('');
+          passwordRef.current?.focus();
+          // 서버 에러(아이디/비번 불일치 등)는 인터셉터가 토스트로 처리함
+        },
+      },
+    );
   };
-
-  const handleContentClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
-  if (!isOpen) return null;
 
   return createPortal(
-    <div className={styles.overlay} onClick={handleOverlayClick}>
-      <div className={styles.modal} onClick={handleContentClick}>
-        {/* 닫기 버튼 */}
-        <button
-          type="button"
-          className={styles.closeButton}
-          onClick={closeLoginModal}
-          disabled={isLoading}
-          aria-label="닫기"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-
+    <div
+      className={styles.overlay}
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) closeLoginModal();
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="로그인"
+    >
+      <div className={styles.modal}>
         {/* 헤더 */}
         <div className={styles.header}>
-          <h2 className={styles.title}>로그인</h2>
-          <p className={styles.subtitle}>Sealog에 오신 것을 환영합니다</p>
+          <div className={styles.logo}>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 6v16" />
+              <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+              <path d="M9 11h6" />
+              <circle cx="12" cy="4" r="2" />
+            </svg>
+          </div>
+          <h2 className={styles.title}>SeaLog<span>.dev</span></h2>
+          <p className={styles.subtitle}>지식의 바다로 항해를 시작하세요</p>
         </div>
 
-        {/* 에러 메시지 */}
-        {error && (
-          <div className={styles.errorAlert}>
-            <svg className={styles.errorIcon} viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span>{error}</span>
-          </div>
-        )}
-
         {/* 폼 */}
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="login-email" className={styles.label}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="login-email">
               이메일
             </label>
             <input
+              ref={emailRef}
               id="login-email"
+              className={`${styles.input} ${fieldErrors.email ? styles.inputError : ''}`}
               type="email"
-              className={`${styles.input} ${fieldErrors?.email ? styles.inputError : ''}`}
+              placeholder="이메일을 입력하세요"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                handleInputChange();
+                if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
               }}
-              placeholder="example@email.com"
-              required
-              disabled={isLoading}
               autoComplete="email"
+              required
             />
-            {fieldErrors?.email && (
-              <p className={styles.fieldError}>{fieldErrors.email}</p>
+            {fieldErrors.email && (
+              <span className={styles.errorMsg}>{fieldErrors.email}</span>
             )}
           </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="login-password" className={styles.label}>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="login-password">
               비밀번호
             </label>
             <input
+              ref={passwordRef}
               id="login-password"
+              className={`${styles.input} ${fieldErrors.password ? styles.inputError : ''}`}
               type="password"
-              className={`${styles.input} ${fieldErrors?.password ? styles.inputError : ''}`}
+              placeholder="비밀번호를 입력하세요"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                handleInputChange();
+                if (fieldErrors.password) setFieldErrors({ ...fieldErrors, password: undefined });
               }}
-              placeholder="비밀번호를 입력하세요"
-              required
-              disabled={isLoading}
               autoComplete="current-password"
+              required
             />
-            {fieldErrors?.password && (
-              <p className={styles.fieldError}>{fieldErrors.password}</p>
+            {fieldErrors.password && (
+              <span className={styles.errorMsg}>{fieldErrors.password}</span>
             )}
           </div>
 
           <button
+            className={styles.submitBtn}
             type="submit"
-            className={styles.submitButton}
-            disabled={isLoading}
+            disabled={loginMutation.isPending}
           >
-            {isLoading ? (
-              <span className={styles.loadingWrapper}>
-                <svg className={styles.spinner} viewBox="0 0 24 24">
-                  <circle
-                    className={styles.spinnerCircle}
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <path
-                    className={styles.spinnerPath}
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  />
-                </svg>
-                로그인 중...
-              </span>
+            {loginMutation.isPending ? (
+              <span className={styles.spinner} aria-hidden="true" />
             ) : (
-              '로그인'
+              <>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                  <polyline points="10 17 15 12 10 7" />
+                  <line x1="15" y1="12" x2="3" y2="12" />
+                </svg>
+                로그인
+              </>
             )}
           </button>
         </form>
+
+        {/* 닫기 버튼 */}
+        <button
+          className={styles.closeBtn}
+          type="button"
+          onClick={closeLoginModal}
+          aria-label="닫기"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
     </div>,
-    document.body
+    document.body,
   );
-};
+}

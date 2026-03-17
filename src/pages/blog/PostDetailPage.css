@@ -1,0 +1,28 @@
+.pd-progress-bar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  height: 2px;
+  background: var(--border-default);
+}
+
+.pd-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--point-primary), var(--point-hover));
+  box-shadow: 0 0 8px var(--point-glow);
+  transition: width 0.1s linear;
+}
+
+.pd-page {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 32px 32px 80px;
+}
+
+@media (max-width: 600px) {
+  .pd-page {
+    padding: 24px 16px 40px;
+  }
+}

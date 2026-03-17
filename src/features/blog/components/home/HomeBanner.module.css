@@ -1,0 +1,104 @@
+.hero {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --banner-sky-top: #0d2040;
+  --banner-sky-mid: #0b1830;
+  --banner-wave-color: var(--bg-primary);
+  --banner-wave-color-2: color-mix(in srgb, var(--bg-primary) 96%, var(--point-primary) 4%);
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 120% at 50% 0%, var(--banner-sky-top) 0%, var(--banner-sky-mid) 55%, #080f1c 80%);
+}
+
+/* 별 */
+.heroStars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heroStar {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: herTwinkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  opacity: 0;
+}
+
+@keyframes herTwinkle {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: var(--bright, 0.6); transform: scale(1.4); }
+}
+
+/* 콘텐츠 */
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  animation: heroFadeUp 0.8s ease both;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.heroEyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.heroEyebrow::before,
+.heroEyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: #60a5fa;
+  opacity: 0.4;
+}
+
+.heroTitle {
+  font-size: clamp(36px, 6vw, 58px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #f0f6fc;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.heroTitle em {
+  font-style: italic;
+  color: #60a5fa;
+}
+
+.heroSub {
+  font-size: 15px;
+  color: #8b949e;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    height: 360px;
+  }
+}

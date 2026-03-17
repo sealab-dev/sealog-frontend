@@ -1,0 +1,195 @@
+/* ── TOC Box ── */
+.detail-toc-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.detail-toc-box__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition);
+}
+
+.detail-toc-box__header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.detail-toc-box__title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.detail-toc-box__title svg {
+  width: 13px;
+  height: 13px;
+  color: var(--point-primary);
+}
+
+.detail-toc-box__chevron svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  transition: transform var(--transition);
+}
+
+.detail-toc-box--collapsed .detail-toc-box__chevron svg {
+  transform: rotate(-90deg);
+}
+
+.detail-toc-box__body {
+  max-height: 280px;
+  overflow-y: auto;
+  border-top: 1px solid var(--border-default);
+  padding: 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.detail-toc-box__body::-webkit-scrollbar { width: 3px; }
+.detail-toc-box__body::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+/* TOC Items */
+.detail-toc-item {
+  display: block;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+  transition:
+    color var(--transition),
+    background var(--transition);
+  line-height: 1.5;
+}
+
+.detail-toc-item:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.detail-toc-item--active {
+  color: var(--text-primary);
+  font-weight: 700;
+  background: none;
+  border-left-color: transparent;
+}
+
+.detail-toc-item--h1 {
+  padding-left: 16px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.detail-toc-item--h2 {
+  padding-left: 28px;
+}
+
+.detail-toc-item--h3 {
+  padding-left: 40px;
+  font-size: 12px;
+}
+
+.detail-toc-item--h2::before,
+.detail-toc-item--h3::before {
+  content: '└ ';
+  opacity: 0.4;
+  margin-right: 4px;
+}
+
+/* ── 뷰어 모드 오버라이드 ── */
+.detail-post-body .tiptap {
+  min-height: unset;
+  caret-color: transparent;
+}
+
+.detail-post-body .tiptap pre {
+  position: relative;
+}
+
+/* ── 테이블 래퍼 (Tiptap 자동 생성 .tableWrapper) ── */
+.detail-post-body .tableWrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  margin: 1.5em 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.detail-post-body .tableWrapper::-webkit-scrollbar { height: 4px; }
+.detail-post-body .tableWrapper::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+/* ── 구분선 ── */
+.detail-post-body .tiptap hr {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: 1.5em 0;
+}
+
+/* ── 콜아웃 ── */
+.detail-post-body .callout {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 1em 0;
+}
+
+.detail-post-body .callout p {
+  margin: 0.3em 0;
+}
+
+/* ── 복사 버튼 ── */
+.detail-code-copy-floating {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.detail-post-body .tiptap pre:hover .detail-code-copy-floating {
+  opacity: 1;
+}
+
+.detail-code-copy-floating:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.detail-code-copy-floating.copied {
+  color: var(--point-primary);
+  border-color: var(--point-primary);
+}
+
+.detail-code-copy-floating svg {
+  width: 16px;
+  height: 16px;
+}
