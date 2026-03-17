@@ -39,15 +39,13 @@ export interface SeriesInfo {
  * 공개 게시글 목록 정보 (PostItem)
  */
 export interface PostItem {
-  id: number;
+  postId: number;
   title: string;
   slug: string;
-  thumbnailUrl: string | null;
+  thumbnailPath: string | null;
   excerpt: string;
   tags: string[];
   stacks: { id: number; name: string }[];
-  status: string;
-  author: { nickname: string; profileImageUrl: string | null };
   createdAt: string;
 }
 

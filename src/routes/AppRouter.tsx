@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import ScrollToTop from "@/components/common/ScrollToTop";
 import AppLayout from "@/components/layout/AppLayout";
 import EditorLayout from "@/components/layout/EditorLayout";
 import AdminLayout from "@/components/layout/admin/AdminLayout";
@@ -21,7 +20,6 @@ import NotFoundPage from "@/pages/common/NotFoundPage";
 
 export const AppRouter = () => (
   <BrowserRouter>
-    <ScrollToTop />
     <Routes>
       {/* Public Routes: 누구나 접근 가능한 블로그 관련 경로 */}
       <Route path="/" element={<AppLayout />}>
